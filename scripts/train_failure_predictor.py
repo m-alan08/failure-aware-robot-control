@@ -9,9 +9,6 @@ from farc.paths import data_dir
 
 
 class FailurePredictor(nn.Module):
-
-
-class FailurePredictor(nn.Module):
     def __init__(self, input_dim: int):
         super().__init__()
         self.network = nn.Sequential(
@@ -130,12 +127,8 @@ def main():
     output_dir = data_dir() / "models" / "failure_predictor"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    train_model(
-        train_loader, val_loader, False, output_dir
-    )
-    train_model(
-        train_loader, val_loader, True, output_dir
-    )
+    train_model(train_loader, val_loader, False, output_dir)
+    train_model(train_loader, val_loader, True, output_dir)
 
 
 if __name__ == "__main__":
