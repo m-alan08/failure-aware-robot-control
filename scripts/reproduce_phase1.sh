@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Regenerate every Phase 1 result from the frozen checkpoints and compare it with results/.
 # Needs the checkpoints in $FARC_DATA_DIR/checkpoints (docs/DATA.md). About 15 minutes on
-# one CPU core of an Apple M5; writes about 80 MB under $FARC_DATA_DIR/experiments.
+# one CPU core of an Apple M5; writes about 100 MB under $FARC_DATA_DIR/experiments.
 # Pass --resume to continue an interrupted disturbance run.
 set -euo pipefail
 cd "$(dirname "$0")/.."

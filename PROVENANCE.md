@@ -107,4 +107,4 @@ The six frozen fp32 SAC+HER policies are not stored in either repository. Hashes
 
 ## Reproduction status
 
-`scripts/reproduce_phase1.sh` regenerates the extended disturbance run and all three detector evaluations from the checkpoints, and `scripts/check_reproduction.py` compares 17 result tables with `results/`. The outcome of the migration run is recorded in the README.
+`scripts/reproduce_phase1.sh` regenerates the extended disturbance run and all three detector evaluations from the checkpoints, and `scripts/check_reproduction.py` compares 17 result tables with `results/`. In the migration run (disturbance run at `cd8ccf5`, detector evaluations at `110591d`, both clean trees, same locked package versions as quantrl-fetch), all 17 tables were bit-identical to the quantrl-fetch results, and every checkpoint's undisturbed episodes matched the original evaluator on all 100 seeds.
