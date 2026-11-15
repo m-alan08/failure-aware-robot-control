@@ -1,0 +1,22 @@
+{
+  "description": "Phase C development run: four controller configurations on the 21 Phase 1 FetchPush disturbance conditions plus undisturbed, 3 frozen policies, 100 fresh validation-range episode seeds. Thresholds are the Phase B 5% target-FPR operating points.",
+  "name": "phase_c_development",
+  "conditions_from": "configs/disturbances/phase1_extended.json",
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "episode_seed_offset": 3610000,
+  "episodes": 100,
+  "perturbation_seed": 20261201,
+  "predictor": "$FARC_DATA_DIR/models/failure_predictor/unweighted.pt",
+  "learned_threshold": 0.8715662360191345,
+  "reactive_threshold": 0.010675684621778241,
+  "phase_detector": {"window": 5, "persistence": 5, "hysteresis": 3, "contact_enter": 0.06, "contact_exit": 0.09, "behind_offset": 0.05, "deficit_threshold": 0.0, "success_threshold": 0.05},
+  "switch": {"max_duration": 20, "exit_radius": 0.03, "exit_steps": 2, "cooldown": 5, "min_steps_left": 1},
+  "recovery": {},
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 20261201,
+  "output": "$FARC_DATA_DIR/experiments/phase_c_development"
+}
