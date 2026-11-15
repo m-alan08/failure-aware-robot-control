@@ -1,0 +1,62 @@
+{
+  "experiment": {
+    "name": "progress_deficit_grid",
+    "source": "~/quantrl-experiments/phase1_extended",
+    "windows": [
+      3,
+      5,
+      10
+    ],
+    "persistence": [
+      2,
+      3,
+      5
+    ],
+    "deficit_thresholds": [
+      0.0
+    ],
+    "success_threshold": 0.05,
+    "late_lead_steps": 5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20261116
+  },
+  "config_file": "configs/detectors/progress_deficit_grid.json",
+  "git": {
+    "commit": "934063de8c88d9cc4b3c734153c80142d5ebc535",
+    "dirty": false
+  },
+  "source": "/Users/alanmozhoor/quantrl-experiments/phase1_extended",
+  "source_episodes_sha256": "8c4bdf046525439faea4531b249eb779d2ee36bfe01695275f6c6cfe8c4db69d",
+  "source_git": {
+    "commit": "fed638e46b591e8738ef44d6775d4c4bc8472987",
+    "dirty": false
+  },
+  "source_stage": "validation",
+  "source_episode_seeds": [
+    3500000,
+    3500100
+  ],
+  "episodes": 12600,
+  "detectors": [
+    "k3_p2_th0",
+    "k3_p3_th0",
+    "k3_p5_th0",
+    "k5_p2_th0",
+    "k5_p3_th0",
+    "k5_p5_th0",
+    "k10_p2_th0",
+    "k10_p3_th0",
+    "k10_p5_th0"
+  ],
+  "labels": "failure = not successful at the final step (50); from the source episodes",
+  "files": {
+    "episodes": "detector_episodes.csv.gz",
+    "by_condition": "detector_by_condition.csv",
+    "per_seed": "detector_per_seed.csv",
+    "overall": "detector_overall.csv",
+    "metadata": "detector_metadata.json",
+    "tradeoff_plot": "detector_tradeoff.png",
+    "heatmap_plot": "detector_by_condition.png",
+    "lead_time_plot": "detector_lead_times.png"
+  }
+}

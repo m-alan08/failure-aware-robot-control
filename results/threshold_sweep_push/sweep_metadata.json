@@ -1,0 +1,73 @@
+{
+  "config": {
+    "name": "threshold_sweep_push",
+    "source": "~/quantrl-experiments/phase1_extended_push_gripper",
+    "env_id": "FetchPush-v4",
+    "windows": [
+      5,
+      10
+    ],
+    "persistence": [
+      3,
+      5
+    ],
+    "phase_hysteresis": 3,
+    "phase_departure_persistence": [
+      null,
+      3
+    ],
+    "contact_enter": 0.06,
+    "contact_exit": 0.09,
+    "behind_offset": 0.05,
+    "success_threshold": 0.05,
+    "min_leads": [
+      0,
+      5,
+      10
+    ],
+    "target_fprs": [
+      0.02,
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "breakdown_fpr": 0.1,
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 20261119
+  },
+  "config_file": "configs/detectors/threshold_sweep_push.json",
+  "git": {
+    "commit": "3815180f89ac8406993bb7052543234f244e79f4",
+    "dirty": false
+  },
+  "source": "/Users/alanmozhoor/quantrl-experiments/phase1_extended_push_gripper",
+  "source_git": {
+    "commit": "09ea4f43a0c85ed108a49def0b0f94ea29c12a93",
+    "dirty": false
+  },
+  "source_stage": "validation",
+  "source_episode_seeds": [
+    3500000,
+    3500100
+  ],
+  "source_episodes_sha256": "2d59906944a55ed3e7edd151e7f2c21bce3b6193f1cee9b5ddedb3793dc95948",
+  "episodes": 6600,
+  "disturbed_failures": 1455,
+  "disturbed_successes": 4845,
+  "bootstrap": "stratified episode resampling within training seed x condition; thresholds re-chosen in every resample; training seeds are not resampled",
+  "status": "exploratory: validation trajectories already informed detector design",
+  "files": {
+    "scores": "sweep_scores.csv.gz",
+    "matched": "sweep_matched.csv",
+    "envelopes": "sweep_envelopes.csv",
+    "paired": "sweep_paired.csv",
+    "by_condition": "sweep_by_condition.csv",
+    "per_seed": "sweep_per_seed.csv",
+    "curves": "sweep_curves.csv.gz",
+    "curves_grid": "sweep_curves_grid.csv",
+    "curves_plot": "sweep_curves.png",
+    "paired_plot": "sweep_matched_difference.png",
+    "condition_plot": "sweep_by_condition.png"
+  }
+}

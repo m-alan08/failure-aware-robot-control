@@ -1,0 +1,487 @@
+{
+  "experiment": {
+    "name": "phase1_extended",
+    "stage": "validation",
+    "episodes": 100,
+    "episode_seed_offset": 3500000,
+    "perturbation_seed": 20261115,
+    "checkpoints": [
+      "runs/fetch_reach_fp32_seed0/checkpoint.pt",
+      "runs/fetch_reach_fp32_seed1/checkpoint.pt",
+      "runs/fetch_reach_fp32_seed2/checkpoint.pt",
+      "runs/fetch_push_fp32_seed0/checkpoint.pt",
+      "runs/fetch_push_fp32_seed1/checkpoint.pt",
+      "runs/fetch_push_fp32_seed2/checkpoint.pt"
+    ],
+    "conditions": [
+      {
+        "name": "undisturbed",
+        "disturbances": []
+      },
+      {
+        "name": "action_scale_sev0.5_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.5,
+            "onset": 0,
+            "duration": null
+          }
+        ],
+        "env_ids": [
+          "FetchPush-v4"
+        ]
+      },
+      {
+        "name": "action_scale_sev0.65_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.65,
+            "onset": 0,
+            "duration": null
+          }
+        ],
+        "env_ids": [
+          "FetchPush-v4"
+        ]
+      },
+      {
+        "name": "action_scale_sev0.75_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.75,
+            "onset": 0,
+            "duration": null
+          }
+        ],
+        "env_ids": [
+          "FetchPush-v4"
+        ]
+      },
+      {
+        "name": "action_scale_sev0.85_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.85,
+            "onset": 0,
+            "duration": null
+          }
+        ],
+        "env_ids": [
+          "FetchPush-v4"
+        ]
+      },
+      {
+        "name": "action_scale_sev0.75_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.75,
+            "onset": 0,
+            "duration": null
+          }
+        ],
+        "env_ids": [
+          "FetchReach-v4"
+        ]
+      },
+      {
+        "name": "action_scale_sev0.9_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.9,
+            "onset": 0,
+            "duration": null
+          }
+        ],
+        "env_ids": [
+          "FetchReach-v4"
+        ]
+      },
+      {
+        "name": "action_noise_sev0.3_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 0.3,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev0.6_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 0.6,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev1_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 1.0,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_delay_sev1_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 1,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_delay_sev3_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.1_on25_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.1,
+            "onset": 25,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.1_on40_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.1,
+            "onset": 40,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_positions_sev0.005_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.005,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ],
+            "mask": "positions"
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_positions_sev0.01_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.01,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ],
+            "mask": "positions"
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_positions_sev0.02_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.02,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ],
+            "mask": "positions"
+          }
+        ]
+      },
+      {
+        "name": "action_scale_sev0.5_on15_dur10",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.5,
+            "onset": 15,
+            "duration": 10
+          }
+        ]
+      },
+      {
+        "name": "action_scale_sev0.85_on15_dur10",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.85,
+            "onset": 15,
+            "duration": 10
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev0.6_on15_dur10",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 0.6,
+            "onset": 15,
+            "duration": 10
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev1_on15_dur10",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 1.0,
+            "onset": 15,
+            "duration": 10
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_sev0.01_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.01,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ],
+            "mask": "full"
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_velocities_sev0.05_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.05,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ],
+            "mask": "velocities"
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_velocities_sev0.25_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.25,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ],
+            "mask": "velocities"
+          }
+        ]
+      }
+    ],
+    "output_dir": "~/quantrl-experiments",
+    "save_trajectories": true,
+    "bootstrap_resamples": 10000,
+    "confidence": 0.95,
+    "torch_threads": 1
+  },
+  "fingerprint": "71b66a02049582d323c5db54e7faec27ad1a45a213335c1d97ae6663b7ad3ade",
+  "note": "Validation-range baseline characterization. Severity grid fixed before running. Final claims need the reserved held-out range.",
+  "run": {
+    "seed": 20261115,
+    "git": {
+      "commit": "fed638e46b591e8738ef44d6775d4c4bc8472987",
+      "dirty": false
+    },
+    "packages": {
+      "torch": "2.14.1",
+      "numpy": "2.5.4",
+      "mujoco": "3.11.0",
+      "gymnasium": "1.4.0",
+      "gymnasium-robotics": "1.4.2",
+      "imageio": "2.38.1",
+      "matplotlib": "3.11.2",
+      "pandas": "3.0.6"
+    },
+    "python": "3.12.14",
+    "platform": "macOS-26.5-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "started_at": "2026-11-14T11:45:59.519345+00:00"
+  },
+  "device": "cpu",
+  "python": "3.12.14",
+  "policy": "deterministic actor output tanh(mean), frozen weights and normalizer",
+  "episode_seeds": [
+    3500000,
+    3500100
+  ],
+  "checkpoints": [
+    {
+      "path": "runs/fetch_reach_fp32_seed0/checkpoint.pt",
+      "sha256": "aba3ddaeb84fc50b31fdddefd7d9ede837cc352319ed2833162ae54306b90af5",
+      "env_id": "FetchReach-v4",
+      "training_seed": 0,
+      "total_steps": 30000,
+      "dimensions": {
+        "observation_dim": 10,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "ce832e959dcdb18b98a995c58d02a7d89a5bdf5b780e7fd49eb144c20399bcb6",
+      "original_evaluator_check": {
+        "episodes": 100,
+        "identical": true
+      },
+      "evaluation_seconds_this_invocation": 2.14
+    },
+    {
+      "path": "runs/fetch_reach_fp32_seed1/checkpoint.pt",
+      "sha256": "c96098003621d06a3d518e2e94746860499f56d9b2a99a0cbb0b7c7487061c70",
+      "env_id": "FetchReach-v4",
+      "training_seed": 1,
+      "total_steps": 30000,
+      "dimensions": {
+        "observation_dim": 10,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "f0a02dca2e336960497f01942c6d2221a4066c063197341afab444803e218997",
+      "original_evaluator_check": {
+        "episodes": 100,
+        "identical": true
+      },
+      "evaluation_seconds_this_invocation": 2.04
+    },
+    {
+      "path": "runs/fetch_reach_fp32_seed2/checkpoint.pt",
+      "sha256": "79c2d8b3c1ac59017ea59f3239049e0ac7ad6600ae29ba3d803285a9f7aa3e87",
+      "env_id": "FetchReach-v4",
+      "training_seed": 2,
+      "total_steps": 30000,
+      "dimensions": {
+        "observation_dim": 10,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "29e67309c771b93a51266b46e845e2c3ce06ce2ac07a01a3752d9e81b39d7fb5",
+      "original_evaluator_check": {
+        "episodes": 100,
+        "identical": true
+      },
+      "evaluation_seconds_this_invocation": 2.34
+    },
+    {
+      "path": "runs/fetch_push_fp32_seed0/checkpoint.pt",
+      "sha256": "07f6244471f87c75b374da3aacd67a31ded3330c737074d1ad38d7081aeb8ef9",
+      "env_id": "FetchPush-v4",
+      "training_seed": 0,
+      "total_steps": 1000000,
+      "dimensions": {
+        "observation_dim": 25,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "919fd133b3b25172b0850e5f5ae25cdc51769ff9dc23d727cf5602bd6eaa0b63",
+      "original_evaluator_check": {
+        "episodes": 100,
+        "identical": true
+      },
+      "evaluation_seconds_this_invocation": 2.52
+    },
+    {
+      "path": "runs/fetch_push_fp32_seed1/checkpoint.pt",
+      "sha256": "1f569ab405ed710b17a931fa1c9af44e3cf33f7d5dc7794db1f6a5ea4761aa4f",
+      "env_id": "FetchPush-v4",
+      "training_seed": 1,
+      "total_steps": 1000000,
+      "dimensions": {
+        "observation_dim": 25,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "7b2817110785ed4552ea6d83be4da58561587cf9ab240c30fc7fefce8c13f233",
+      "original_evaluator_check": {
+        "episodes": 100,
+        "identical": true
+      },
+      "evaluation_seconds_this_invocation": 2.66
+    },
+    {
+      "path": "runs/fetch_push_fp32_seed2/checkpoint.pt",
+      "sha256": "901ab0c01a2a3a4edda10c51090d532c1d006d95cb3ed71497592e47fd8e09e9",
+      "env_id": "FetchPush-v4",
+      "training_seed": 2,
+      "total_steps": 1000000,
+      "dimensions": {
+        "observation_dim": 25,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "102a38223ee9865f47e9050f1b687af42e305a90963d3532a3fb34ca430188bc",
+      "original_evaluator_check": {
+        "episodes": 100,
+        "identical": true
+      },
+      "evaluation_seconds_this_invocation": 2.6
+    }
+  ],
+  "parts_reused": 126,
+  "parts_run": 0,
+  "wall_seconds_this_invocation": 19.73,
+  "compute_seconds_all_parts": 321.8,
+  "finished_at": "2026-11-14T11:46:19.208952+00:00",
+  "files": {
+    "episodes": "episodes.csv",
+    "summary_per_seed": "summary_per_seed.csv",
+    "summary": "summary.csv",
+    "distance_curves": "distance_curves.csv",
+    "metadata": "metadata.json",
+    "success_plot": "success_overview.png",
+    "recovery_plot": "recovery_overview.png",
+    "distance_plot": "distance_trajectories.png"
+  }
+}

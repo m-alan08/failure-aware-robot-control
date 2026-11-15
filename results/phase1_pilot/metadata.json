@@ -1,0 +1,381 @@
+{
+  "experiment": {
+    "name": "phase1_pilot",
+    "stage": "pilot",
+    "episodes": 20,
+    "episode_seed_offset": 3000000,
+    "perturbation_seed": 20261114,
+    "checkpoints": [
+      "runs/fetch_reach_fp32_seed0/checkpoint.pt",
+      "runs/fetch_push_fp32_seed0/checkpoint.pt"
+    ],
+    "conditions": [
+      {
+        "name": "undisturbed",
+        "disturbances": []
+      },
+      {
+        "name": "action_scale_sev0.25_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.25,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_scale_sev0.5_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.5,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_scale_sev0.75_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.75,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_scale_sev0.9_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_scale",
+            "severity": 0.9,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev0.1_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 0.1,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev0.3_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 0.3,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev0.6_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 0.6,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_noise_sev1_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_noise",
+            "severity": 1.0,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_sev0.005_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.005,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_sev0.01_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.01,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_sev0.02_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.02,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "observation_noise_sev0.05_on0_durinf",
+        "disturbances": [
+          {
+            "type": "observation_noise",
+            "severity": 0.05,
+            "onset": 0,
+            "duration": null,
+            "fields": [
+              "observation"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.05_on10_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.05,
+            "onset": 10,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.05_on25_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.05,
+            "onset": 25,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.05_on40_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.05,
+            "onset": 40,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.1_on10_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.1,
+            "onset": 10,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.1_on25_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.1,
+            "onset": 25,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.1_on40_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.1,
+            "onset": 40,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.15_on10_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.15,
+            "onset": 10,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.15_on25_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.15,
+            "onset": 25,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "goal_shift_sev0.15_on40_durinf",
+        "disturbances": [
+          {
+            "type": "goal_shift",
+            "severity": 0.15,
+            "onset": 40,
+            "duration": null,
+            "max_attempts": 1000
+          }
+        ]
+      },
+      {
+        "name": "action_delay_sev1_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 1,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_delay_sev3_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      },
+      {
+        "name": "action_delay_sev5_on0_durinf",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 5,
+            "onset": 0,
+            "duration": null
+          }
+        ]
+      }
+    ],
+    "output_dir": "~/quantrl-experiments",
+    "save_trajectories": true,
+    "bootstrap_resamples": 10000,
+    "confidence": 0.95,
+    "torch_threads": 1
+  },
+  "note": "Exploratory pilot: few episodes, one training seed per task, severities chosen before seeing results. Not final research evidence.",
+  "run": {
+    "seed": 20261114,
+    "git": {
+      "commit": "7621e7c35e383731aa45d871cac6403421dfcff9",
+      "dirty": false
+    },
+    "packages": {
+      "torch": "2.14.1",
+      "numpy": "2.5.4",
+      "mujoco": "3.11.0",
+      "gymnasium": "1.4.0",
+      "gymnasium-robotics": "1.4.2",
+      "imageio": "2.38.1",
+      "matplotlib": "3.11.2",
+      "pandas": "3.0.6"
+    },
+    "python": "3.12.14",
+    "platform": "macOS-26.5-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "started_at": "2026-11-14T11:24:33.593091+00:00"
+  },
+  "device": "cpu",
+  "python": "3.12.14",
+  "policy": "deterministic actor output tanh(mean), frozen weights and normalizer",
+  "episode_seeds": [
+    3000000,
+    3000020
+  ],
+  "checkpoints": [
+    {
+      "path": "runs/fetch_reach_fp32_seed0/checkpoint.pt",
+      "sha256": "aba3ddaeb84fc50b31fdddefd7d9ede837cc352319ed2833162ae54306b90af5",
+      "env_id": "FetchReach-v4",
+      "total_steps": 30000,
+      "training_seed": 0,
+      "dimensions": {
+        "observation_dim": 10,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "ce832e959dcdb18b98a995c58d02a7d89a5bdf5b780e7fd49eb144c20399bcb6",
+      "evaluation_seconds": 10.37
+    },
+    {
+      "path": "runs/fetch_push_fp32_seed0/checkpoint.pt",
+      "sha256": "07f6244471f87c75b374da3aacd67a31ded3330c737074d1ad38d7081aeb8ef9",
+      "env_id": "FetchPush-v4",
+      "total_steps": 1000000,
+      "training_seed": 0,
+      "dimensions": {
+        "observation_dim": 25,
+        "goal_dim": 3,
+        "action_dim": 4,
+        "episode_length": 50
+      },
+      "normalizer_sha256": "919fd133b3b25172b0850e5f5ae25cdc51769ff9dc23d727cf5602bd6eaa0b63",
+      "evaluation_seconds": 12.68
+    }
+  ],
+  "wall_seconds": 26.76,
+  "finished_at": "2026-11-14T11:25:00.288741+00:00",
+  "files": {
+    "episodes": "episodes.csv",
+    "summary": "summary.csv",
+    "metadata": "metadata.json",
+    "trajectories": "trajectories.csv.gz",
+    "success_plot": "success_by_severity.png",
+    "distance_plot": "distance_trajectories.png"
+  }
+}

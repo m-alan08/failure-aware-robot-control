@@ -1,0 +1,75 @@
+{
+  "evaluation": {
+    "name": "phase_aware_push",
+    "source": "~/quantrl-experiments/phase1_extended_push_gripper",
+    "reference_source": "~/quantrl-experiments/phase1_extended",
+    "env_id": "FetchPush-v4",
+    "baseline_windows": [
+      5,
+      10
+    ],
+    "baseline_persistence": [
+      3,
+      5
+    ],
+    "windows": [
+      5,
+      10
+    ],
+    "persistence": [
+      3,
+      5
+    ],
+    "hysteresis": [
+      1,
+      3
+    ],
+    "departure_persistence": [
+      3,
+      null
+    ],
+    "contact_enter": 0.06,
+    "contact_exit": 0.09,
+    "behind_offset": 0.05,
+    "deficit_threshold": 0.0,
+    "success_threshold": 0.05,
+    "reference_hysteresis": 3,
+    "late_lead_steps": 5,
+    "speed_reference_quantile": 0.95,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20261117
+  },
+  "config_file": "configs/detectors/phase_aware_push.json",
+  "git": {
+    "commit": "208236c61ea01e3b6216bd32a8845818cb419b1c",
+    "dirty": false
+  },
+  "source": "/Users/alanmozhoor/quantrl-experiments/phase1_extended_push_gripper",
+  "source_git": {
+    "commit": "09ea4f43a0c85ed108a49def0b0f94ea29c12a93",
+    "dirty": false
+  },
+  "source_stage": "validation",
+  "source_episode_seeds": [
+    3500000,
+    3500100
+  ],
+  "source_episodes_sha256": "2d59906944a55ed3e7edd151e7f2c21bce3b6193f1cee9b5ddedb3793dc95948",
+  "matched_reference": {
+    "reference": "/Users/alanmozhoor/quantrl-experiments/phase1_extended",
+    "episodes_identical": 6600
+  },
+  "object_speed_reference_m_per_step": 0.044148424356024195,
+  "episodes": 6600,
+  "labels": "failure = not successful at the final step (50)",
+  "files": {
+    "episodes": "phase_detector_episodes.csv.gz",
+    "overall": "phase_detector_overall.csv",
+    "by_condition": "phase_detector_by_condition.csv",
+    "per_seed": "phase_detector_per_seed.csv",
+    "paired": "phase_detector_paired.csv",
+    "tradeoff_plot": "phase_detector_tradeoff.png",
+    "paired_plot": "phase_detector_paired.png",
+    "timing_plot": "phase_detector_timing.png"
+  }
+}
