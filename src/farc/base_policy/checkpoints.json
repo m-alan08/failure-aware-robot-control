@@ -1,0 +1,73 @@
+{
+  "description": "Frozen fp32 SAC+HER base policies trained in m-alan08/quantrl-fetch. Weights are never modified here; every load is checked against these SHA-256 hashes.",
+  "source_repository": "https://github.com/m-alan08/quantrl-fetch",
+  "source_path_template": "runs/{id}/checkpoint.pt",
+  "checkpoints": {
+    "fetch_push_fp32_seed0": {
+      "sha256": "07f6244471f87c75b374da3aacd67a31ded3330c737074d1ad38d7081aeb8ef9",
+      "bytes": 6221125,
+      "env_id": "FetchPush-v4",
+      "training_seed": 0,
+      "total_steps": 1000000,
+      "training_commit": "fdb626677cc99cfdc891e52c6d184668057a4dab",
+      "training_tree_dirty": false,
+      "training_config": "configs/fetch_push.json",
+      "precision": "fp32"
+    },
+    "fetch_push_fp32_seed1": {
+      "sha256": "1f569ab405ed710b17a931fa1c9af44e3cf33f7d5dc7794db1f6a5ea4761aa4f",
+      "bytes": 6221125,
+      "env_id": "FetchPush-v4",
+      "training_seed": 1,
+      "total_steps": 1000000,
+      "training_commit": "fdb626677cc99cfdc891e52c6d184668057a4dab",
+      "training_tree_dirty": false,
+      "training_config": "configs/fetch_push.json",
+      "precision": "fp32"
+    },
+    "fetch_push_fp32_seed2": {
+      "sha256": "901ab0c01a2a3a4edda10c51090d532c1d006d95cb3ed71497592e47fd8e09e9",
+      "bytes": 6221189,
+      "env_id": "FetchPush-v4",
+      "training_seed": 2,
+      "total_steps": 1000000,
+      "training_commit": "fdb626677cc99cfdc891e52c6d184668057a4dab",
+      "training_tree_dirty": false,
+      "training_config": "configs/fetch_push.json",
+      "precision": "fp32"
+    },
+    "fetch_reach_fp32_seed0": {
+      "sha256": "aba3ddaeb84fc50b31fdddefd7d9ede837cc352319ed2833162ae54306b90af5",
+      "bytes": 3148533,
+      "env_id": "FetchReach-v4",
+      "training_seed": 0,
+      "total_steps": 30000,
+      "training_commit": "6355bf72991c26ef777ad4d80849ee121d4bf2bd",
+      "training_tree_dirty": true,
+      "training_config": "configs/fetch_reach.json",
+      "precision": "fp32"
+    },
+    "fetch_reach_fp32_seed1": {
+      "sha256": "c96098003621d06a3d518e2e94746860499f56d9b2a99a0cbb0b7c7487061c70",
+      "bytes": 3148533,
+      "env_id": "FetchReach-v4",
+      "training_seed": 1,
+      "total_steps": 30000,
+      "training_commit": "6355bf72991c26ef777ad4d80849ee121d4bf2bd",
+      "training_tree_dirty": true,
+      "training_config": "configs/fetch_reach.json",
+      "precision": "fp32"
+    },
+    "fetch_reach_fp32_seed2": {
+      "sha256": "79c2d8b3c1ac59017ea59f3239049e0ac7ad6600ae29ba3d803285a9f7aa3e87",
+      "bytes": 3148533,
+      "env_id": "FetchReach-v4",
+      "training_seed": 2,
+      "total_steps": 30000,
+      "training_commit": "6355bf72991c26ef777ad4d80849ee121d4bf2bd",
+      "training_tree_dirty": true,
+      "training_config": "configs/fetch_reach.json",
+      "precision": "fp32"
+    }
+  }
+}
