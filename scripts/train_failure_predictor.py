@@ -1,11 +1,11 @@
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from farc.prediction import NUM_FEATURES, FeatureConfig, build_datasets
 from torch.utils.data import DataLoader
 
 from farc.paths import data_dir
-from farc.prediction import FeatureConfig, NUM_FEATURES, build_datasets
-
 
 class FailurePredictor(nn.Module):
     def __init__(self, input_dim: int):
