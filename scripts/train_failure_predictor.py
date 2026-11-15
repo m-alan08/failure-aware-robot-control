@@ -7,6 +7,10 @@ from torch.utils.data import DataLoader
 
 from farc.paths import data_dir
 
+
+class FailurePredictor(nn.Module):
+
+
 class FailurePredictor(nn.Module):
     def __init__(self, input_dim: int):
         super().__init__()
