@@ -1,11 +1,10 @@
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from farc.prediction import NUM_FEATURES, FeatureConfig, build_datasets
 from torch.utils.data import DataLoader
 
 from farc.paths import data_dir
+from farc.prediction import NUM_FEATURES, FeatureConfig, build_datasets
 
 
 class FailurePredictor(nn.Module):
@@ -24,9 +23,7 @@ class FailurePredictor(nn.Module):
 
 
 def compute_loss(logits, labels, timesteps, weighted):
-    losses = F.binary_cross_entropy_with_logits(
-        logits, labels, reduction="none"
-    )
+    losses = F.binary_cross_entropy_with_logits(logits, labels, reduction="none")
 
     if not weighted:
         return losses.mean()
@@ -62,9 +59,7 @@ def run_epoch(model, loader, optimizer=None, weighted=False):
                 optimizer.step()
 
         if weighted:
-            batch_weight = torch.where(
-                (t >= 5) & (t <= 35), 2.0, 1.0
-            ).sum().item()
+            batch_weight = torch.where((t >= 5) & (t <= 35), 2.0, 1.0).sum().item()
         else:
             batch_weight = len(y)
 
@@ -84,13 +79,9 @@ def train_model(train_loader, val_loader, weighted, output_dir):
     best_loss = float("inf")
 
     for epoch in range(20):
-        train_loss = run_epoch(
-            model, train_loader, optimizer, weighted
-        )
+        train_loss = run_epoch(model, train_loader, optimizer, weighted)
 
-        val_loss = run_epoch(
-            model, val_loader, weighted=weighted
-        )
+        val_loss = run_epoch(model, val_loader, weighted=weighted)
 
         if val_loss < best_loss:
             best_loss = val_loss
@@ -99,11 +90,7 @@ def train_model(train_loader, val_loader, weighted, output_dir):
                 output_dir / f"{name}.pt",
             )
 
-        print(
-            f"{name} | epoch {epoch + 1:02d} | "
-            f"train={train_loss:.4f} | "
-            f"val={val_loss:.4f}"
-        )
+        print(f"{name} | epoch {epoch + 1:02d} | train={train_loss:.4f} | val={val_loss:.4f}")
 
 
 def main():
@@ -117,12 +104,8 @@ def main():
         ),
     )
 
-    train_loader = DataLoader(
-        ds.train, batch_size=512, shuffle=True
-    )
-    val_loader = DataLoader(
-        ds.validation, batch_size=512, shuffle=False
-    )
+    train_loader = DataLoader(ds.train, batch_size=512, shuffle=True)
+    val_loader = DataLoader(ds.validation, batch_size=512, shuffle=False)
 
     output_dir = data_dir() / "models" / "failure_predictor"
     output_dir.mkdir(parents=True, exist_ok=True)
