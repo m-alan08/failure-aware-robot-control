@@ -1,0 +1,22 @@
+{
+  "name": "progress_deficit_grid",
+  "description": "Offline progress-deficit detector on the Phase 1 extended validation-range trajectories. Grid fixed before running: k in {3, 5, 10}, persistence in {2, 3, 5}, deficit threshold 0.",
+  "source": "$FARC_DATA_DIR/experiments/phase1_extended",
+  "windows": [
+    3,
+    5,
+    10
+  ],
+  "persistence": [
+    2,
+    3,
+    5
+  ],
+  "deficit_thresholds": [
+    0.0
+  ],
+  "success_threshold": 0.05,
+  "late_lead_steps": 5,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261116
+}

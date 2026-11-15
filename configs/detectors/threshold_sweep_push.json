@@ -1,0 +1,38 @@
+{
+  "name": "threshold_sweep_push",
+  "description": "Exploratory threshold-free comparison of the distance-only and phase-aware (h=3; departure monitor off or m=3) detectors on matched FetchPush validation-range trajectories. Detection at matched FPR on disturbed successes, with lead requirements of none, >5 and >10 steps. Geometry constants as in phase_aware_push.json.",
+  "source": "$FARC_DATA_DIR/experiments/phase1_extended",
+  "env_id": "FetchPush-v4",
+  "windows": [
+    5,
+    10
+  ],
+  "persistence": [
+    3,
+    5
+  ],
+  "phase_hysteresis": 3,
+  "phase_departure_persistence": [
+    null,
+    3
+  ],
+  "contact_enter": 0.06,
+  "contact_exit": 0.09,
+  "behind_offset": 0.05,
+  "success_threshold": 0.05,
+  "min_leads": [
+    0,
+    5,
+    10
+  ],
+  "target_fprs": [
+    0.02,
+    0.05,
+    0.1,
+    0.2,
+    0.3
+  ],
+  "breakdown_fpr": 0.1,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 20261119
+}

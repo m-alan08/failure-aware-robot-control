@@ -1,0 +1,128 @@
+{
+  "name": "phase1_extended",
+  "description": "Phase 1 extended baseline characterization on the validation seed range: all three fp32 training seeds per task, 100 episodes per condition per training seed. The severity grid below was fixed before the run started. Conditions marked supplementary compare observation-noise masks and are not part of the requested grid.",
+  "stage": "validation",
+  "episodes": 100,
+  "episode_seed_offset": 3500000,
+  "perturbation_seed": 20261115,
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_reach_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_reach_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_reach_fp32_seed2/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "conditions": [
+    {
+      "type": "none",
+      "name": "undisturbed"
+    },
+    {
+      "type": "action_scale",
+      "severities": [
+        0.5,
+        0.65,
+        0.75,
+        0.85
+      ],
+      "onset": 0,
+      "duration": null,
+      "env_ids": [
+        "FetchPush-v4"
+      ]
+    },
+    {
+      "type": "action_scale",
+      "severities": [
+        0.75,
+        0.9
+      ],
+      "onset": 0,
+      "duration": null,
+      "env_ids": [
+        "FetchReach-v4"
+      ]
+    },
+    {
+      "type": "action_noise",
+      "severities": [
+        0.3,
+        0.6,
+        1.0
+      ],
+      "onset": 0,
+      "duration": null
+    },
+    {
+      "type": "action_delay",
+      "severities": [
+        1,
+        3
+      ],
+      "onset": 0,
+      "duration": null
+    },
+    {
+      "type": "goal_shift",
+      "severity": 0.1,
+      "onsets": [
+        25,
+        40
+      ],
+      "duration": null,
+      "max_attempts": 1000
+    },
+    {
+      "type": "observation_noise",
+      "mask": "positions",
+      "severities": [
+        0.005,
+        0.01,
+        0.02
+      ],
+      "onset": 0,
+      "duration": null
+    },
+    {
+      "type": "action_scale",
+      "severities": [
+        0.5,
+        0.85
+      ],
+      "onset": 15,
+      "duration": 10
+    },
+    {
+      "type": "action_noise",
+      "severities": [
+        0.6,
+        1.0
+      ],
+      "onset": 15,
+      "duration": 10
+    },
+    {
+      "type": "observation_noise",
+      "mask": "full",
+      "severity": 0.01,
+      "onset": 0,
+      "duration": null
+    },
+    {
+      "type": "observation_noise",
+      "mask": "velocities",
+      "severities": [
+        0.05,
+        0.25
+      ],
+      "onset": 0,
+      "duration": null
+    }
+  ],
+  "output_dir": "$FARC_DATA_DIR/experiments",
+  "save_trajectories": true,
+  "bootstrap_resamples": 10000,
+  "confidence": 0.95,
+  "torch_threads": 1
+}

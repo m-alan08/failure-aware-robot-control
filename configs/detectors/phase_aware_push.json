@@ -1,0 +1,41 @@
+{
+  "name": "phase_aware_push",
+  "description": "Phase-aware detector vs distance-only detector on matched FetchPush validation-range episodes (phase1_extended; in quantrl-fetch these came from the identical FetchPush rerun phase1_extended_push_gripper). Geometry constants were set from the block's 5 cm size before running: contact enter 6 cm, exit 9 cm, pre-push point 5 cm behind the object centre. Grid fixed before running.",
+  "source": "$FARC_DATA_DIR/experiments/phase1_extended",
+  "reference_source": null,
+  "env_id": "FetchPush-v4",
+  "baseline_windows": [
+    5,
+    10
+  ],
+  "baseline_persistence": [
+    3,
+    5
+  ],
+  "windows": [
+    5,
+    10
+  ],
+  "persistence": [
+    3,
+    5
+  ],
+  "hysteresis": [
+    1,
+    3
+  ],
+  "departure_persistence": [
+    3,
+    null
+  ],
+  "contact_enter": 0.06,
+  "contact_exit": 0.09,
+  "behind_offset": 0.05,
+  "deficit_threshold": 0.0,
+  "success_threshold": 0.05,
+  "reference_hysteresis": 3,
+  "late_lead_steps": 5,
+  "speed_reference_quantile": 0.95,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261117
+}

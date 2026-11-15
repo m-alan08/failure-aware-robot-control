@@ -1,0 +1,25 @@
+{
+  "name": "phase1_pilot",
+  "description": "Exploratory Phase 1 pilot: 20 episodes per condition on the seed-0 fp32 policies. Severity grids were fixed before running. Not final evidence.",
+  "stage": "pilot",
+  "episodes": 20,
+  "episode_seed_offset": 3000000,
+  "perturbation_seed": 20261114,
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_reach_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt"
+  ],
+  "condition_files": [
+    "baseline.json",
+    "action_scale.json",
+    "action_noise.json",
+    "observation_noise.json",
+    "goal_shift.json",
+    "action_delay.json"
+  ],
+  "output_dir": "$FARC_DATA_DIR/experiments",
+  "save_trajectories": true,
+  "bootstrap_resamples": 10000,
+  "confidence": 0.95,
+  "torch_threads": 1
+}

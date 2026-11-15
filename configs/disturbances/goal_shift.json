@@ -1,0 +1,19 @@
+{
+  "description": "Goal replaced at decision step `onset` by a goal from the environment's own goal distribution at least `severity` metres from the current goal.",
+  "conditions": [
+    {
+      "type": "goal_shift",
+      "severities": [
+        0.05,
+        0.1,
+        0.15
+      ],
+      "onsets": [
+        10,
+        25,
+        40
+      ],
+      "duration": null
+    }
+  ]
+}

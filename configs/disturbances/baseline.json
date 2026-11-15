@@ -1,0 +1,9 @@
+{
+  "description": "Undisturbed reference: the frozen policy on the same episode seeds with no perturbation.",
+  "conditions": [
+    {
+      "type": "none",
+      "name": "undisturbed"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "description": "Actuator weakness for the whole episode: executed = (1 - severity) * commanded action.",
+  "conditions": [
+    {
+      "type": "action_scale",
+      "severities": [
+        0.25,
+        0.5,
+        0.75,
+        0.9
+      ],
+      "onset": 0,
+      "duration": null
+    }
+  ]
+}

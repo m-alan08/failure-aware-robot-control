@@ -1,0 +1,16 @@
+{
+  "description": "Gaussian noise (std = severity, action units) added to the commanded action for the whole episode, then clipped to [-1, 1].",
+  "conditions": [
+    {
+      "type": "action_noise",
+      "severities": [
+        0.1,
+        0.3,
+        0.6,
+        1.0
+      ],
+      "onset": 0,
+      "duration": null
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "description": "Gaussian noise (std = severity, raw units) on the controller's copy of the observation vector for the whole episode. Goals used for metrics are ground truth.",
+  "conditions": [
+    {
+      "type": "observation_noise",
+      "severities": [
+        0.005,
+        0.01,
+        0.02,
+        0.05
+      ],
+      "onset": 0,
+      "duration": null,
+      "fields": [
+        "observation"
+      ]
+    }
+  ]
+}
