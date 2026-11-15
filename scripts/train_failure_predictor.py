@@ -1,16 +1,10 @@
-from pathlib import Path
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 from farc.paths import data_dir
-from farc.prediction import (
-    FeatureConfig,
-    NUM_FEATURES,
-    build_datasets,
-)
+from farc.prediction import FeatureConfig, NUM_FEATURES, build_datasets
 
 
 class FailurePredictor(nn.Module):
