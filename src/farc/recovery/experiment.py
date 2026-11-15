@@ -69,7 +69,11 @@ def load_recovery_experiment(path: str | Path) -> RecoveryExperiment:
     values = json.loads(Path(path).read_text())
     values.pop("description", None)
     values["checkpoints"] = tuple(values["checkpoints"])
-    config = RecoveryExperiment(**values)
+    return validate_recovery_experiment(RecoveryExperiment(**values))
+
+
+def validate_recovery_experiment(config: RecoveryExperiment) -> RecoveryExperiment:
+    """Seed-range checks; call again after any override of the episode seeds."""
     seeds = config.episode_seeds
     low, high = SEED_RANGES["validation"]
     if not (low <= seeds[0] and seeds[-1] < high):

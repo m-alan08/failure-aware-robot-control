@@ -278,3 +278,15 @@ def test_base_only_reproduces_phase1_rollout(condition_name):
     np.testing.assert_array_equal(closed.executed_actions, reference.executed_actions)
     np.testing.assert_array_equal(closed.successes, reference.successes)
     assert not closed.recovery_active.any()
+
+
+def test_episode_override_is_revalidated():
+    from dataclasses import replace
+
+    from farc.recovery.experiment import validate_recovery_experiment
+
+    config = load_recovery_experiment("configs/recovery/phase_c_development.json")
+    edge = replace(config, episode_seed_offset=3_999_998, episodes=1)
+    validate_recovery_experiment(edge)
+    with pytest.raises(RecoveryConfigError):
+        validate_recovery_experiment(replace(edge, episodes=3))  # would reach 4,000,000

@@ -10,6 +10,7 @@ import argparse
 import json
 import shutil
 import time
+from dataclasses import replace
 from multiprocessing import Pool
 from pathlib import Path
 
@@ -23,7 +24,13 @@ from farc.prediction.evaluation import (
     load_predictor,
     verify_normalizer,
 )
-from farc.recovery.experiment import analyze, load_recovery_experiment, run_policy, write_metadata
+from farc.recovery.experiment import (
+    analyze,
+    load_recovery_experiment,
+    run_policy,
+    validate_recovery_experiment,
+    write_metadata,
+)
 
 PHASE_B = Path("results/phase_b_evaluation/metadata.json")
 DATASET_REPORT = Path("results/failure_dataset/report.json")
@@ -37,7 +44,9 @@ def main() -> None:
     args = parser.parse_args()
     config = load_recovery_experiment(args.config)
     if args.episodes:
-        config = type(config)(**{**config.__dict__, "episodes": args.episodes})
+        config = validate_recovery_experiment(
+            replace(config, episodes=args.episodes)
+        )  # the override must not reach used or held-out seeds
     out = resolve(config.output)
     out.mkdir(parents=True, exist_ok=True)
     started = time.time()
