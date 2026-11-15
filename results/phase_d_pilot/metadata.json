@@ -1,0 +1,55 @@
+{
+  "config": {
+    "name": "phase_d_pilot",
+    "conditions_from": "configs/disturbances/phase1_extended.json",
+    "checkpoints": [
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+    ],
+    "episode_seed_offset": 3620000,
+    "episodes": 5,
+    "perturbation_seed": 20261215,
+    "branch_steps": [
+      5,
+      15,
+      25,
+      35,
+      42
+    ],
+    "include_first_warning": true,
+    "predictor": "$FARC_DATA_DIR/models/failure_predictor/unweighted.pt",
+    "learned_threshold": 0.8715662360191345,
+    "alphas": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "durations": [
+      3,
+      6,
+      12
+    ],
+    "selection_fraction": 0.5,
+    "split_seed": 0,
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 20261215,
+    "output": "$FARC_DATA_DIR/experiments/phase_d_pilot",
+    "excluded_seed_ranges": []
+  },
+  "selection_seeds": [
+    3620002,
+    3620004
+  ],
+  "evaluation_seeds": [
+    3620000,
+    3620001,
+    3620003
+  ],
+  "selected_candidate_on_selection_seeds": "reduced_a0.25_d6",
+  "branch_states": 1750,
+  "branch_rows": 63000,
+  "first_warning_states": 110,
+  "predictor_sha256": "3d9ecd12437b3cd31a8db052ca45c86bd0d4d400899e5a67496df3d2518bd251",
+  "seconds": 301.0
+}

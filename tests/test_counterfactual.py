@@ -266,3 +266,20 @@ def test_delay_queue_replays_issued_commands(policy_env):
     np.testing.assert_array_equal(executed[3], marker)  # issued 3 steps earlier
     session.restore(snap)
     assert len(session.commands) == 10
+
+
+def test_placebo_direction_is_deterministic_unit_and_horizontal():
+    from farc.counterfactual.residuals import PLACEBOS, random_direction
+
+    rng = np.random.default_rng(1)
+    angles = []
+    for _ in range(50):
+        g, o, goal = (rng.uniform(1.0, 1.5, 3) for _ in range(3))
+        d = random_direction(g, o, goal, np.zeros(4))
+        np.testing.assert_array_equal(d, random_direction(g, o, goal, np.zeros(4)))
+        assert d[2] == 0 and np.linalg.norm(d) == pytest.approx(1.0)
+        angles.append(np.arctan2(d[1], d[0]))
+    assert np.std(angles) > 1.0  # spread over directions, not aligned with the task
+    assert candidate_grid((0.5,), (3,), PLACEBOS)[0].name == "random_direction_a0.5_d3"
+    with pytest.raises(ValueError):
+        candidate_grid((0.5,), (3,), ("nope",))

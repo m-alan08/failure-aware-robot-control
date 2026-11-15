@@ -10,6 +10,8 @@ action. u is the horizontal unit vector from o to G.
 - ``alignment``: steer the gripper onto the o->G line at the object's height:
   delta = clip((p - g) / 0.05) with p the projection of g on that line (z = o_z).
 - ``reduced``: delta = -a_base (the base action shrunk by a factor 1 - alpha).
+- ``random_direction`` (placebo control): a deterministic pseudo-random horizontal unit
+  direction, seeded by the observation; same magnitude as ``goal_directed``.
 - ``preserve_push``: delta = min(max(a_base_xy . u, 0), 1) u (amplify the base action's own
   component along the push direction; nothing is added when the base action is not pushing).
 """
@@ -58,7 +60,18 @@ def preserve_push(g, o, goal, base) -> np.ndarray:
     return np.array([along * u[0], along * u[1], 0.0])
 
 
+def random_direction(g, o, goal, base) -> np.ndarray:
+    """PLACEBO: a horizontal unit direction drawn from a generator seeded by the observation
+    bytes (deterministic, unrelated to the task geometry); same magnitude as goal_directed."""
+    key = np.ascontiguousarray(np.round(np.r_[g, o, goal], 9), np.float64).tobytes()
+    angle = np.random.default_rng(list(key)).uniform(0.0, 2.0 * np.pi)
+    return np.array([np.cos(angle), np.sin(angle), 0.0])
+
+
+PLACEBOS = ("random_direction",)
+
 DELTAS: dict[str, Callable[..., np.ndarray]] = {
+    "random_direction": random_direction,
     "goal_directed": goal_directed,
     "alignment": alignment,
     "reduced": reduced,
@@ -84,5 +97,8 @@ class Candidate:
         return out
 
 
-def candidate_grid(alphas, durations) -> list[Candidate]:
-    return [Candidate(s, float(a), int(d)) for s in STRATEGIES for a in alphas for d in durations]
+def candidate_grid(alphas, durations, strategies=STRATEGIES) -> list[Candidate]:
+    unknown = set(strategies) - set(DELTAS)
+    if unknown:
+        raise ValueError(f"unknown strategies {sorted(unknown)}")
+    return [Candidate(s, float(a), int(d)) for s in strategies for a in alphas for d in durations]

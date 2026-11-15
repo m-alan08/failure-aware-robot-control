@@ -19,7 +19,7 @@ import pandas as pd
 import torch
 
 from farc.base_policy.checkpoint import deterministic_policy_function, load_policy
-from farc.counterfactual.residuals import Candidate, candidate_grid
+from farc.counterfactual.residuals import STRATEGIES, Candidate, candidate_grid
 from farc.counterfactual.session import EpisodeSession
 from farc.disturbances.config import SEED_RANGES, ConditionSpec, load_experiment
 from farc.disturbances.rollout import FrozenNormalizer
@@ -61,6 +61,7 @@ class CounterfactualExperiment:
     bootstrap_seed: int
     output: str
     excluded_seed_ranges: tuple[tuple[int, int], ...] = ()
+    strategies: tuple[str, ...] = STRATEGIES
 
     @property
     def episode_seeds(self) -> list[int]:
@@ -70,8 +71,9 @@ class CounterfactualExperiment:
 def load_counterfactual_experiment(path: str | Path) -> CounterfactualExperiment:
     values = json.loads(Path(path).read_text())
     values.pop("description", None)
-    for key in ("checkpoints", "branch_steps", "alphas", "durations"):
-        values[key] = tuple(values[key])
+    for key in ("checkpoints", "branch_steps", "alphas", "durations", "strategies"):
+        if key in values:
+            values[key] = tuple(values[key])
     values["excluded_seed_ranges"] = tuple(tuple(r) for r in values.get("excluded_seed_ranges", ()))
     config = CounterfactualExperiment(**values)
     seeds = config.episode_seeds
@@ -181,7 +183,7 @@ def run_policy(args: tuple[CounterfactualExperiment, str, Normalizer]) -> list[d
     env = make_env(loaded.env_config)
     trigger = LearnedTrigger(load_predictor(resolve(config.predictor)), normalizer,
                              config.learned_threshold)  # fmt: skip
-    candidates = candidate_grid(config.alphas, config.durations)
+    candidates = candidate_grid(config.alphas, config.durations, config.strategies)
     rows: list[dict[str, Any]] = []
     for condition in push_conditions(config):
         for seed in config.episode_seeds:
