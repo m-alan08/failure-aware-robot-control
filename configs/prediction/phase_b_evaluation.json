@@ -1,0 +1,39 @@
+{
+  "description": "Phase B: frozen learned failure predictors vs reactive detectors on the validation split, thresholds chosen on a seed-disjoint calibration half. Fixed before looking at evaluation results.",
+  "source": "$FARC_DATA_DIR/experiments/phase1_extended",
+  "dataset_report": "results/failure_dataset/report.json",
+  "predictors": {
+    "learned_unweighted": "$FARC_DATA_DIR/models/failure_predictor/unweighted.pt",
+    "learned_weighted": "$FARC_DATA_DIR/models/failure_predictor/weighted.pt"
+  },
+  "split_seed": 0,
+  "validation_fraction": 0.2,
+  "progress_window": 5,
+  "calibration_fraction": 0.5,
+  "calibration_seed": 0,
+  "reactive": [
+    {"name": "distance_k5_p3", "family": "distance_only", "window": 5, "persistence": 3},
+    {"name": "distance_k5_p5", "family": "distance_only", "window": 5, "persistence": 5},
+    {"name": "distance_k10_p3", "family": "distance_only", "window": 10, "persistence": 3},
+    {"name": "distance_k10_p5", "family": "distance_only", "window": 10, "persistence": 5},
+    {"name": "phase_k5_p3_h3", "family": "phase_aware", "window": 5, "persistence": 3},
+    {"name": "phase_k5_p5_h3", "family": "phase_aware", "window": 5, "persistence": 5},
+    {"name": "phase_k10_p3_h3", "family": "phase_aware", "window": 10, "persistence": 3},
+    {"name": "phase_k10_p5_h3", "family": "phase_aware", "window": 10, "persistence": 5}
+  ],
+  "geometry": {"contact_enter": 0.06, "contact_exit": 0.09, "behind_offset": 0.05, "success_threshold": 0.05},
+  "pairs": [
+    ["learned_unweighted", "distance_k10_p5"],
+    ["learned_unweighted", "phase_k5_p5_h3"],
+    ["learned_weighted", "distance_k10_p5"],
+    ["learned_weighted", "phase_k5_p5_h3"],
+    ["learned_weighted", "learned_unweighted"]
+  ],
+  "target_fprs": [0.02, 0.05, 0.1],
+  "leads": [0, 5, 10],
+  "bootstrap_resamples": 2000,
+  "timestep_bootstrap_resamples": 500,
+  "bootstrap_seed": 20261115,
+  "output": "$FARC_DATA_DIR/experiments/phase1_extended/predictors/phase_b_evaluation",
+  "results": "results/phase_b_evaluation"
+}

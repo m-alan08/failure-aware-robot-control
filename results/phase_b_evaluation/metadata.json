@@ -1,0 +1,149 @@
+{
+  "config": {
+    "description": "Phase B: frozen learned failure predictors vs reactive detectors on the validation split, thresholds chosen on a seed-disjoint calibration half. Fixed before looking at evaluation results.",
+    "source": "$FARC_DATA_DIR/experiments/phase1_extended",
+    "dataset_report": "results/failure_dataset/report.json",
+    "predictors": {
+      "learned_unweighted": "$FARC_DATA_DIR/models/failure_predictor/unweighted.pt",
+      "learned_weighted": "$FARC_DATA_DIR/models/failure_predictor/weighted.pt"
+    },
+    "split_seed": 0,
+    "validation_fraction": 0.2,
+    "progress_window": 5,
+    "calibration_fraction": 0.5,
+    "calibration_seed": 0,
+    "reactive": [
+      {
+        "name": "distance_k5_p3",
+        "family": "distance_only",
+        "window": 5,
+        "persistence": 3
+      },
+      {
+        "name": "distance_k5_p5",
+        "family": "distance_only",
+        "window": 5,
+        "persistence": 5
+      },
+      {
+        "name": "distance_k10_p3",
+        "family": "distance_only",
+        "window": 10,
+        "persistence": 3
+      },
+      {
+        "name": "distance_k10_p5",
+        "family": "distance_only",
+        "window": 10,
+        "persistence": 5
+      },
+      {
+        "name": "phase_k5_p3_h3",
+        "family": "phase_aware",
+        "window": 5,
+        "persistence": 3
+      },
+      {
+        "name": "phase_k5_p5_h3",
+        "family": "phase_aware",
+        "window": 5,
+        "persistence": 5
+      },
+      {
+        "name": "phase_k10_p3_h3",
+        "family": "phase_aware",
+        "window": 10,
+        "persistence": 3
+      },
+      {
+        "name": "phase_k10_p5_h3",
+        "family": "phase_aware",
+        "window": 10,
+        "persistence": 5
+      }
+    ],
+    "geometry": {
+      "contact_enter": 0.06,
+      "contact_exit": 0.09,
+      "behind_offset": 0.05,
+      "success_threshold": 0.05
+    },
+    "pairs": [
+      [
+        "learned_unweighted",
+        "distance_k10_p5"
+      ],
+      [
+        "learned_unweighted",
+        "phase_k5_p5_h3"
+      ],
+      [
+        "learned_weighted",
+        "distance_k10_p5"
+      ],
+      [
+        "learned_weighted",
+        "phase_k5_p5_h3"
+      ],
+      [
+        "learned_weighted",
+        "learned_unweighted"
+      ]
+    ],
+    "target_fprs": [
+      0.02,
+      0.05,
+      0.1
+    ],
+    "leads": [
+      0,
+      5,
+      10
+    ],
+    "bootstrap_resamples": 2000,
+    "timestep_bootstrap_resamples": 500,
+    "bootstrap_seed": 20261115,
+    "output": "$FARC_DATA_DIR/experiments/phase1_extended/predictors/phase_b_evaluation",
+    "results": "results/phase_b_evaluation"
+  },
+  "bootstrap_resamples": 2000,
+  "timestep_bootstrap_resamples": 500,
+  "checkpoint_sha256": {
+    "learned_unweighted": "3d9ecd12437b3cd31a8db052ca45c86bd0d4d400899e5a67496df3d2518bd251",
+    "learned_weighted": "dce634eb04794c0541682044a8b5d04ee4e9d38f81bb9f3785d96e68d642cd15"
+  },
+  "dataset_report_sha256": "ca82a6ac6bb591cacb8043c0eaa2fff9da9e3b68722192d5f293cee55d87a07d",
+  "thresholds": {
+    "learned_unweighted|0.02": 0.9611273407936096,
+    "learned_unweighted|0.05": 0.8715662360191345,
+    "learned_unweighted|0.1": 0.7894813418388367,
+    "learned_weighted|0.02": 0.9575657248497009,
+    "learned_weighted|0.05": 0.8707985281944275,
+    "learned_weighted|0.1": 0.7763521671295166,
+    "distance_k5_p3|0.02": 0.09527571825360528,
+    "distance_k5_p3|0.05": 0.05999684584553404,
+    "distance_k5_p3|0.1": 0.038016815079332744,
+    "distance_k5_p5|0.02": 0.07147599243649766,
+    "distance_k5_p5|0.05": 0.04145773386436078,
+    "distance_k5_p5|0.1": 0.024164972096546666,
+    "distance_k10_p3|0.02": 0.13609085498961382,
+    "distance_k10_p3|0.05": 0.06395682867422676,
+    "distance_k10_p3|0.1": 0.04776392478916255,
+    "distance_k10_p5|0.02": 0.12106257911700832,
+    "distance_k10_p5|0.05": 0.0550787901637529,
+    "distance_k10_p5|0.1": 0.03543453741884752,
+    "phase_k5_p3_h3|0.02": 0.08908715777540044,
+    "phase_k5_p3_h3|0.05": 0.045608906287467874,
+    "phase_k5_p3_h3|0.1": 0.011275435018443976,
+    "phase_k5_p5_h3|0.02": 0.044711120471353664,
+    "phase_k5_p5_h3|0.05": 0.010675684621778241,
+    "phase_k5_p5_h3|0.1": 0.001987760788357879,
+    "phase_k10_p3_h3|0.02": 0.08981462801464926,
+    "phase_k10_p3_h3|0.05": 0.022277038409097324,
+    "phase_k10_p3_h3|0.1": -0.006397641512827568,
+    "phase_k10_p5_h3|0.02": 0.04939349700687601,
+    "phase_k10_p5_h3|0.05": 0.014076848323022171,
+    "phase_k10_p5_h3|0.1": -0.02210882901228388
+  },
+  "seconds": 16.0
+}
