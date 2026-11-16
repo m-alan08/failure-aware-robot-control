@@ -122,3 +122,41 @@ def run_episode(
             rows.append(row)
     return {"success": session.final_success, "final_distance": session.final_distance,
             "rows": rows}  # fmt: skip
+
+
+# --- exploratory ablations (added after the pre-registered run; see PHASE_F1_RESULTS.md) ----
+
+
+def learned_gripper_position_only(model: DynamicsModel) -> Predictor:
+    """EXPLORATORY ablation: Phase E's prediction, but with the gripper *position* taken from
+    the learned rollout. The object is static and every velocity is left as observed, exactly
+    as Phase E leaves them."""
+
+    def predict(observation, queued, gain):
+        learned = rollout(model, observation, queued, min(gain, 1.0), move_object=True)
+        out = np.asarray(observation, np.float64).copy()
+        out[S["gripper_position"]] = learned[S["gripper_position"]]
+        out[S["object_relative_position"]] = out[S["object_position"]] - out[
+            S["gripper_position"]]  # fmt: skip
+        return out
+
+    return predict
+
+
+def learned_gripper_consistent(model: DynamicsModel) -> Predictor:
+    """EXPLORATORY ablation: learned gripper position and velocity, object static, with the
+    velocities made consistent with a static object (object linear and angular velocity
+    zero, so the relative velocity is minus the gripper velocity)."""
+
+    def predict(observation, queued, gain):
+        learned = rollout(model, observation, queued, min(gain, 1.0), move_object=True)
+        out = np.asarray(observation, np.float64).copy()
+        out[S["gripper_position"]] = learned[S["gripper_position"]]
+        out[S["gripper_velocity"]] = learned[S["gripper_velocity"]]
+        out[S["object_relative_velocity"]] = -out[S["gripper_velocity"]]
+        out[S["object_angular_velocity"]] = 0.0
+        out[S["object_relative_position"]] = out[S["object_position"]] - out[
+            S["gripper_position"]]  # fmt: skip
+        return out
+
+    return predict

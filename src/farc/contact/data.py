@@ -29,6 +29,7 @@ F1_SEED_BLOCKS = {
     "selection": (3_651_000, 3_651_050),
     "debugging": (3_652_000, 3_652_010),
     "evaluation": (3_653_000, 3_653_100),
+    "exploratory": (3_654_000, 3_654_100),  # post-hoc ablations, after the confirmatory run
 }
 
 

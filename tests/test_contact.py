@@ -21,6 +21,8 @@ from farc.contact.dynamics import (
     with_state,
 )
 from farc.contact.episodes import (
+    learned_gripper_consistent,
+    learned_gripper_position_only,
     learned_predictor,
     oracle_prediction,
     phase_e_predictor,
@@ -136,7 +138,9 @@ def test_model_hash_is_enforced(model, tmp_path):
 
 @pytest.mark.parametrize("make", [lambda m: phase_e_predictor(K0),
                                   lambda m: learned_predictor(m, True),
-                                  lambda m: learned_predictor(m, False)])  # fmt: skip
+                                  lambda m: learned_predictor(m, False),
+                                  lambda m: learned_gripper_position_only(m),
+                                  lambda m: learned_gripper_consistent(m)])  # fmt: skip
 def test_deployable_predictors_take_only_observation_queue_and_gain(make, model):
     predictor = make(model)
     assert list(inspect.signature(predictor).parameters) == ["observation", "queued", "gain"]
@@ -276,3 +280,17 @@ def test_phase_e_predictor_reproduces_the_phase_e_compensator(sim):
                             LatchedEstimate(), condition)  # fmt: skip
         assert a["final_distance"] == b["final_distance"]
         np.testing.assert_array_equal(np.array(a_session.commands), np.array(b_session.commands))
+
+
+def test_exploratory_ablations_keep_object_static_and_consistent(model):
+    obs = synthetic_transitions(3, seed=4)[0][0]
+    queued = [np.array([0.7, 0.1, 0.0, 0.0])] * 3
+    for predictor in (learned_gripper_position_only(model), learned_gripper_consistent(model)):
+        out = predictor(obs, queued, 1.0)
+        np.testing.assert_array_equal(out[S["object_position"]], obs[S["object_position"]])
+        relative = out[S["object_position"]] - out[S["gripper_position"]]
+        np.testing.assert_allclose(out[S["object_relative_position"]], relative)
+    out = learned_gripper_consistent(model)(obs, queued, 1.0)
+    np.testing.assert_allclose(out[S["object_relative_velocity"]], -out[S["gripper_velocity"]])
+    out = learned_gripper_position_only(model)(obs, queued, 1.0)
+    np.testing.assert_array_equal(out[S["gripper_velocity"]], obs[S["gripper_velocity"]])
