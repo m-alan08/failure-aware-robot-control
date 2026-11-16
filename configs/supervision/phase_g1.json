@@ -1,5 +1,5 @@
 {
-  "description": "Phase G1 supervisory switching (docs/PHASE_G1_PROPOSAL.md, approved 2026-11-16). cusum_threshold is null until set on the calibration block by the pre-registered false-release criterion.",
+  "description": "Phase G1 supervisory switching (docs/PHASE_G1_PROPOSAL.md, approved 2026-11-16). cusum_threshold = 0.5 was set on the calibration block (3,661,000-049, C1-C4) by the pre-registered false-release criterion; see results/phase_g1_supervision_calibration/.",
   "name": "phase_g1_supervision",
   "plan": "docs/PHASE_G1_PROPOSAL.md",
   "plan_sha256": "cf152f043797c61548ad4a2d9250f47577dba9c09b6ddabec9304ef1544bd4c0",
@@ -49,7 +49,7 @@
   "supervisor": {
     "min_dwell": 5,
     "cusum_kappa": 0.6931471805599453,
-    "cusum_threshold": null,
+    "cusum_threshold": 0.5,
     "cusum_threshold_grid": [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0, 25.0, 30.0],
     "false_release_max": 0.01,
     "timeout_steps": 10,
