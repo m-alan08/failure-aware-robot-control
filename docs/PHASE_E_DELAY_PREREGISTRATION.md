@@ -1,11 +1,8 @@
-# Phase E2: pre-registered evaluation of online delay compensation (PLAN, not yet run)
+# Phase E2: pre-registered evaluation of online delay compensation
 
-Status: **draft for approval.**
-- Nothing in this document has been run.
-- No E2 seed has been touched.
-- Once approved, this file is committed before any E2 code is used on selection or evaluation
-  seeds, and the commit hash is recorded in the run metadata.
-- Any later change to the plan is listed under "Amendments", with its date and reason.
+Status: **approved 2026-11-16, before any E2 seed was used.**
+- The amendments at the end were made at approval time, before any E2 code ran on any seed.
+- The E2 config pins this file's SHA-256, and the run refuses to start if the file changes.
 
 ## Question
 
@@ -135,4 +132,24 @@ current episode. Its pairing is fixed by a seeded permutation that is decided be
 
 ## Amendments
 
-(none)
+All three were made on 2026-11-16, at approval, before any E2 seed (debugging or evaluation)
+was used.
+
+- **A1 (C4, lag range): `max_lag` stays 4 for every condition.**
+  - The planned per-condition increase to 0–5 is dropped. A 4-step delay is already inside the
+    0–4 lag range.
+  - A lag range that depended on the condition would also have told the estimator which
+    condition it was in.
+  - The estimator is therefore exactly the pilot's, everywhere. Planned code change 1 is
+    withdrawn.
+- **A2 (C9, changing delay): built as two consecutive `action_delay` disturbances** (1 step
+  on steps 0–19, then 3 steps from step 20) instead of a new `delay_schedule` type.
+  - The existing perturbation builder already supports repeated types.
+  - Each delay replays the issued-command history, so the behaviour is exactly the planned
+    schedule. A unit test checks this.
+  - Planned code change 3 becomes this.
+- **A3 (shuffled sham, source of partner delays): the partner's delay values are its
+  `base_only` latched delay estimates.**
+  - These come from the same run, same policy and same condition.
+  - Partners are assigned by a fixed-seed derangement of the evaluation seeds, so no episode is
+    paired with itself.
