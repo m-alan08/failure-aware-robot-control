@@ -1,10 +1,10 @@
-# Held-out confirmation of Phases E and F1 (plan, DRAFT for approval)
+# Held-out confirmation of Phases E and F1 (pre-registered plan)
 
-**Status: draft.**
-- Nothing here has been run, and no held-out seed has been touched. Every existing loader
-  still refuses seeds 4,000,000+.
-- Held-out seeds are a one-time resource. This plan runs only after you explicitly approve
-  it, and once it has run its results are final whatever they show.
+**Status: approved by the user on 2026-11-16, before any held-out seed was used.**
+- The held-out config pins this file's SHA-256, and the runner refuses to start if it has
+  changed.
+- Held-out seeds are a one-time resource: once the run has happened, its results are final
+  whatever they show.
 
 ## Purpose
 
