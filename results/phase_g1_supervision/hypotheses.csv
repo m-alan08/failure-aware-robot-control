@@ -1,0 +1,5 @@
+hypothesis,configuration,reference,conditions,estimate,ci_low,ci_high,p_two_sided,p_one_sided,bound,episodes,p_holm,call_reduction,status
+G1,sup_A_release,contact_learned,T1-T4,0.014166666666666666,0.006666666666666667,0.021666666666666667,0.0006,0.0003,0.0,1200,0.0009,,supported
+G2,sup_A_release,contact_learned,C1-C7,0.0,0.0,0.0,1.0,0.0,-0.01,2100,0.0,,supported
+G3,sup_B_select,contact_learned,C1-C7 + T1-T4,-0.0036363636363636364,-0.011212121212121211,0.00393939393939394,0.3728,0.8335,0.0,3300,1.0,,not supported
+G4,sup_C_contact_gate,contact_learned,C1-C7,-0.03380952380952381,-0.048095238095238094,-0.02,0.0,0.9995,-0.01,2100,1.0,0.574788956313397,not supported
