@@ -1,0 +1,12 @@
+{
+  "verdict_primary": "improves",
+  "plan_sha256": "d17f88600ec48042a1cbacd31d85a420d825ff236f145f3df1e633a40264ab36",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "episodes": 13500,
+  "step_rows": 405000,
+  "raw_sha256": {
+    "episodes.csv.gz": "fd3b982fab07634cd158c51118caa0bcd10a7b60d808885b826644e3727bfeaa",
+    "steps.csv.gz": "d27cfb5a790734f8ff3bf12dd492709c92560ea257c656d280abcd2dcec9523e",
+    "metadata.json": "ca3b0863e12a704d813117d02db90ce356636b2d9590078349c6135ea661e59e"
+  }
+}

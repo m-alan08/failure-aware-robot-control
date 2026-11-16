@@ -1,0 +1,23 @@
+{
+  "hypotheses": {
+    "H1": "supported",
+    "H2": "supported",
+    "H3": "supported"
+  },
+  "safety_gates_passed": true,
+  "share_of_oracle_gain_over_phase_e": 0.7471410419313851,
+  "plan_sha256": "44f38eba651fd17707ef483eb8d84d1a6364c38dda5cc6f6ee8f921c5d089de7",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "approval": "2026-11-16 by the user in the Claude Code session (approved plan commit f35ad5e)",
+  "episodes": 40500,
+  "step_rows": 1215000,
+  "seeds": [
+    4000000,
+    4000299
+  ],
+  "raw_sha256": {
+    "episodes.csv.gz": "c2b5f8b798fdb77ac62ddf36567331bb830c6e261e10e7dc14fe530e6bf14c98",
+    "steps.csv.gz": "e905797f8bd1933fce63c554df575810ffc0988ffec7075930a8b9b68f094b8e",
+    "metadata.json": "d75c30ac6a6e9d4c6be95397ed0ccc683ff999947dd5f5c3ce3f5dc2845e06ce"
+  }
+}

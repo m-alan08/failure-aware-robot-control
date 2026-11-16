@@ -1,0 +1,5 @@
+configuration,condition,estimate,ci_low,ci_high,p_two_sided,episodes,success_rate,reference_success_rate,rescued,harmed,reference_successes,harmed_fraction,passed,binding
+contact_learned,C0_undisturbed,0.0,0.0,0.0,1.0,900,0.9888888888888889,0.9888888888888889,0,0,890,0.0,True,True
+contact_learned,C8_posnoise0.01,0.0011111111111111111,0.0,0.0033333333333333335,0.7348,900,0.9566666666666667,0.9555555555555556,1,0,860,0.0,True,True
+phase_e_predictor,C0_undisturbed,0.0,0.0,0.0,1.0,900,0.9888888888888889,0.9888888888888889,0,0,890,0.0,True,False
+phase_e_predictor,C8_posnoise0.01,0.0,-0.0033333333333333335,0.0033333333333333335,1.0,900,0.9555555555555556,0.9555555555555556,1,1,860,0.0011627906976744186,True,False
