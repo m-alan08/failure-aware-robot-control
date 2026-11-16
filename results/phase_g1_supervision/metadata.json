@@ -1,0 +1,344 @@
+{
+  "config_file": "configs/supervision/phase_g1.json",
+  "config_sha256": "25344f2767b99307215774177f96d534f328a9be6c5199ddd35d85416f1b4207",
+  "plan_sha256": "cf152f043797c61548ad4a2d9250f47577dba9c09b6ddabec9304ef1544bd4c0",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "git_commit": "5191c16d889ab4cabb3eeaec5bb60b23245fad13",
+  "role": "evaluation",
+  "checkpoint_sha256": {
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt": "07f6244471f87c75b374da3aacd67a31ded3330c737074d1ad38d7081aeb8ef9",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt": "1f569ab405ed710b17a931fa1c9af44e3cf33f7d5dc7794db1f6a5ea4761aa4f",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt": "901ab0c01a2a3a4edda10c51090d532c1d006d95cb3ed71497592e47fd8e09e9"
+  },
+  "config": {
+    "name": "phase_g1_supervision",
+    "plan": "docs/PHASE_G1_PROPOSAL.md",
+    "plan_sha256": "cf152f043797c61548ad4a2d9250f47577dba9c09b6ddabec9304ef1544bd4c0",
+    "model": "$FARC_DATA_DIR/models/contact_predictor/model.pt",
+    "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+    "conditions_from": "configs/disturbances/phase1_extended.json",
+    "conditions": [
+      {
+        "name": "C0_undisturbed",
+        "from": "undisturbed"
+      },
+      {
+        "name": "C1_delay1",
+        "from": "action_delay_sev1_on0_durinf"
+      },
+      {
+        "name": "C2_delay2",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 2
+          }
+        ]
+      },
+      {
+        "name": "C3_delay3",
+        "from": "action_delay_sev3_on0_durinf"
+      },
+      {
+        "name": "C4_delay4",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 4
+          }
+        ]
+      },
+      {
+        "name": "C5_delay3_onset15",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 15
+          }
+        ]
+      },
+      {
+        "name": "C6_delay3_posnoise0.005",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3
+          },
+          {
+            "type": "observation_noise",
+            "severity": 0.005,
+            "mask": "positions"
+          }
+        ]
+      },
+      {
+        "name": "C7_delay3_scale0.5",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3
+          },
+          {
+            "type": "action_scale",
+            "severity": 0.5
+          }
+        ]
+      },
+      {
+        "name": "C8_posnoise0.01",
+        "from": "observation_noise_positions_sev0.01_on0_durinf"
+      },
+      {
+        "name": "T1_delay3_steps0to14",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 0,
+            "duration": 15
+          }
+        ]
+      },
+      {
+        "name": "T2_delay3_steps15to29",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 15,
+            "duration": 15
+          }
+        ]
+      },
+      {
+        "name": "T3_delay3_steps0to9_20to29",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 0,
+            "duration": 10
+          },
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 20,
+            "duration": 10
+          }
+        ]
+      },
+      {
+        "name": "T4_delay1_to3_at20",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 1,
+            "duration": 20
+          },
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 20
+          }
+        ]
+      }
+    ],
+    "constant_delay_conditions": [
+      "C1_delay1",
+      "C2_delay2",
+      "C3_delay3",
+      "C4_delay4",
+      "C5_delay3_onset15",
+      "C6_delay3_posnoise0.005",
+      "C7_delay3_scale0.5"
+    ],
+    "transient_conditions": [
+      "T1_delay3_steps0to14",
+      "T2_delay3_steps15to29",
+      "T3_delay3_steps0to9_20to29",
+      "T4_delay1_to3_at20"
+    ],
+    "harm_conditions": [
+      "C0_undisturbed",
+      "C8_posnoise0.01"
+    ],
+    "calibration_conditions": [
+      "C1_delay1",
+      "C2_delay2",
+      "C3_delay3",
+      "C4_delay4"
+    ],
+    "checkpoints": [
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+    ],
+    "debug_seed_offset": 3660000,
+    "debug_episodes": 10,
+    "calibration_seed_offset": 3661000,
+    "calibration_episodes": 50,
+    "evaluation_seed_offset": 3662000,
+    "evaluation_episodes": 100,
+    "perturbation_seed": 20261602,
+    "estimator": {
+      "nominal_gain": 0.62,
+      "window": 10,
+      "max_lag": 4,
+      "min_transitions": 4,
+      "min_excitation": 0.000225,
+      "min_r2": 0.8,
+      "min_margin": 2.0
+    },
+    "supervisor": {
+      "min_dwell": 5,
+      "cusum_kappa": 0.6931471805599453,
+      "cusum_threshold": 0.5,
+      "cusum_threshold_grid": [
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0,
+        3.5,
+        4.0,
+        4.5,
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        10.0,
+        12.0,
+        14.0,
+        16.0,
+        18.0,
+        20.0,
+        25.0,
+        30.0
+      ],
+      "false_release_max": 0.01,
+      "timeout_steps": 10,
+      "ewma_span": 5,
+      "selection_margin": 0.8,
+      "contact_open_m": 0.05,
+      "contact_close_m": 0.06
+    },
+    "noninferiority_margin": 0.01,
+    "call_reduction_min": 0.3,
+    "alpha_one_sided": 0.025,
+    "harm_ci_floor": -0.02,
+    "harm_max_fraction": 0.02,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20261602,
+    "output": "$FARC_DATA_DIR/experiments/phase_g1_supervision",
+    "role": "evaluation"
+  },
+  "seeds": [
+    3662000,
+    3662001,
+    3662002,
+    3662003,
+    3662004,
+    3662005,
+    3662006,
+    3662007,
+    3662008,
+    3662009,
+    3662010,
+    3662011,
+    3662012,
+    3662013,
+    3662014,
+    3662015,
+    3662016,
+    3662017,
+    3662018,
+    3662019,
+    3662020,
+    3662021,
+    3662022,
+    3662023,
+    3662024,
+    3662025,
+    3662026,
+    3662027,
+    3662028,
+    3662029,
+    3662030,
+    3662031,
+    3662032,
+    3662033,
+    3662034,
+    3662035,
+    3662036,
+    3662037,
+    3662038,
+    3662039,
+    3662040,
+    3662041,
+    3662042,
+    3662043,
+    3662044,
+    3662045,
+    3662046,
+    3662047,
+    3662048,
+    3662049,
+    3662050,
+    3662051,
+    3662052,
+    3662053,
+    3662054,
+    3662055,
+    3662056,
+    3662057,
+    3662058,
+    3662059,
+    3662060,
+    3662061,
+    3662062,
+    3662063,
+    3662064,
+    3662065,
+    3662066,
+    3662067,
+    3662068,
+    3662069,
+    3662070,
+    3662071,
+    3662072,
+    3662073,
+    3662074,
+    3662075,
+    3662076,
+    3662077,
+    3662078,
+    3662079,
+    3662080,
+    3662081,
+    3662082,
+    3662083,
+    3662084,
+    3662085,
+    3662086,
+    3662087,
+    3662088,
+    3662089,
+    3662090,
+    3662091,
+    3662092,
+    3662093,
+    3662094,
+    3662095,
+    3662096,
+    3662097,
+    3662098,
+    3662099
+  ],
+  "episodes_rows": 42900,
+  "step_rows": 2145000,
+  "finished_utc": "2026-11-16T21:36:27Z",
+  "seconds": 488.9
+}

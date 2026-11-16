@@ -1,0 +1,30 @@
+{
+  "hypotheses": {
+    "G1": "supported",
+    "G2": "supported",
+    "G3": "not supported",
+    "G4": "not supported"
+  },
+  "safety_gates_passed": {
+    "sup_A_release": true,
+    "sup_A_timeout": true,
+    "sup_B_select": true,
+    "sup_C_contact_gate": true
+  },
+  "call_reduction_G4": 0.574788956313397,
+  "oscillation_episodes": 869,
+  "plan_sha256": "cf152f043797c61548ad4a2d9250f47577dba9c09b6ddabec9304ef1544bd4c0",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "cusum_threshold": 0.5,
+  "episodes": 42900,
+  "step_rows": 2145000,
+  "seeds": [
+    3662000,
+    3662099
+  ],
+  "raw_sha256": {
+    "episodes.csv.gz": "cc0a66343ea501324b36b61a81be12f610f7176b342e273ded542fb605a160b5",
+    "steps.csv.gz": "b66f9a4bd9790a9ac6b62bb2dd93d3ee6bec3090dc626ba070819e4a14fe945e",
+    "metadata.json": "f13a9dc9132e0addafd85b3e737d6b4a086858726442541622cf2564fa8dacd6"
+  }
+}
