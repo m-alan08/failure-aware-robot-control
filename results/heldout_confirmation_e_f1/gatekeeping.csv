@@ -1,0 +1,4 @@
+hypothesis,configuration,reference,estimate,ci_low,ci_high,p_two_sided,episodes,bound,status,development_estimate,shrinkage_flag
+H1,phase_e_predictor,base_only,0.4492063492063492,0.43078968253968253,0.4668253968253968,0.0,6300,0.05,supported,0.4371,False
+H2,contact_learned,phase_e_predictor,0.09333333333333334,0.08333333333333333,0.1034920634920635,0.0,6300,0.0,supported,0.1043,False
+H3,contact_learned,learned_gripper_consistent,0.08682539682539682,0.0773015873015873,0.09650793650793651,0.0,6300,0.0,supported,0.08,False
