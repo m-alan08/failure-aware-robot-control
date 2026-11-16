@@ -1,0 +1,16 @@
+{
+  "selected": {
+    "width": 256,
+    "weight_decay": 0.0
+  },
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "model_path": "/Users/alanmozhoor/farc-data/models/contact_predictor/model.pt",
+  "training_transitions": 352800,
+  "raw_sha256": {
+    "training.csv.gz": "6bb3bc9ad9e2cc93af296fa5e8fb0ca68ef54a4a32d370b05010b9a04d1190c9",
+    "selection.csv.gz": "e463fd726762a6cb602466a0000339deeab92d0d003dfdb2764799a35cf26748",
+    "metadata.json": "a37637fbbe0156b25558758a2a8c9e4861d2b10887641a715d6c90acd5fcc888"
+  },
+  "git_commit": "612a90dcca1e0bd82e2988255d332f2dad5926d1",
+  "config_sha256": "e413fd9381d1f9bced5e7ccf152cf114579a3b5b7d47c3bcb1d94afe630aef29"
+}

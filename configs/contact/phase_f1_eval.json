@@ -1,0 +1,40 @@
+{
+  "description": "Phase F1 pre-registered evaluation (docs/PHASE_F1_PREREGISTRATION.md). Frozen dynamics model pinned by SHA-256; Phase E estimator constants unchanged.",
+  "name": "phase_f1_eval",
+  "plan": "docs/PHASE_F1_PREREGISTRATION.md",
+  "plan_sha256": "d17f88600ec48042a1cbacd31d85a420d825ff236f145f3df1e633a40264ab36",
+  "model": "$FARC_DATA_DIR/models/contact_predictor/model.pt",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "conditions_from": "configs/disturbances/phase1_extended.json",
+  "conditions": [
+    {"name": "C0_undisturbed", "from": "undisturbed"},
+    {"name": "C1_delay1", "from": "action_delay_sev1_on0_durinf"},
+    {"name": "C2_delay2", "disturbances": [{"type": "action_delay", "severity": 2}]},
+    {"name": "C3_delay3", "from": "action_delay_sev3_on0_durinf"},
+    {"name": "C4_delay4", "disturbances": [{"type": "action_delay", "severity": 4}]},
+    {"name": "C5_delay3_onset15", "disturbances": [{"type": "action_delay", "severity": 3, "onset": 15}]},
+    {"name": "C6_delay3_posnoise0.005", "disturbances": [{"type": "action_delay", "severity": 3}, {"type": "observation_noise", "severity": 0.005, "mask": "positions"}]},
+    {"name": "C7_delay3_scale0.5", "disturbances": [{"type": "action_delay", "severity": 3}, {"type": "action_scale", "severity": 0.5}]},
+    {"name": "C8_posnoise0.01", "from": "observation_noise_positions_sev0.01_on0_durinf"}
+  ],
+  "delay_conditions": ["C1_delay1", "C2_delay2", "C3_delay3", "C4_delay4", "C5_delay3_onset15", "C6_delay3_posnoise0.005", "C7_delay3_scale0.5"],
+  "harm_conditions": ["C0_undisturbed", "C8_posnoise0.01"],
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "debug_seed_offset": 3652000,
+  "debug_episodes": 10,
+  "evaluation_seed_offset": 3653000,
+  "evaluation_episodes": 100,
+  "perturbation_seed": 20261502,
+  "estimator": {"nominal_gain": 0.62, "window": 10, "max_lag": 4, "min_transitions": 4,
+                "min_excitation": 0.000225, "min_r2": 0.8, "min_margin": 2.0},
+  "noninferiority_margin": 0.03,
+  "harm_ci_floor": -0.02,
+  "harm_max_fraction": 0.02,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261502,
+  "output": "$FARC_DATA_DIR/experiments/phase_f1_eval"
+}
