@@ -120,3 +120,25 @@ class ActuatorEstimator:
         return Estimate(t, len(taus), k, float(gain), float(r2), margin, float(excitation),
                         bool(base_ok and gain > 0),
                         bool(base_ok and margin >= cfg.min_margin))  # fmt: skip
+
+
+def lag_residuals(estimator: ActuatorEstimator) -> tuple[int, np.ndarray]:
+    """READ-ONLY (Phase G1): the residual sum of squares of the window fit for every lag
+    0..max_lag, exactly as ``estimate()`` computes them, with ``inf`` where a lag has no
+    commanded displacement. Returns (transitions, sse). It reads the estimator's history and
+    changes nothing; ``estimate()`` is untouched and stays the frozen Phase E estimator."""
+    cfg, t = estimator.config, estimator.step
+    taus = list(range(max(0, t - cfg.window), t))
+    sse = np.full(cfg.max_lag + 1, np.inf)
+    if not taus:
+        return 0, sse
+    pos = estimator.positions
+    y = np.concatenate([pos[tau + 1] - pos[tau] for tau in taus])
+    for k in range(cfg.max_lag + 1):
+        x = STEP * np.concatenate([estimator._command(tau - k) for tau in taus])
+        sxx = float(x @ x)
+        if sxx <= 1e-12:
+            continue
+        residual = y - (float(x @ y) / sxx) * x
+        sse[k] = float(residual @ residual)
+    return len(taus), sse
