@@ -1,0 +1,11 @@
+{
+  "label": "EXPLORATORY, post hoc",
+  "seeds": [
+    3654000,
+    3654099
+  ],
+  "raw_sha256": {
+    "episodes.csv.gz": "4b82b3c289c0c60a525273111a180198621a21aea1abbc02185a50070ed9c92c",
+    "metadata.json": "11ae4f46981673f5f027cf4e254e1867fde13140c46c668b3001604b4435072d"
+  }
+}
