@@ -1,6 +1,7 @@
 # Phase G2: fast detection of nonstationary actuator delays
 
-**Status: DRAFT for approval. Nothing has been implemented, calibrated or run.**
+**Status: Stage 1 (mechanism isolation, §3) APPROVED by the user on 2026-11-16, before any G2 seed was
+used. Stages 2–3 (calibration, evaluation) need a further approval at the Stage-1 checkpoint.**
 - No G2 seed has been used, no frozen model was modified, and no held-out seed was touched.
 - The only new numbers here come from *read-only* analyses of existing development logs: the
   G1 evaluation and the F1 evaluation. They are labelled as such.
