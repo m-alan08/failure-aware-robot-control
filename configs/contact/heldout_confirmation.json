@@ -1,0 +1,127 @@
+{
+  "description": "One-shot held-out confirmation of Phases E and F1 (docs/HELDOUT_CONFIRMATION_PLAN.md, approved 2026-11-16). Development estimates: H1 from the F1 evaluation (phase_e - base, pooled C1-C7), H2 from the F1 evaluation, H3 from the F1 exploratory follow-up.",
+  "name": "heldout_confirmation_e_f1",
+  "plan": "docs/HELDOUT_CONFIRMATION_PLAN.md",
+  "plan_sha256": "44f38eba651fd17707ef483eb8d84d1a6364c38dda5cc6f6ee8f921c5d089de7",
+  "heldout_approved": "2026-11-16 by the user in the Claude Code session (approved plan commit f35ad5e)",
+  "h1_min_effect": 0.05,
+  "development_estimates": {
+    "H1": 0.4371,
+    "H2": 0.1043,
+    "H3": 0.08
+  },
+  "model": "$FARC_DATA_DIR/models/contact_predictor/model.pt",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "conditions_from": "configs/disturbances/phase1_extended.json",
+  "conditions": [
+    {
+      "name": "C0_undisturbed",
+      "from": "undisturbed"
+    },
+    {
+      "name": "C1_delay1",
+      "from": "action_delay_sev1_on0_durinf"
+    },
+    {
+      "name": "C2_delay2",
+      "disturbances": [
+        {
+          "type": "action_delay",
+          "severity": 2
+        }
+      ]
+    },
+    {
+      "name": "C3_delay3",
+      "from": "action_delay_sev3_on0_durinf"
+    },
+    {
+      "name": "C4_delay4",
+      "disturbances": [
+        {
+          "type": "action_delay",
+          "severity": 4
+        }
+      ]
+    },
+    {
+      "name": "C5_delay3_onset15",
+      "disturbances": [
+        {
+          "type": "action_delay",
+          "severity": 3,
+          "onset": 15
+        }
+      ]
+    },
+    {
+      "name": "C6_delay3_posnoise0.005",
+      "disturbances": [
+        {
+          "type": "action_delay",
+          "severity": 3
+        },
+        {
+          "type": "observation_noise",
+          "severity": 0.005,
+          "mask": "positions"
+        }
+      ]
+    },
+    {
+      "name": "C7_delay3_scale0.5",
+      "disturbances": [
+        {
+          "type": "action_delay",
+          "severity": 3
+        },
+        {
+          "type": "action_scale",
+          "severity": 0.5
+        }
+      ]
+    },
+    {
+      "name": "C8_posnoise0.01",
+      "from": "observation_noise_positions_sev0.01_on0_durinf"
+    }
+  ],
+  "delay_conditions": [
+    "C1_delay1",
+    "C2_delay2",
+    "C3_delay3",
+    "C4_delay4",
+    "C5_delay3_onset15",
+    "C6_delay3_posnoise0.005",
+    "C7_delay3_scale0.5"
+  ],
+  "harm_conditions": [
+    "C0_undisturbed",
+    "C8_posnoise0.01"
+  ],
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "debug_seed_offset": 3655000,
+  "debug_episodes": 10,
+  "evaluation_seed_offset": 4000000,
+  "evaluation_episodes": 300,
+  "perturbation_seed": 20261601,
+  "estimator": {
+    "nominal_gain": 0.62,
+    "window": 10,
+    "max_lag": 4,
+    "min_transitions": 4,
+    "min_excitation": 0.000225,
+    "min_r2": 0.8,
+    "min_margin": 2.0
+  },
+  "noninferiority_margin": 0.03,
+  "harm_ci_floor": -0.02,
+  "harm_max_fraction": 0.02,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261601,
+  "output": "$FARC_DATA_DIR/experiments/heldout_confirmation_e_f1"
+}

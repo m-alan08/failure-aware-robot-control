@@ -30,6 +30,7 @@ F1_SEED_BLOCKS = {
     "debugging": (3_652_000, 3_652_010),
     "evaluation": (3_653_000, 3_653_100),
     "exploratory": (3_654_000, 3_654_100),  # post-hoc ablations, after the confirmatory run
+    "heldout_debugging": (3_655_000, 3_655_010),  # code checks for the held-out runner
 }
 
 

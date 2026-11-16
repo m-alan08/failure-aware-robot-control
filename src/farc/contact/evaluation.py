@@ -92,18 +92,29 @@ def predictors(config: ContactEvaluation) -> dict[str, Predictor | None]:
 
 def run_policy(args: tuple[ContactEvaluation, str]) -> tuple[list[dict], list[dict]]:
     config, checkpoint = args
+    return run_configurations(config, checkpoint, CONFIGURATIONS, LOGGED, predictors(config))
+
+
+def run_configurations(
+    config: ContactEvaluation,
+    checkpoint: str,
+    configurations: tuple[str, ...],
+    logged: tuple[str, ...],
+    preds: dict[str, Predictor | None],
+) -> tuple[list[dict], list[dict]]:
+    """Every configuration on every condition and seed for one frozen policy. The name
+    ``oracle_sim_predictor`` selects the privileged simulator oracle."""
     torch.set_num_threads(1)
     loaded = load_policy(resolve(checkpoint))
     actor_state = {k: v.clone() for k, v in loaded.actor.state_dict().items()}
     policy = deterministic_policy_function(loaded.actor)
     normalizer = FrozenNormalizer(loaded.normalizer)
     env = make_env(loaded.env_config)
-    preds = predictors(config)
     episodes: list[dict[str, Any]] = []
     steps: list[dict[str, Any]] = []
     for condition in build_conditions(config.conditions_from, config.conditions):
         for seed in config.seeds:
-            for name in CONFIGURATIONS:
+            for name in configurations:
                 session = EpisodeSession(env, policy, normalizer, condition, seed,
                                          config.perturbation_seed)  # fmt: skip
                 estimator = ActuatorEstimator(EstimatorConfig(**config.estimator))
@@ -123,7 +134,7 @@ def run_policy(args: tuple[ContactEvaluation, str]) -> tuple[list[dict], list[di
                                  "final_distance": result["final_distance"],
                                  "active_rate": rows["active"].mean(),
                                  "near_object_rate": float(near.mean())})  # fmt: skip
-                if name in LOGGED:
+                if name in logged:
                     steps.extend({**key, **r} for r in result["rows"])
     for k, v in loaded.actor.state_dict().items():
         if not torch.equal(v, actor_state[k]):
