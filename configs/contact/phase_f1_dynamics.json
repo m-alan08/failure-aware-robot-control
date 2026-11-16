@@ -1,0 +1,33 @@
+{
+  "description": "Phase F1 dynamics-model data and model selection (docs/PHASE_F1_PREREGISTRATION.md). Training seeds 3,650,000-199; model-selection seeds 3,651,000-049. Selection uses prediction error only.",
+  "name": "phase_f1_dynamics",
+  "conditions_from": "configs/disturbances/phase1_extended.json",
+  "conditions": [
+    {"name": "undisturbed", "from": "undisturbed"},
+    {"name": "delay1", "from": "action_delay_sev1_on0_durinf"},
+    {"name": "delay2", "disturbances": [{"type": "action_delay", "severity": 2}]},
+    {"name": "delay3", "from": "action_delay_sev3_on0_durinf"},
+    {"name": "delay4", "disturbances": [{"type": "action_delay", "severity": 4}]},
+    {"name": "scale0.5", "from": "action_scale_sev0.5_on0_durinf"}
+  ],
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "training_seed_offset": 3650000,
+  "training_episodes": 200,
+  "selection_seed_offset": 3651000,
+  "selection_episodes": 50,
+  "perturbation_seed": 20261501,
+  "estimator": {"nominal_gain": 0.62, "window": 10, "max_lag": 4, "min_transitions": 4,
+                "min_excitation": 0.000225, "min_r2": 0.8, "min_margin": 2.0},
+  "widths": [64, 256],
+  "weight_decays": [0.0, 0.0001],
+  "epochs": 60,
+  "train_seed": 0,
+  "horizons": [1, 2, 3, 4],
+  "contact_weight": 2.0,
+  "data_output": "$FARC_DATA_DIR/experiments/phase_f1_dynamics_data",
+  "model_output": "$FARC_DATA_DIR/models/contact_predictor"
+}
