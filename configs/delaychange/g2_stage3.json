@@ -1,0 +1,48 @@
+{
+  "description": "G2 Stages 2-3 (docs/PHASE_G2_PROPOSAL.md section 5; approved to proceed 2026-11-16). Constants are null until set on the calibration block; the evaluation refuses to run until they and the calibration record are pinned.",
+  "name": "phase_g2_stage3",
+  "plan": "docs/PHASE_G2_PROPOSAL.md",
+  "plan_sha256": "799fb487ee0ddc62fd50d8f2b94244d8840db3d1b786cc19d007765ad9469361",
+  "model": "$FARC_DATA_DIR/models/contact_predictor/model.pt",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "debug_seed_offset": 3670000,
+  "debug_episodes": 10,
+  "calibration_seed_offset": 3672000,
+  "calibration_episodes": 100,
+  "evaluation_seed_offset": 3673000,
+  "evaluation_episodes": 100,
+  "perturbation_seed": 20261604,
+  "estimator": {
+    "nominal_gain": 0.62,
+    "window": 10,
+    "max_lag": 4,
+    "min_transitions": 4,
+    "min_excitation": 0.000225,
+    "min_r2": 0.8,
+    "min_margin": 2.0
+  },
+  "constants": {
+    "A_window": null,
+    "B_fast_window": null,
+    "C_threshold": null,
+    "C_sigma0_mm": null,
+    "C_variant": null
+  },
+  "calibration_record": null,
+  "calibration_record_sha256": null,
+  "alpha_one_sided": 0.025,
+  "transient_margin_practical": 0.02,
+  "persistent_noninferiority": 0.01,
+  "sac_noninferiority": 0.02,
+  "robustness_noninferiority": 0.02,
+  "harm_ci_floor": -0.02,
+  "harm_max_fraction": 0.02,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261604,
+  "output": "$FARC_DATA_DIR/experiments/phase_g2_stage3"
+}
