@@ -1,5 +1,5 @@
 {
-  "description": "G2 Stages 2-3 (docs/PHASE_G2_PROPOSAL.md section 5; approved to proceed 2026-11-16). Constants are null until set on the calibration block; the evaluation refuses to run until they and the calibration record are pinned.",
+  "description": "G2 Stages 2-3 (docs/PHASE_G2_PROPOSAL.md section 5; approved to proceed 2026-11-16). Constants were set on the calibration block (docs/PHASE_G2_CALIBRATION.md, pinned below).",
   "name": "phase_g2_stage3",
   "plan": "docs/PHASE_G2_PROPOSAL.md",
   "plan_sha256": "799fb487ee0ddc62fd50d8f2b94244d8840db3d1b786cc19d007765ad9469361",
@@ -27,14 +27,14 @@
     "min_margin": 2.0
   },
   "constants": {
-    "A_window": null,
-    "B_fast_window": null,
-    "C_threshold": null,
-    "C_sigma0_mm": null,
-    "C_variant": null
+    "A_window": 7,
+    "B_fast_window": 4,
+    "C_threshold": 12.0,
+    "C_sigma0_mm": 4.0,
+    "C_variant": "gauss"
   },
-  "calibration_record": null,
-  "calibration_record_sha256": null,
+  "calibration_record": "docs/PHASE_G2_CALIBRATION.md",
+  "calibration_record_sha256": "96a0fb4e2402158176d08eb2e7fb6a09ecbd8218e0cf7561734a7254273d4b0d",
   "alpha_one_sided": 0.025,
   "transient_margin_practical": 0.02,
   "persistent_noninferiority": 0.01,
