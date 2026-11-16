@@ -251,7 +251,8 @@ def analyze(episodes: pd.DataFrame, resamples: int, seed: int) -> dict[str, pd.D
         tables[f"summary_{name}"] = pd.DataFrame(rows)
         tables[f"differences_{name}"] = pd.DataFrame(diffs)
     # oracle selection (privileged, post hoc): always-on on episodes the base fails, base
-    # policy otherwise -- an upper bound for any trigger with this recovery controller
+    # policy otherwise. It bounds only the per-episode choice between base-only and always-on;
+    # a trigger that intervenes later or for part of an episode can do better on some episodes.
     wide = data.pivot_table(index=KEYS, columns="configuration", values="final_success",
                             aggfunc="first").astype(bool)  # fmt: skip
     oracle = np.where(wide["base_only"], True, wide["always_on"])
@@ -261,6 +262,19 @@ def analyze(episodes: pd.DataFrame, resamples: int, seed: int) -> dict[str, pd.D
         "base_success_rate": float(wide["base_only"].mean()),
     }])  # fmt: skip
     return tables
+
+
+def rollout_provenance(out: Path, analyze_only: bool, fresh: dict[str, Any]) -> dict[str, Any]:
+    """Provenance of the run that produced ``episodes.csv``. A fresh run returns ``fresh``; an
+    ``--analyze-only`` run keeps what the previous metadata recorded instead of overwriting it."""
+    if not analyze_only:
+        return fresh
+    path = out / "metadata.json"
+    previous = json.loads(path.read_text()) if path.exists() else {}
+    if "rollout" in previous:
+        return dict(previous["rollout"])
+    legacy = {k: previous[k] for k in ("seconds", "episodes_rows") if k in previous}
+    return {"unknown": "no rollout provenance was recorded", "previous_metadata": legacy}
 
 
 def write_metadata(config: RecoveryExperiment, out: Path, extra: dict[str, Any]) -> None:
