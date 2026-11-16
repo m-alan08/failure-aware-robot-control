@@ -1,10 +1,10 @@
 # Phase G1: supervisory switching for the contact-aware delay compensator
 
-**Status: DRAFT for approval. Nothing here has been run.**
-- No supervisor is implemented or tuned.
-- No G1 seed has been used.
-- The pre-registration (Part 2) becomes binding only after it is approved and its SHA-256 is
-  pinned in a config, as in F1 and the held-out run.
+**Status: APPROVED by the user on 2026-11-16, before any G1 seed was used.**
+- Part 2 is now the binding pre-registration. The G1 config pins this file's SHA-256, and
+  the runner refuses a changed plan.
+- Any deviation is recorded as a dated amendment in the results document, never by editing
+  this file.
 
 **Question:** can a causal supervisor that decides *when* (and *which*) compensation to run
 improve robustness, safety or computation over (a) frozen SAC and (b) the validated
