@@ -1,0 +1,239 @@
+{
+  "config": {
+    "name": "phase_f1_eval",
+    "plan": "docs/PHASE_F1_PREREGISTRATION.md",
+    "plan_sha256": "d17f88600ec48042a1cbacd31d85a420d825ff236f145f3df1e633a40264ab36",
+    "model": "$FARC_DATA_DIR/models/contact_predictor/model.pt",
+    "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+    "conditions_from": "configs/disturbances/phase1_extended.json",
+    "conditions": [
+      {
+        "name": "C0_undisturbed",
+        "from": "undisturbed"
+      },
+      {
+        "name": "C1_delay1",
+        "from": "action_delay_sev1_on0_durinf"
+      },
+      {
+        "name": "C2_delay2",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 2
+          }
+        ]
+      },
+      {
+        "name": "C3_delay3",
+        "from": "action_delay_sev3_on0_durinf"
+      },
+      {
+        "name": "C4_delay4",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 4
+          }
+        ]
+      },
+      {
+        "name": "C5_delay3_onset15",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3,
+            "onset": 15
+          }
+        ]
+      },
+      {
+        "name": "C6_delay3_posnoise0.005",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3
+          },
+          {
+            "type": "observation_noise",
+            "severity": 0.005,
+            "mask": "positions"
+          }
+        ]
+      },
+      {
+        "name": "C7_delay3_scale0.5",
+        "disturbances": [
+          {
+            "type": "action_delay",
+            "severity": 3
+          },
+          {
+            "type": "action_scale",
+            "severity": 0.5
+          }
+        ]
+      },
+      {
+        "name": "C8_posnoise0.01",
+        "from": "observation_noise_positions_sev0.01_on0_durinf"
+      }
+    ],
+    "delay_conditions": [
+      "C1_delay1",
+      "C2_delay2",
+      "C3_delay3",
+      "C4_delay4",
+      "C5_delay3_onset15",
+      "C6_delay3_posnoise0.005",
+      "C7_delay3_scale0.5"
+    ],
+    "harm_conditions": [
+      "C0_undisturbed",
+      "C8_posnoise0.01"
+    ],
+    "checkpoints": [
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+    ],
+    "debug_seed_offset": 3652000,
+    "debug_episodes": 10,
+    "evaluation_seed_offset": 3653000,
+    "evaluation_episodes": 100,
+    "perturbation_seed": 20261502,
+    "estimator": {
+      "nominal_gain": 0.62,
+      "window": 10,
+      "max_lag": 4,
+      "min_transitions": 4,
+      "min_excitation": 0.000225,
+      "min_r2": 0.8,
+      "min_margin": 2.0
+    },
+    "noninferiority_margin": 0.03,
+    "harm_ci_floor": -0.02,
+    "harm_max_fraction": 0.02,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20261502,
+    "output": "$FARC_DATA_DIR/experiments/phase_f1_eval",
+    "debug_run": false
+  },
+  "config_file": "configs/contact/phase_f1_eval.json",
+  "config_sha256": "e5f93b75ca3f1f0a0ca9e2fe8a94e6ff3e7d68df71eca267c5ece8643e287232",
+  "plan_sha256": "d17f88600ec48042a1cbacd31d85a420d825ff236f145f3df1e633a40264ab36",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "git_commit": "4e1b574f1ef374267f55d76ea44e33fb735b9344",
+  "checkpoint_sha256": {
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt": "07f6244471f87c75b374da3aacd67a31ded3330c737074d1ad38d7081aeb8ef9",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt": "1f569ab405ed710b17a931fa1c9af44e3cf33f7d5dc7794db1f6a5ea4761aa4f",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt": "901ab0c01a2a3a4edda10c51090d532c1d006d95cb3ed71497592e47fd8e09e9"
+  },
+  "seeds": [
+    3653000,
+    3653001,
+    3653002,
+    3653003,
+    3653004,
+    3653005,
+    3653006,
+    3653007,
+    3653008,
+    3653009,
+    3653010,
+    3653011,
+    3653012,
+    3653013,
+    3653014,
+    3653015,
+    3653016,
+    3653017,
+    3653018,
+    3653019,
+    3653020,
+    3653021,
+    3653022,
+    3653023,
+    3653024,
+    3653025,
+    3653026,
+    3653027,
+    3653028,
+    3653029,
+    3653030,
+    3653031,
+    3653032,
+    3653033,
+    3653034,
+    3653035,
+    3653036,
+    3653037,
+    3653038,
+    3653039,
+    3653040,
+    3653041,
+    3653042,
+    3653043,
+    3653044,
+    3653045,
+    3653046,
+    3653047,
+    3653048,
+    3653049,
+    3653050,
+    3653051,
+    3653052,
+    3653053,
+    3653054,
+    3653055,
+    3653056,
+    3653057,
+    3653058,
+    3653059,
+    3653060,
+    3653061,
+    3653062,
+    3653063,
+    3653064,
+    3653065,
+    3653066,
+    3653067,
+    3653068,
+    3653069,
+    3653070,
+    3653071,
+    3653072,
+    3653073,
+    3653074,
+    3653075,
+    3653076,
+    3653077,
+    3653078,
+    3653079,
+    3653080,
+    3653081,
+    3653082,
+    3653083,
+    3653084,
+    3653085,
+    3653086,
+    3653087,
+    3653088,
+    3653089,
+    3653090,
+    3653091,
+    3653092,
+    3653093,
+    3653094,
+    3653095,
+    3653096,
+    3653097,
+    3653098,
+    3653099
+  ],
+  "debug_run": false,
+  "episodes_rows": 13500,
+  "step_rows": 405000,
+  "finished_utc": "2026-11-16T10:20:21Z",
+  "seconds": 451.3
+}

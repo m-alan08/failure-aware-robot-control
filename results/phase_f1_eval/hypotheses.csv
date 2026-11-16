@@ -1,0 +1,7 @@
+test,estimate,ci_low,ci_high,criterion,passed,p,episodes,verdict,harmed_fraction
+HP_contact_object_error_static_minus_learned_m,0.020527329533455402,0.019645565991032683,0.021435149841375702,ci_low > 0,True,,,,
+HC_primary_contact_learned_minus_phase_e,0.10428571428571429,0.08523809523809524,0.12333333333333334,improves if ci_low > 0,True,0.0,2100.0,improves,
+HA_contact_learned_minus_gripper_only,0.5328571428571428,0.5104761904761905,0.5547619047619048,secondary,,0.0,2100.0,,
+HO_oracle_minus_phase_e,0.12666666666666668,0.10857142857142857,0.1442857142857143,secondary,,0.0,2100.0,,
+harm_C0_undisturbed,0.0,0.0,0.0,ci_low > -0.02 and harmed <= 0.02,True,1.0,300.0,,0.0
+harm_C8_posnoise0.01,0.0,0.0,0.0,ci_low > -0.02 and harmed <= 0.02,True,1.0,300.0,,0.0
