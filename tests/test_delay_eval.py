@@ -24,7 +24,7 @@ from farc.adaptation.delay_eval import (
 )
 from farc.adaptation.estimator import Estimate
 from farc.adaptation.experiment import AdaptationConfigError, true_parameters
-from farc.disturbances.perturbations import build_perturbations
+from farc.disturbances.perturbations import ActionPerturbation, build_perturbations
 
 CONFIG = "configs/adaptation/phase_e2_delay.json"
 
@@ -78,7 +78,9 @@ def test_delay_schedule_replays_issued_commands():
     """Amendment A2: two consecutive delays execute c[t-1] before step 20, c[t-3] after."""
     condition = {c.name: c for c in build_conditions(load_delay_evaluation(CONFIG))}[
         "C9_delay1_to3_at20"]  # fmt: skip
-    perturbations = build_perturbations(condition.disturbances, 1, 2, 50)
+    perturbations = [p for p in build_perturbations(condition.disturbances, 1, 2, 50)
+                     if isinstance(p, ActionPerturbation)]  # fmt: skip
+    assert len(perturbations) == 2
     commands: list[np.ndarray] = []
     for t in range(50):
         commands.append(np.full(4, float(t + 1)))
