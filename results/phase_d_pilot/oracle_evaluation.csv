@@ -1,0 +1,8 @@
+group,states,base_success_rate,oracle_any_candidate_success_rate,base_failures,oracle_rescuable_failures,base_successes_harmed_by_every_candidate,base_successes_harmed_by_some_candidate
+pooled,1040,0.7509615384615385,0.8759615384615385,259,130,0,311
+action_delay,104,0.25961538461538464,0.7980769230769231,77,56,0,16
+action_noise,228,0.9736842105263158,0.9824561403508771,6,2,0,95
+action_scale,283,0.7279151943462897,0.8021201413427562,77,21,0,62
+goal_shift,92,0.7608695652173914,0.8478260869565217,22,8,0,51
+none,45,1.0,1.0,0,0,0,6
+observation_noise,288,0.7326388888888888,0.8819444444444444,77,43,0,81

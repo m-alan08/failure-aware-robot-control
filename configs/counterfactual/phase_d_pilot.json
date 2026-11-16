@@ -1,0 +1,25 @@
+{
+  "description": "Phase D pilot: counterfactual residual corrections branched from exact snapshots of frozen-policy FetchPush episodes (22 conditions, 3 policies).",
+  "name": "phase_d_pilot",
+  "conditions_from": "configs/disturbances/phase1_extended.json",
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "episode_seed_offset": 3620000,
+  "episodes": 5,
+  "perturbation_seed": 20261215,
+  "branch_steps": [5, 15, 25, 35, 42],
+  "include_first_warning": true,
+  "predictor": "$FARC_DATA_DIR/models/failure_predictor/unweighted.pt",
+  "learned_threshold": 0.8715662360191345,
+  "alphas": [0.25, 0.5, 1.0],
+  "durations": [3, 6, 12],
+  "selection_fraction": 0.5,
+  "split_seed": 0,
+  "bootstrap_resamples": 2000,
+  "bootstrap_seed": 20261215,
+  "excluded_seed_ranges": [],
+  "output": "$FARC_DATA_DIR/experiments/phase_d_pilot"
+}

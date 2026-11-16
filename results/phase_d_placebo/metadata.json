@@ -1,0 +1,116 @@
+{
+  "config": {
+    "name": "phase_d_placebo",
+    "conditions_from": "configs/disturbances/phase1_extended.json",
+    "checkpoints": [
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+    ],
+    "episode_seed_offset": 3621000,
+    "episodes": 60,
+    "perturbation_seed": 20261215,
+    "branch_steps": [
+      5,
+      15,
+      25,
+      35,
+      42
+    ],
+    "include_first_warning": true,
+    "predictor": "$FARC_DATA_DIR/models/failure_predictor/unweighted.pt",
+    "learned_threshold": 0.8715662360191345,
+    "alphas": [
+      0.25,
+      0.5
+    ],
+    "durations": [
+      3,
+      6
+    ],
+    "selection_fraction": 0.5,
+    "split_seed": 0,
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 20261215,
+    "output": "$FARC_DATA_DIR/experiments/phase_d_placebo",
+    "excluded_seed_ranges": [
+      [
+        3620000,
+        3620005
+      ]
+    ],
+    "strategies": [
+      "random_direction"
+    ]
+  },
+  "selection_seeds": [
+    3621000,
+    3621001,
+    3621002,
+    3621003,
+    3621004,
+    3621006,
+    3621008,
+    3621010,
+    3621011,
+    3621016,
+    3621017,
+    3621018,
+    3621020,
+    3621021,
+    3621023,
+    3621024,
+    3621027,
+    3621028,
+    3621030,
+    3621034,
+    3621035,
+    3621036,
+    3621042,
+    3621043,
+    3621044,
+    3621051,
+    3621052,
+    3621054,
+    3621055,
+    3621057
+  ],
+  "evaluation_seeds": [
+    3621005,
+    3621007,
+    3621009,
+    3621012,
+    3621013,
+    3621014,
+    3621015,
+    3621019,
+    3621022,
+    3621025,
+    3621026,
+    3621029,
+    3621031,
+    3621032,
+    3621033,
+    3621037,
+    3621038,
+    3621039,
+    3621040,
+    3621041,
+    3621045,
+    3621046,
+    3621047,
+    3621048,
+    3621049,
+    3621050,
+    3621053,
+    3621056,
+    3621058,
+    3621059
+  ],
+  "selected_candidate_on_selection_seeds": "random_direction_a0.5_d3",
+  "branch_states": 20768,
+  "branch_rows": 83072,
+  "first_warning_states": 1088,
+  "predictor_sha256": "3d9ecd12437b3cd31a8db052ca45c86bd0d4d400899e5a67496df3d2518bd251",
+  "seconds": 2222.8
+}
