@@ -66,6 +66,7 @@ class Observed:
     obj: np.ndarray
     goal: np.ndarray
     base_action: np.ndarray  # frozen-policy output on this view
+    observation: np.ndarray | None = None  # the full (possibly noisy) observation vector
 
 
 @dataclass
@@ -151,7 +152,9 @@ class EpisodeSession:
         prev = self.history.base_actions[step - 1].copy() if step else None
         self.history.record(step, g, o, goal, prev)
         self.history.base_actions[step:] = base  # base output of this step, for feature t+1
-        self.pending_view = Observed(step, g.copy(), o.copy(), goal.copy(), base)
+        self.pending_view = Observed(
+            step, g.copy(), o.copy(), goal.copy(), base, view["observation"].copy()
+        )
         return self.pending_view
 
     def act(self, command: np.ndarray) -> np.ndarray:

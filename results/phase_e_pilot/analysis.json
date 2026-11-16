@@ -1,0 +1,23 @@
+{
+  "selected_gain_floor": 0.5,
+  "primary_configurations": [
+    "base_only",
+    "estimated_gain_f0.5",
+    "estimated_delay",
+    "estimated_combined_f0.5"
+  ],
+  "oracle_configurations": [
+    "oracle_combined"
+  ],
+  "sham_configurations": [
+    "sham_gain",
+    "sham_delay"
+  ],
+  "episodes": 10800,
+  "step_rows": 60000,
+  "raw_sha256": {
+    "episodes.csv.gz": "cbd853d5d83baaa8c201dd8c66e2f51c161b3b86937c566a8f84b5c4e6e5d7a0",
+    "steps.csv.gz": "fd4e15af7671fdf8145e846538d1244f2414b2928a61bc3a04809e4ac1e462b8",
+    "metadata.json": "e1f15543c342ac50e5fafb60448451be263338f27b8fe77bfbd3667841f442c6"
+  }
+}

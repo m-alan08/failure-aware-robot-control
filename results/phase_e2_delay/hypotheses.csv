@@ -1,0 +1,6 @@
+test,criterion,estimate,ci_low,ci_high,p,episodes,passed,harmed_fraction
+H1_pooled_delay_vs_base,ci_low > 0.05,0.3914814814814815,0.36407407407407405,0.41888888888888887,0.0,2700,True,
+no_start_cue_C5_delay3_onset15_vs_base,ci_low > 0,0.17,0.12666666666666668,0.21666666666666667,0.0,300,True,
+specificity_vs_shuffled_sham,ci_low > 0,0.035925925925925924,0.020370370370370372,0.05148148148148148,0.0,2700,True,
+harm_C0_undisturbed,ci_low > -0.02 and harmed <= 0.02,0.0,0.0,0.0,1.0,300,True,0.0
+harm_C10_posnoise0.01,ci_low > -0.02 and harmed <= 0.02,0.0,0.0,0.0,1.0,300,True,0.0

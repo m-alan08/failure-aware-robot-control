@@ -23,7 +23,7 @@ import shutil
 import tempfile
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import pandas as pd
 
@@ -61,8 +61,10 @@ def _json(data: dict[str, Any]) -> str:
     return json.dumps(data, indent=2, default=str) + "\n"
 
 
-def _csv_writer(table: pd.DataFrame) -> Callable[[Path], object]:
-    return lambda path: table.to_csv(path, index=False)
+def _csv_writer(
+    table: pd.DataFrame, compression: Literal["gzip"] | None = None
+) -> Callable[[Path], object]:
+    return lambda path: table.to_csv(path, index=False, compression=compression)
 
 
 def _atomic_write(path: Path, write: Callable[[Path], object]) -> None:
@@ -76,40 +78,51 @@ def _atomic_write(path: Path, write: Callable[[Path], object]) -> None:
         raise
 
 
-def write_raw(out: Path, branches: pd.DataFrame, metadata: dict[str, Any],
-              overwrite: bool = False) -> None:  # fmt: skip
-    """Write the rollout's raw files; refuses to replace existing ones unless ``overwrite``."""
+def write_raw(out: Path, tables: pd.DataFrame | dict[str, pd.DataFrame],
+              metadata: dict[str, Any], overwrite: bool = False) -> None:  # fmt: skip
+    """Write the rollout's raw files; refuses to replace existing ones unless ``overwrite``.
+
+    ``tables`` is the branch table (Phase D) or a mapping from raw file name to table; every
+    table is written gzip-compressed."""
     out.mkdir(parents=True, exist_ok=True)
-    existing = [n for n in RAW_FILES if (out / n).exists()]
+    frames = {BRANCHES: tables} if isinstance(tables, pd.DataFrame) else dict(tables)
+    names = [*frames, METADATA]
+    existing = [n for n in names if (out / n).exists()]
     if existing and not overwrite:
         raise ArtifactError(f"raw files already exist in {out}: {existing}")
-    _atomic_write(out / BRANCHES, lambda p: branches.to_csv(p, index=False, compression="gzip"))
+    for name, frame in frames.items():
+        _atomic_write(out / name, _csv_writer(frame, compression="gzip"))
     _atomic_write(out / METADATA, lambda p: p.write_text(_json(metadata)))
 
 
 def analyze_existing(
     out: Path,
-    derive: Callable[[pd.DataFrame], tuple[dict[str, pd.DataFrame], dict[str, Any]]],
+    derive: Callable[..., tuple[dict[str, pd.DataFrame], dict[str, Any]]],
     results: Path | None = None,
+    derived_tables: tuple[str, ...] = DERIVED_TABLES,
+    raw_files: tuple[str, ...] = RAW_FILES,
 ) -> tuple[dict[str, pd.DataFrame], dict[str, Any]]:
     """Recompute the derived outputs from the raw files in ``out`` (read-only).
 
-    ``derive`` maps the branch table to (tables named as in DERIVED_TABLES, a JSON summary).
+    ``derive`` receives every raw table (all raw files except ``metadata.json``, in order) and
+    maps them to (tables named as in DERIVED_TABLES, a JSON summary).
     Derived files are also copied to ``results`` (the committed copy) when given; the raw
     ``metadata.json`` is never copied or rewritten here."""
-    missing = [n for n in RAW_FILES if not (out / n).exists()]
+    if METADATA not in raw_files:
+        raise ArtifactError("metadata.json is always a raw file")
+    missing = [n for n in raw_files if not (out / n).exists()]
     if missing:
         raise ArtifactError(f"analysis needs the raw files {missing} in {out}")
-    before = {n: sha256(out / n) for n in RAW_FILES}
-    tables, summary = derive(pd.read_csv(out / BRANCHES))
-    if set(tables) != set(DERIVED_TABLES):
-        raise ArtifactError(f"derive returned {sorted(tables)}, expected {list(DERIVED_TABLES)}")
-    if {n: sha256(out / n) for n in RAW_FILES} != before:
+    before = {n: sha256(out / n) for n in raw_files}
+    tables, summary = derive(*[pd.read_csv(out / n) for n in raw_files if n != METADATA])
+    if set(tables) != set(derived_tables) or {f"{n}.csv" for n in tables} & {*raw_files, ANALYSIS}:
+        raise ArtifactError(f"derive returned {sorted(tables)}, expected {list(derived_tables)}")
+    if {n: sha256(out / n) for n in raw_files} != before:
         raise ArtifactError("raw files changed during analysis")
     payload = {**summary, "raw_sha256": before}
     for target in [out] + ([results] if results is not None else []):
         target.mkdir(parents=True, exist_ok=True)
-        for name in DERIVED_TABLES:
+        for name in derived_tables:
             _atomic_write(target / f"{name}.csv", _csv_writer(tables[name]))
         _atomic_write(target / ANALYSIS, lambda p: p.write_text(_json(payload)))
     return tables, payload

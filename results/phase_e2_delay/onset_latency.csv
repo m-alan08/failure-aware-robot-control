@@ -1,0 +1,5 @@
+condition,change_step,from,to,episodes,matched_rate,latency_median,latency_p90
+C5_delay3_onset15,16,0,3,300,0.9733333333333334,8.0,9.0
+C6_delay3_steps15to29,16,0,3,300,0.9466666666666667,8.0,9.0
+C6_delay3_steps15to29,31,3,0,300,0.77,8.0,9.0
+C9_delay1_to3_at20,21,1,3,300,0.88,8.0,9.0

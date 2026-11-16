@@ -1,0 +1,12 @@
+{
+  "supported": true,
+  "primary": "estimated_delay",
+  "plan_sha256": "a8883569c9a120fd5ebc16aa8c7320e9377f3191e50b280ed35fbbb41fe58ff1",
+  "episodes": 19800,
+  "step_rows": 330000,
+  "raw_sha256": {
+    "episodes.csv.gz": "11fec4a3bbf6c87c3319ed5c4ff66c4689736b1b6e0c395144ee06c4bfeff695",
+    "steps.csv.gz": "299c4a9c6b24a050ae34cc066304468b67220f7b7fae24f68ca47b4a3f48bbd6",
+    "metadata.json": "5af0d0e4a66b3dc61a8da7e34ae0ee5f35a26768b2cc8691441c7db9b8400034"
+  }
+}
