@@ -31,6 +31,7 @@ from farc.recovery.experiment import (
     cluster_bootstrap_difference,
     load_recovery_experiment,
     paired,
+    rollout_provenance,
     summary,
 )
 from farc.recovery.rollout import CONFIGURATIONS
@@ -290,3 +291,13 @@ def test_episode_override_is_revalidated():
     validate_recovery_experiment(edge)
     with pytest.raises(RecoveryConfigError):
         validate_recovery_experiment(replace(edge, episodes=3))  # would reach 4,000,000
+
+
+def test_analyze_only_keeps_rollout_provenance(tmp_path):
+    fresh = {"finished_utc": "2026-11-15T00:00:00Z", "seconds": 120.0}
+    assert rollout_provenance(tmp_path, False, fresh) == fresh
+    (tmp_path / "metadata.json").write_text(json.dumps({"rollout": fresh, "seconds": 3.0}))
+    assert rollout_provenance(tmp_path, True, {}) == fresh
+    (tmp_path / "metadata.json").write_text(json.dumps({"seconds": 5.9, "episodes_rows": 4}))
+    legacy = rollout_provenance(tmp_path, True, {})
+    assert "unknown" in legacy and legacy["previous_metadata"]["seconds"] == 5.9

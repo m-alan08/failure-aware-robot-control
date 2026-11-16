@@ -27,6 +27,7 @@ from farc.prediction.evaluation import (
 from farc.recovery.experiment import (
     analyze,
     load_recovery_experiment,
+    rollout_provenance,
     run_policy,
     validate_recovery_experiment,
     write_metadata,
@@ -59,17 +60,26 @@ def main() -> None:
         expected["reactive"],
     ):
         raise CheckpointError(f"thresholds differ from the Phase B 5% operating points {expected}")
+    predictor_sha = file_sha256(resolve(config.predictor))
+    if predictor_sha != json.loads(PHASE_B.read_text())["checkpoint_sha256"]["learned_unweighted"]:
+        raise CheckpointError("the predictor is not the one Phase B calibrated the threshold on")
     load_predictor(resolve(config.predictor))  # shape-checks the checkpoint
     datasets = build_datasets(resolve("$FARC_DATA_DIR/experiments/phase1_extended"))
     verify_normalizer(datasets.normalizer, json.loads(DATASET_REPORT.read_text()))
 
     episodes_path = out / "episodes.csv"
     if not args.analyze_only:
+        rollout_started = time.time()
         with Pool(len(config.checkpoints)) as pool:
             parts = pool.map(
                 run_policy, [(config, c, datasets.normalizer) for c in config.checkpoints]
             )
         pd.DataFrame([row for part in parts for row in part]).to_csv(episodes_path, index=False)
+    fresh = {} if args.analyze_only else {
+        "finished_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "seconds": round(time.time() - rollout_started, 1),
+    }  # fmt: skip
+    rollout = rollout_provenance(out, args.analyze_only, fresh)
     episodes = pd.read_csv(episodes_path)
     tables = analyze(episodes, config.bootstrap_resamples, config.bootstrap_seed)
     results = Path("results") / config.name
@@ -78,7 +88,9 @@ def main() -> None:
         table.to_csv(out / f"{name}.csv", index=False)
         shutil.copy(out / f"{name}.csv", results / f"{name}.csv")
     write_metadata(config, out, {
-        "predictor_sha256": file_sha256(resolve(config.predictor)),
+        "predictor_sha256": predictor_sha,
+        "rollout": rollout,
+        "analyze_only": args.analyze_only,
         "phase_b_thresholds": expected,
         "episodes_rows": len(episodes),
         "seconds": round(time.time() - started, 1),
