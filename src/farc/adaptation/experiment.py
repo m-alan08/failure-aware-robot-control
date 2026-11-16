@@ -202,6 +202,8 @@ def run_episode(session: EpisodeSession, estimator: ActuatorEstimator,
             "r2": estimate.r2, "gain_true": gain_true, "delay_true": delay_true,
             "gain_active": decision.gain_active, "delay_active": decision.delay_active,
             "saturated": decision.saturated,
+            "delay_param": params.delay if params.delay is not None else -1,
+            "near_object": bool(np.linalg.norm(view.gripper[:2] - view.obj[:2]) < 0.05),
             "base_saturated": bool(np.any(np.abs(view.base_action[:3]) >= 0.999)),
         })  # fmt: skip
     frame = pd.DataFrame(steps)
