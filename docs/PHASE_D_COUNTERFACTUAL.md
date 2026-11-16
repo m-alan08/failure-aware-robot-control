@@ -18,6 +18,14 @@ uv run python scripts/run_counterfactual_experiment.py --config configs/counterf
 uv run python scripts/run_counterfactual_experiment.py --config <config> --analyze-only
 ```
 
+Raw files (`branches.csv.gz`, `metadata.json`) are written once by a rollout run, which refuses
+to replace them without `--overwrite-raw`. `--analyze-only` reads them and rewrites only the
+derived tables and `analysis.json` (selected candidate, seed split, raw-file SHA-256), each via a
+temporary file and rename, after computing everything in memory
+(`src/farc/counterfactual/artifacts.py`). Rerunning the analysis on the existing raw files of
+all three runs reproduces the committed tables byte for byte. The committed `metadata.json`
+files predate this split and also hold the analysis summary.
+
 ## Exact counterfactual branching
 
 `EpisodeSession` runs the Phase 1 step loop in two halves: `observe()` applies the goal shift

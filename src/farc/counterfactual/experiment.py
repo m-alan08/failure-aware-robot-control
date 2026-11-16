@@ -291,3 +291,34 @@ def oracle_table(frame: pd.DataFrame) -> pd.DataFrame:
                      "base_successes_harmed_by_some_candidate":
                          int((a & ~sub["all_success"].astype(bool)).sum())})  # fmt: skip
     return pd.DataFrame(rows)
+
+
+def derive_tables(
+    frame: pd.DataFrame, config: CounterfactualExperiment
+) -> tuple[dict[str, pd.DataFrame], dict[str, Any]]:
+    """Every derived table and summary from the raw branch table (no I/O)."""
+    selection, evaluation = split_seeds(frame["episode_seed"].to_numpy(),
+                                        config.selection_fraction, config.split_seed)  # fmt: skip
+    sel = frame[frame["episode_seed"].isin(selection)]
+    ev = frame[frame["episode_seed"].isin(evaluation)]
+    n, s = config.bootstrap_resamples, config.bootstrap_seed
+    tables = {
+        "selection_candidates": candidate_table(sel, [], n, s),
+        "evaluation_candidates": candidate_table(ev, [], n, s),
+        "evaluation_by_disturbance_type": candidate_table(ev, ["disturbance_type"], n, s),
+        "evaluation_by_step": candidate_table(ev, ["t"], n, s),
+        "evaluation_by_policy_seed": candidate_table(ev, ["policy_seed"], n, s),
+        "evaluation_by_warning": candidate_table(ev, ["warning_now"], n, s),
+        "evaluation_by_base_outcome": candidate_table(ev, ["base_success"], n, s),
+        "oracle_evaluation": oracle_table(ev),
+    }
+    chosen = tables["selection_candidates"].sort_values(
+        ["success_difference", "harmed_fraction"], ascending=[False, True]).iloc[0]  # fmt: skip
+    states = frame.drop_duplicates(STATE_KEYS)
+    summary = {
+        "selection_seeds": selection.tolist(), "evaluation_seeds": evaluation.tolist(),
+        "selected_candidate_on_selection_seeds": str(chosen["candidate"]),
+        "branch_states": len(states), "branch_rows": len(frame),
+        "first_warning_states": int(states["first_warning_state"].sum()),
+    }  # fmt: skip
+    return tables, summary
