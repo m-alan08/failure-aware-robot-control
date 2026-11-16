@@ -1,0 +1,31 @@
+{
+  "description": "G2 Stage 1 mechanism isolation (docs/PHASE_G2_PROPOSAL.md section 3; Stage 1 approved 2026-11-16). The condition and configuration matrix is fixed in farc.delaychange.stage1.stage1_cells.",
+  "name": "phase_g2_stage1",
+  "plan": "docs/PHASE_G2_PROPOSAL.md",
+  "plan_sha256": "799fb487ee0ddc62fd50d8f2b94244d8840db3d1b786cc19d007765ad9469361",
+  "model": "$FARC_DATA_DIR/models/contact_predictor/model.pt",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "debug_seed_offset": 3670000,
+  "debug_episodes": 10,
+  "mechanism_seed_offset": 3671000,
+  "mechanism_episodes": 50,
+  "perturbation_seed": 20261603,
+  "estimator": {
+    "nominal_gain": 0.62,
+    "window": 10,
+    "max_lag": 4,
+    "min_transitions": 4,
+    "min_excitation": 0.000225,
+    "min_r2": 0.8,
+    "min_margin": 2.0
+  },
+  "branch_span": 15,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20261603,
+  "output": "$FARC_DATA_DIR/experiments/phase_g2_stage1"
+}
