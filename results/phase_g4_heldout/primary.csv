@@ -1,0 +1,4 @@
+test,scope,configuration,reference,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,step,label
+P1,R: RT+RI,C,contact_learned,0.034722222222222224,0.02388888888888889,0.04583333333333333,0.0,0.0,3600,270,145,3171,1,confirmed and practically meaningful
+P2,R+F: persistent,C,contact_learned,0.005138888888888889,0.0016666666666666668,0.00875,0.0,-0.01,7200,113,76,6874,1,passed
+P3,R: RT+RI,C,sham_C_cross_yoked,0.03166666666666667,0.021666666666666667,0.041944444444444444,0.0,0.0,3600,258,144,3182,2,meaningful

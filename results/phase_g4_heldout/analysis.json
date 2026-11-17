@@ -1,0 +1,50 @@
+{
+  "verdict": "C confirmed, with episode-specific detection confirmed",
+  "gates_passed": true,
+  "step1_p_iut": 0.0,
+  "step1_passed": true,
+  "step2_passed": true,
+  "P1_label": "confirmed and practically meaningful",
+  "P3_label": "meaningful",
+  "primary": {
+    "P1": {
+      "estimate": 0.0347,
+      "ci": [
+        0.0239,
+        0.0458
+      ],
+      "p": 0.0,
+      "label": "confirmed and practically meaningful"
+    },
+    "P2": {
+      "estimate": 0.0051,
+      "ci": [
+        0.0017,
+        0.0088
+      ],
+      "p": 0.0,
+      "label": "passed"
+    },
+    "P3": {
+      "estimate": 0.0317,
+      "ci": [
+        0.0217,
+        0.0419
+      ],
+      "p": 0.0,
+      "label": "meaningful"
+    }
+  },
+  "episodes": 155700,
+  "plan_sha256": "2382ea3802f30ac00135c1708f8bb977cd721a2892672d75964aecbecfc85a68",
+  "constants": {
+    "C_threshold": 12.0,
+    "C_sigma0_mm": 4.0,
+    "C_variant": "gauss"
+  },
+  "raw_sha256": {
+    "episodes.csv.gz": "23e1664ad721ae8fbae3dc43b97797018b1247157bc57796f0c789e20ad305c7",
+    "steps.csv.gz": "035fbd9581bda07e842e831fb3f09fbe1b53ee774d462e77b93043a5923ba48b",
+    "metadata.json": "0e1bdb2262c0009dbc038b0d04ffd684921e29910e9d96e6d60ad6fb81d1595c"
+  }
+}
