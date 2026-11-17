@@ -136,3 +136,11 @@ seed.
 |---|---|---|
 | Candidate C on the frozen policy | F1 contact model (2 × 256 MLP), plus the estimator and detector (no learning) | 352,800 model-training transitions; no policy training |
 | R1 / R2 retraining | full SAC+HER policy per seed | 1,000,000 environment steps and about 1.85 CPU-hours per seed |
+
+## Stage 3 status
+
+- **Decision:** on 2026-11-17 the user chose **not yet** to run the Stage 3 held-out
+  confirmation.
+- **Seeds:** 4,000,600–899 remain unused and reserved. No Phase H guard admits any held-out
+  seed.
+- **Status of these results:** they remain development-only.
