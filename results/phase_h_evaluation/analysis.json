@@ -1,0 +1,39 @@
+{
+  "primary": {
+    "H1": {
+      "estimate": -0.0019,
+      "ci": [
+        -0.0144,
+        0.0106
+      ],
+      "p_holm": 0.0064,
+      "result": "supported"
+    },
+    "H2": {
+      "estimate": 0.0094,
+      "ci": [
+        -0.0036,
+        0.0219
+      ],
+      "p_holm": 0.0792,
+      "result": "not supported"
+    },
+    "H3": {
+      "estimate": 0.2863,
+      "ci": [
+        0.27,
+        0.3028
+      ],
+      "p_holm": 0.0,
+      "result": "supported"
+    }
+  },
+  "nominal_gates_passed": false,
+  "training_failed": [],
+  "episodes": 225000,
+  "raw_sha256": {
+    "episodes.csv.gz": "bb6080c7c317c95c1186d0a56a7488b15cb9595b3556117badfd2af3acf58fae",
+    "steps.csv.gz": "44ed060a9c5d166a116eaed4e23ba11d2a7911b1e1a0d3bf93f535144e39d75b",
+    "metadata.json": "5a7f0e2b8b626465786892435c8a4063e908d8811e939e9b178c6ada645f2b88"
+  }
+}

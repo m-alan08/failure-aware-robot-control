@@ -1,0 +1,5 @@
+test,scope,configuration,reference,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,passed
+nominal,H_undisturbed,retrained_R1,base_only,-0.02666666666666667,-0.03888888888888889,-0.014444444444444444,0.8799,-0.02,900,9,33,891,False
+nominal,E_C0_undisturbed,retrained_R1,base_only,-0.02666666666666667,-0.03888888888888889,-0.014444444444444444,0.8799,-0.02,900,9,33,891,False
+nominal,H_undisturbed,retrained_R2,base_only,-0.03,-0.044444444444444446,-0.015555555555555555,0.9279,-0.02,900,9,36,891,False
+nominal,E_C0_undisturbed,retrained_R2,base_only,-0.03,-0.044444444444444446,-0.015555555555555555,0.9279,-0.02,900,9,36,891,False
