@@ -78,3 +78,36 @@ def check_g2_seeds(seeds: list[int], role: str) -> None:
     a, b = G2_SEED_BLOCKS[role]
     if not all(a <= s < b for s in seeds):
         raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
+
+
+# --- Phase G3 (docs/PHASE_G3_PROPOSAL.md, section 4.1); every G2 block is now used ------------
+
+G3_USED_SEED_RANGES = {
+    **G2_USED_SEED_RANGES,
+    **{f"phase_g2_{role}": block for role, block in G2_SEED_BLOCKS.items()},
+}
+G3_SEED_BLOCKS = {
+    "debugging": (3_680_000, 3_680_010),
+    "evaluation": (3_681_000, 3_682_000),
+    "exploratory": (3_682_000, 3_682_100),  # post-hoc only, labelled as such
+}
+
+
+def check_g3_seeds(seeds: list[int], role: str) -> None:
+    """As ``check_g2_seeds``, for the G3 blocks; every seed >= 4,000,000 is refused."""
+    if role not in G3_SEED_BLOCKS:
+        raise AdaptationConfigError(f"unknown G3 seed role {role!r}")
+    if not seeds:
+        raise AdaptationConfigError(f"{role} needs at least one seed")
+    held_low, _ = SEED_RANGES["heldout"]
+    if any(s >= held_low for s in seeds):
+        raise AdaptationConfigError("held-out seeds (4,000,000+) are reserved")
+    low, high = SEED_RANGES["validation"]
+    if not all(low <= s < high for s in seeds):
+        raise AdaptationConfigError(f"{role} seeds must lie in the validation range")
+    for name, (a, b) in G3_USED_SEED_RANGES.items():
+        if any(a <= s < b for s in seeds):
+            raise AdaptationConfigError(f"{role} seeds overlap {name} [{a}, {b})")
+    a, b = G3_SEED_BLOCKS[role]
+    if not all(a <= s < b for s in seeds):
+        raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
