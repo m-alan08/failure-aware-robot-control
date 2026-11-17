@@ -461,6 +461,15 @@ add +2.9 [+2.4, +3.4] over C. C alarms a median 1–2 steps after a transition, 
 
 ## 13. Related-work research agenda
 
+> **Update (2026-11-17):** a targeted literature check now exists in `docs/RELATED_WORK.md`,
+> with the novelty assessment in `docs/NOVELTY_AUDIT.md`.
+> - **Closest prior work for compensation:** Wafi (2026, arXiv:2611.00668), a frozen DDPG actor
+>   plus a Smith predictor with a fixed nominal delay.
+> - **Closest prior work for change detection:** Wang et al. (2025, RA-L,
+>   doi:10.1109/LRA.2025.3536291), Bayesian online change-point detection for non-stationary
+>   delays in RL.
+> - **Consequence:** no algorithmic novelty is claimed. The table below is the original agenda.
+
 No literature search has been done for this report. The relationships below are conceptual.
 The two classical references named are the standard originators of their methods; they should
 still be checked bibliographically before citation.
