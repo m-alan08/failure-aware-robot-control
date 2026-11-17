@@ -111,3 +111,37 @@ def check_g3_seeds(seeds: list[int], role: str) -> None:
     a, b = G3_SEED_BLOCKS[role]
     if not all(a <= s < b for s in seeds):
         raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
+
+
+# --- Phase G4 (docs/PHASE_G4_HELDOUT_PROPOSAL.md, section 2) -----------------------------------
+
+G4_USED_SEED_RANGES = {
+    **G3_USED_SEED_RANGES,
+    **{f"phase_g3_{role}": block for role, block in G3_SEED_BLOCKS.items()},
+}
+G4_DEBUGGING = (3_690_000, 3_690_010)
+# The only held-out slice G4 may use. 4,000,000-4,000,299 were used by the contact-model
+# confirmation; nothing at or above 4,000,600 is approved.
+G4_CONFIRMATION = (4_000_300, 4_000_600)
+
+
+def check_g4_seeds(seeds: list[int], role: str) -> None:
+    """``debugging``: the fresh validation block only. ``confirmation``: exactly the approved
+    held-out slice [4,000,300, 4,000,600). This is the only G-phase guard that admits held-out
+    seeds."""
+    if not seeds:
+        raise AdaptationConfigError(f"{role} needs at least one seed")
+    if role == "debugging":
+        held_low, _ = SEED_RANGES["heldout"]
+        if any(s >= held_low for s in seeds):
+            raise AdaptationConfigError("held-out seeds (4,000,000+) are reserved")
+        for name, (a, b) in G4_USED_SEED_RANGES.items():
+            if any(a <= s < b for s in seeds):
+                raise AdaptationConfigError(f"debugging seeds overlap {name} [{a}, {b})")
+        a, b = G4_DEBUGGING
+    elif role == "confirmation":
+        a, b = G4_CONFIRMATION
+    else:
+        raise AdaptationConfigError(f"unknown G4 seed role {role!r}")
+    if not all(a <= s < b for s in seeds):
+        raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
