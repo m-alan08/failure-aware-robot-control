@@ -61,15 +61,19 @@ def test_schedules_are_deterministic_bounded_and_independent_of_policy():
             tr = transitions(s)
             if cell.family == "RT":
                 ((onset, dur, d),) = p
+                assert dur is not None
                 assert 4 <= onset <= 34 and 3 <= dur <= 16 and onset + dur <= 46
                 assert [k for _, k in tr] == ["onset", "end"]
             elif cell.family == "RI":
                 assert 4 <= p[0][0] <= 12 and len(p) >= 2
                 for (o1, d1, _), (o2, _, _) in zip(p[:-1], p[1:], strict=True):
+                    assert d1 is not None
                     assert 3 <= d1 <= 10 and 3 <= o2 - (o1 + d1) <= 10
                 assert all(o <= 44 for o, _, _ in p)
             elif cell.family == "RS":
-                assert 12 <= p[0][1] <= 32 and [k for _, k in tr] == ["change"]
+                change = p[0][1]
+                assert change is not None
+                assert 12 <= change <= 32 and [k for _, k in tr] == ["change"]
             elif cell.family == "RP":
                 assert 0 <= p[0][0] <= 20 and p[0][1] is None
             else:
