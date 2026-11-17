@@ -1,0 +1,19 @@
+{
+  "name": "phase_h_R2",
+  "env_id": "FetchPush-v4",
+  "seed": 0,
+  "total_steps": 1000000,
+  "episodes": 20000,
+  "train_wall_seconds": 6705.97,
+  "periodic_eval_seconds": 117.54,
+  "final_eval": {
+    "episodes": 100,
+    "success_rate": 0.98,
+    "success_ci_low": 0.95,
+    "success_ci_high": 1.0,
+    "mean_return": -13.27,
+    "return_ci_low": -14.91,
+    "return_ci_high": -11.74,
+    "mean_final_distance": 0.024720517196466552
+  }
+}

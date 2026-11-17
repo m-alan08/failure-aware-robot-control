@@ -211,6 +211,7 @@ DERIVED = ("primary", "secondary", "descriptive", "gates", "competence", "succes
            "per_seed", "latency", "rates")  # fmt: skip
 
 
-def retrained_paths(output: str) -> dict[str, str]:
-    return {f"{arm}_seed{k}": str(Path(output) / f"phase_h_{arm}_seed{k}" / "checkpoint.pt")
+def retrained_paths(output: str, suffix: str = "") -> dict[str, str]:
+    """``suffix="_stage0"`` selects the Stage-0 code-check checkpoints (debug run only)."""
+    return {f"{arm}_seed{k}": str(Path(output) / f"phase_h_{arm}{suffix}_seed{k}" / "checkpoint.pt")
             for arm in ARMS for k in range(3)}  # fmt: skip

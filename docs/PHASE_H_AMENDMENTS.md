@@ -82,3 +82,27 @@ used.
 - **"Persistent" for H3/S3:** RP ∪ F-P ∪ E C1–C7. **"RT + RI":** Arm R only.
 - **Training-failure flag:** a retrained policy's mean success below 90% on `H_undisturbed`
   and `E_C0_undisturbed` combined.
+
+## Recorded after Stage 1 (training), before any evaluation seed was used
+
+**J9. Training completed as planned.**
+- All 7 runs (R1 and R2 × seeds 0–2, plus the nominal seed-0 retrain) reached 1,000,000
+  steps, each taking about 6,600–6,720 s, run in parallel.
+- Each checkpoint's metadata records commit `07e4e72` with a clean tree.
+- The six R1/R2 checkpoints are registered in `src/farc/retrain/checkpoints.json`.
+- Upstream's own end-of-training evaluation (100 episodes, no delay, quantrl seeds) gave
+  0.91–1.00. It is recorded in `results/phase_h_training/` and used for nothing (J5).
+- **Launch problem:** a first launch failed at import (`ModuleNotFoundError`) before any
+  training step. The parallel `uv run` invocations raced to reinstall the editable package. No
+  run directory was created. The relaunch used `uv run --no-sync` after a single `uv sync`.
+
+**J10. Nominal retrain = frozen seed 0, bitwise.**
+- The nominal seed-0 retrain (ported trainer, no wrapper) is **identical in all 124 tensors** to
+  the frozen `fetch_push_fp32_seed0`: actor, critics, targets, optimiser state, temperature and
+  normaliser.
+- Both checkpoints record the same package versions (torch 2.14.1, numpy 2.5.4, mujoco 3.11.0,
+  gymnasium-robotics 1.4.2).
+- The frozen FetchPush policy is therefore exactly regenerable from quantrl-fetch `95e9611`'s
+  code and `configs/fetch_push.json` **on this machine**. The file hash differs only because of
+  the embedded metadata (J6).
+- Cross-machine reproducibility remains untested.
