@@ -1,0 +1,7 @@
+configuration,condition,estimate,ci_low,ci_high,p_one_sided,bound,episodes,rescued,harmed,reference_successes,harmed_fraction,passed
+cand_A_short_window,H_undisturbed,0.0,0.0,0.0,0.0,-0.02,300,0,0,300,0.0,True
+cand_A_short_window,H_noise0.01,0.0,0.0,0.0,0.0,-0.02,300,0,0,286,0.0,True
+cand_B_two_timescale,H_undisturbed,0.0,0.0,0.0,0.0,-0.02,300,0,0,300,0.0,True
+cand_B_two_timescale,H_noise0.01,0.0,0.0,0.0,0.0,-0.02,300,0,0,286,0.0,True
+cand_C_sequential,H_undisturbed,0.0,0.0,0.0,0.0,-0.02,300,0,0,300,0.0,True
+cand_C_sequential,H_noise0.01,0.0,0.0,0.0,0.0,-0.02,300,0,0,286,0.0,True

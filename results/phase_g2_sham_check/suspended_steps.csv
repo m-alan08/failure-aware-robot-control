@@ -1,0 +1,5 @@
+configuration,mean,sum
+cand_C_sequential,3.158181818181818,20844
+contact_learned,0.0,0
+sham_C_random,3.158181818181818,20844
+sham_C_yoked,3.158181818181818,20844

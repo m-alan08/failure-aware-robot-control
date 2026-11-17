@@ -1,0 +1,12 @@
+configuration,median_us,p99_us
+PRIV_release_oracle,79.0,746.1254200000004
+PRIV_true_schedule,106.375,894.6266600000015
+base_only,70.0,212.0
+cand_A_short_window,83.625,808.458
+cand_B_two_timescale,135.625,865.792
+cand_C_sequential,116.375,865.7504200000004
+contact_learned,82.25,799.79101
+phase_e_predictor,82.417,397.7084200000004
+sham_B_yoked,80.083,710.166
+sham_C_yoked,80.5,714.2084200000004
+sup_A_release,136.708,908.5008300000007

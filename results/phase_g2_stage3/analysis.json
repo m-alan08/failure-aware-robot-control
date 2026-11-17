@@ -1,0 +1,32 @@
+{
+  "primary": {
+    "cand_A_short_window": "not supported",
+    "cand_B_two_timescale": "supported",
+    "cand_C_sequential": "supported"
+  },
+  "safety_gates_passed": {
+    "cand_A_short_window": true,
+    "cand_B_two_timescale": true,
+    "cand_C_sequential": true
+  },
+  "constants": {
+    "A_window": 7,
+    "B_fast_window": 4,
+    "C_threshold": 12.0,
+    "C_sigma0_mm": 4.0,
+    "C_variant": "gauss"
+  },
+  "plan_sha256": "799fb487ee0ddc62fd50d8f2b94244d8840db3d1b786cc19d007765ad9469361",
+  "calibration_record_sha256": "96a0fb4e2402158176d08eb2e7fb6a09ecbd8218e0cf7561734a7254273d4b0d",
+  "episodes": 125400,
+  "step_rows": 6270000,
+  "seeds": [
+    3673000,
+    3673099
+  ],
+  "raw_sha256": {
+    "episodes.csv.gz": "5308b72f104b12cebd6bb8cdfc9fcd6b178ac5d4f668baa133cc98ac84aecf09",
+    "steps.csv.gz": "ab54ed4550898d7395c26f701debc43d4df86f8fecd12aae747e7b11427c27fa",
+    "metadata.json": "97edb004381dea039997f69e1369683f90647ff7e945efc5fa494223e75ae494"
+  }
+}

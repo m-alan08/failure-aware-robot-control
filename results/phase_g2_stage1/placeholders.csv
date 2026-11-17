@@ -1,0 +1,9 @@
+configuration,group,active_steps,steps_with_placeholders,placeholders_mean
+latched_sim,intermittent,3322,3072,2.5159542444310654
+latched_sim,persistent,5196,19,0.0036566589684372593
+latched_sim,transient,7633,6221,2.241058561509236
+schedule_sim,intermittent,2100,0,0.0
+schedule_sim,transient,5700,0,0.0
+true_sim,intermittent,3000,600,0.3
+true_sim,persistent,6600,0,0.0
+true_sim,transient,8400,1800,0.32142857142857145

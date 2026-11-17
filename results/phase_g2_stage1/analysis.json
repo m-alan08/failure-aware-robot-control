@@ -1,0 +1,35 @@
+{
+  "decision_rules": {
+    "recovered_share_k0": {
+      "estimate": 1.3888888888888882,
+      "ci_low": 1.0,
+      "ci_high": 2.3076923076923013
+    },
+    "release_slope_per_step": {
+      "estimate": -0.0020588235294117163,
+      "ci_low": -0.003627450980392119,
+      "ci_high": -0.0005555555555555425
+    },
+    "stale_compensation_is_main_cause": true,
+    "harm_change_drain_minus_replay": {
+      "estimate": 1.1102230246251565e-16,
+      "ci_low": -0.02111111111111108,
+      "ci_high": 0.019999999999999907
+    },
+    "pipeline_dependence_flagged": false,
+    "gap_base_minus_deployed": 0.020000000000000018
+  },
+  "plan_sha256": "799fb487ee0ddc62fd50d8f2b94244d8840db3d1b786cc19d007765ad9469361",
+  "episodes": 19500,
+  "step_rows": 975000,
+  "seeds": [
+    3671000,
+    3671049
+  ],
+  "raw_sha256": {
+    "episodes.csv.gz": "09f170b42f9d6115ab9219d5fee1f37c79834fd5b9f08cbec098277b50a22a2d",
+    "steps.csv.gz": "ff45afc1595db5c521ae8125e75558c8c52326153e829f2a44738fb2efff458a",
+    "branches.csv.gz": "7686a0dd96dbc2456da84053f8fef26a42d4484abb1e0b579603b37d8d2bdffe",
+    "metadata.json": "868e3fdf70de4a949e5f4ce10f065ca476cd82d67da7bc816a94cb9659d740f7"
+  }
+}

@@ -1,0 +1,13 @@
+test,configuration,reference,family,estimate,ci_low,ci_high,p_one_sided,bound,episodes,rescued,harmed,reference_successes,p_holm,status
+S1_changes,cand_A_short_window,contact_learned,S,0.03,0.014166666666666666,0.04583333333333333,0.0,0.0,1200,74,38,1083,0.0,supported
+S1_changes,cand_B_two_timescale,contact_learned,S,0.0025,-0.0125,0.0175,0.385,0.0,1200,55,52,1083,1.0,not supported
+S1_changes,cand_C_sequential,contact_learned,S,0.030833333333333334,0.014166666666666666,0.04833333333333333,0.0,0.0,1200,74,37,1083,0.0,supported
+S2_specificity,cand_C_sequential,sham_C_yoked,T+I,0.005303030303030303,-0.00045454545454545455,0.011212121212121211,0.038,0.0,6600,244,209,6199,0.19,not supported
+S2_specificity,cand_B_two_timescale,sham_B_yoked,T+I,0.0016666666666666668,-0.0028787878787878787,0.006212121212121212,0.2485,0.0,6600,111,100,6166,0.994,not supported
+S3_beyond_G1,cand_C_sequential,sup_A_release,T+I,0.01681818181818182,0.010303030303030303,0.023333333333333334,0.0,0.0,6600,301,190,6123,0.0,supported
+S4_vs_frozen_SAC,cand_A_short_window,base_only,T+I,-0.045454545454545456,-0.05272727272727273,-0.038181818181818185,1.0,-0.02,6600,119,419,6312,1.0,not supported
+S4_vs_frozen_SAC,cand_B_two_timescale,base_only,T+I,-0.020454545454545454,-0.025606060606060604,-0.015454545454545455,0.5709,-0.02,6600,70,205,6312,1.0,not supported
+S4_vs_frozen_SAC,cand_C_sequential,base_only,T+I,-0.011818181818181818,-0.017424242424242425,-0.005909090909090909,0.0016,-0.02,6600,153,231,6312,0.0112,supported
+S5_robustness,cand_A_short_window,contact_learned,NG,-0.0016666666666666668,-0.01668749999999998,0.013333333333333334,0.0112,-0.02,1200,46,48,1091,0.0672,not supported
+S5_robustness,cand_B_two_timescale,contact_learned,NG,0.004166666666666667,-0.004166666666666667,0.0125,0.0,-0.02,1200,16,11,1091,0.0,supported
+S5_robustness,cand_C_sequential,contact_learned,NG,0.005833333333333334,-0.0033333333333333335,0.015,0.0,-0.02,1200,20,13,1091,0.0,supported
