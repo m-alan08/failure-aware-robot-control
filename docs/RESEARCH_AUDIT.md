@@ -64,6 +64,17 @@ exactly.
 
 ## 3. Reproducibility
 
+> **Update (2026-11-17, reproducibility audit; `docs/REPRODUCIBILITY_REPORT.md`):**
+> - **Setup:** a fresh clone at the `artifacts-v1` commit, a freshly built locked environment
+>   and artifacts downloaded from the release into an empty directory.
+> - **Result:** 10 analyses (E pilot, E2, F1, E/F1 held-out, G1, G2 Stage 1, G2 Stage 3, the
+>   G2 sham check, G3, G4) recomputed to **72 / 72 byte-identical tables and 10 / 10
+>   byte-identical summaries**.
+> - **Artifacts:** all 764 archived files, 6 checkpoints and the F1 model verified by hash.
+> - **Limits:** it ran on the original machine, so it is not an independent reproduction.
+>   Phase 1, B, C and D analyses and the simulation itself were not re-run. The text below is
+>   the original audit, kept unchanged.
+
 ### What was verified in this audit
 
 - **G4 re-derivation:** the analysis was re-derived in memory from the raw files
@@ -344,6 +355,13 @@ labelling, and the deployed inputs are the noisy observations.
 | D11 | `results/README.md` describes only the Phase 1 tables. |
 
 ## 8. Checks for an external reviewer
+
+> **Update (2026-11-17):**
+> - Check 2 (re-derive the held-out and G3 analyses) and the artifact part of check 1 are now
+>   automated by `scripts/verify_reproduction.py`. They passed in a clean environment on the
+>   original machine.
+> - Checks 3–5 remain open. In particular, a run on a *different* machine by someone else is
+>   still needed.
 
 1. Restore the archived artifacts (once R1 is fixed) and verify the checkpoint and model hashes.
 2. Re-run `--analyze-only` for `heldout_confirmation_e_f1`, `phase_g3_mechanism` and
