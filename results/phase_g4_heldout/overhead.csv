@@ -1,0 +1,7 @@
+configuration,median_us,p99_us
+C,85.458,507.875
+base_only,29.875,104.541
+contact_learned,62.0,465.917
+sham_C_cross_yoked,62.917,477.54241000000036
+sham_C_random_pause,64.625,476.375
+sham_C_same_condition,47.0,454.708
