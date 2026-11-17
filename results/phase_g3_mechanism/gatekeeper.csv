@@ -1,0 +1,2 @@
+test,configuration,reference,two_sided,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,passed
+G,C_full,contact_learned,False,0.030083333333333333,0.023666666666666666,0.036583333333333336,0.0,0.0,12000,862,501,10617,True

@@ -1,0 +1,7 @@
+test,configuration,reference,two_sided,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,scope,p_holm,label
+M1,C_pause,sham_pause_random,False,0.012,-0.0006666666666666666,0.024666666666666667,0.033,0.0,3000,202,166,2702,RS,0.066,inconclusive
+M2,C_reset,contact_learned,False,0.023666666666666666,0.013666666666666667,0.033666666666666664,0.0,0.0,3000,153,82,2745,RS,0.0,meaningful
+M4,C_full,sham_full_yoked,False,0.03233333333333333,0.02033333333333333,0.044333333333333336,0.0,0.0,3000,207,110,2718,RS,0.0,meaningful
+pause_main,C_pause,contact_learned,False,0.019583333333333335,0.01475,0.0245,0.0,0.0,12000,562,327,10617,RT+RI,0.0,meaningful
+vs_frozen_SAC,C_full,base_only,False,-0.019916666666666666,-0.025083333333333332,-0.014833333333333334,0.4942,-0.02,12000,373,612,11217,RT+RI,0.4942,inconclusive
+yoked_timing,sham_full_yoked,contact_learned,False,0.006166666666666667,0.0005833333333333334,0.011666666666666667,0.0167,0.0,12000,617,543,10617,RT+RI,0.0501,inconclusive

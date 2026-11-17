@@ -1,0 +1,59 @@
+{
+  "gatekeeper_passed": true,
+  "gatekeeper_estimate": 0.030083333333333333,
+  "primary": {
+    "M1": {
+      "estimate": 0.0132,
+      "ci": [
+        0.0085,
+        0.0181
+      ],
+      "p_holm": 0.0,
+      "label": "meaningful"
+    },
+    "M2": {
+      "estimate": -0.0134,
+      "ci": [
+        -0.0201,
+        -0.0068
+      ],
+      "p_holm": 0.9999,
+      "label": "inconclusive"
+    },
+    "M3": {
+      "estimate": 0.0239,
+      "ci": [
+        0.0168,
+        0.0311
+      ],
+      "p_holm": 0.0,
+      "label": "meaningful"
+    },
+    "M4": {
+      "estimate": 0.0239,
+      "ci": [
+        0.0179,
+        0.0297
+      ],
+      "p_holm": 0.0,
+      "label": "meaningful"
+    }
+  },
+  "safety_all_passed": true,
+  "episodes": 324000,
+  "step_rows": 16200000,
+  "sensitivity_pairs": 20155,
+  "constants": {
+    "A_window": 7,
+    "B_fast_window": 4,
+    "C_threshold": 12.0,
+    "C_sigma0_mm": 4.0,
+    "C_variant": "gauss"
+  },
+  "plan_sha256": "ec2c762355ad0c69929b6923dcd6a8c998247617843230c2681d7beb1e1aeac0",
+  "raw_sha256": {
+    "episodes.csv.gz": "63adcdab7153144c61e57e3cae0737aca9dc75feafc9471f22e4c97b113fc3db",
+    "steps.csv.gz": "9ea444b6ee7114ffc92c446bdefd07b338d225884c86054db7c926f47cef3416",
+    "metadata.json": "eb0b2ce42cbdaa1ab6e9cc042f6d4046eca78998b727a2d7524e593e730d8923"
+  }
+}

@@ -1,0 +1,17 @@
+test,configuration,reference,two_sided,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,passed,harmed_fraction
+persistent,C_full,contact_learned,False,0.015,0.008162500000000003,0.02183749999999994,0.0,-0.01,6000,264,174,5573,True,
+persistent,C_reset,contact_learned,False,0.016166666666666666,0.009166666666666667,0.023166666666666665,0.0,-0.01,6000,265,168,5573,True,
+H_undisturbed,C_full,base_only,False,0.0,0.0,0.0,0.0,-0.02,3000,0,0,2976,True,0.0
+H_undisturbed,C_pause,base_only,False,0.0,0.0,0.0,0.0,-0.02,3000,0,0,2976,True,0.0
+H_undisturbed,C_pause_own,base_only,False,0.0,0.0,0.0,0.0,-0.02,3000,0,0,2976,True,0.0
+H_undisturbed,C_reset,base_only,False,0.0,0.0,0.0,0.0,-0.02,3000,0,0,2976,True,0.0
+H_undisturbed,contact_learned,base_only,False,0.0,0.0,0.0,0.0,-0.02,3000,0,0,2976,True,0.0
+H_undisturbed,sham_full_yoked,base_only,False,0.0,0.0,0.0,0.0,-0.02,3000,0,0,2976,True,0.0
+H_undisturbed,sham_pause_random,base_only,False,0.0,0.0,0.0,0.0,-0.02,3000,0,0,2976,True,0.0
+H_noise0.01,C_full,base_only,False,0.0003333333333333333,-0.001,0.0016666666666666668,0.0,-0.02,3000,3,2,2870,True,0.0006968641114982578
+H_noise0.01,C_pause,base_only,False,0.0006666666666666666,-0.0006666666666666666,0.002,0.0,-0.02,3000,3,1,2870,True,0.0003484320557491289
+H_noise0.01,C_pause_own,base_only,False,0.001,0.0,0.0023333333333333335,0.0,-0.02,3000,3,0,2870,True,0.0
+H_noise0.01,C_reset,base_only,False,0.0,-0.0013333333333333333,0.0013333333333333333,0.0,-0.02,3000,2,2,2870,True,0.0006968641114982578
+H_noise0.01,contact_learned,base_only,False,0.0006666666666666666,0.0,0.0016666666666666668,0.0,-0.02,3000,2,0,2870,True,0.0
+H_noise0.01,sham_full_yoked,base_only,False,0.0003333333333333333,-0.0006666666666666666,0.0016666666666666668,0.0,-0.02,3000,2,1,2870,True,0.0003484320557491289
+H_noise0.01,sham_pause_random,base_only,False,0.0006666666666666666,0.0,0.0016666666666666668,0.0,-0.02,3000,2,0,2870,True,0.0
