@@ -33,7 +33,7 @@ literature search has been done.
 
 | criterion | current state | rating |
 |---|---|---|
-| **Algorithmic novelty** | Components are classical (least-squares lag ID, Smith-style prediction, CUSUM, dwell-time switching). The combination around a frozen learned policy with a learned contact model may be new, but that is unverified. | **weak to unknown** |
+| **Algorithmic novelty** | Components are classical (least-squares lag ID, Smith-style prediction, CUSUM, dwell-time switching). The combination around a frozen learned policy with a learned contact model may be new, but that is unverified. *Update 2026-11-17 (`docs/NOVELTY_AUDIT.md`):* a frozen RL policy plus a Smith predictor is published (Wafi 2026), as is change-point detection for non-stationary delays in RL (Wang et al. 2025, RA-L). | **weak** |
 | **Baseline strength** | Frozen SAC, kinematic predictor, gripper-only learned predictor, oracles, shams. No retrained or delay-randomised policy, no delay-aware RL, no MPC or analytic object model. | **weak** for a major venue |
 | **Breadth** | 1 task, 1 simulator, 1 policy family (3 seeds), mocap position control, synthetic transport delay | **narrow** |
 | **Statistical rigour** | Pre-registration with SHA-pinned plans; paired design; cluster bootstrap; IUT, Holm and gatekeeping; two held-out confirmations; write-once data; disclosed negative and failed designs | **strong**, the project's best asset |
