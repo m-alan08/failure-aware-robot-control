@@ -40,7 +40,14 @@ uv run python scripts/verify_checkpoints.py
 
 The import copies each file to `$FARC_DATA_DIR/checkpoints/<id>/checkpoint.pt`, checks the SHA-256 of source and copy, and marks the copy read-only.
 
-**By retraining in quantrl-fetch.** The FetchPush policies were trained at `fdb6266` (on GitHub) with `configs/fetch_push.json`, seeds 0 to 2, on CPU. For example, in quantrl-fetch:
+**By retraining in quantrl-fetch.** The FetchPush policies are recorded as trained at `fdb6266` (on GitHub) with `configs/fetch_push.json`, seeds 0 to 2, on CPU.
+
+> **Correction (2026-11-17):**
+> - `configs/fetch_push.json` does not exist at `fdb6266`. It was first committed two commits
+>   later, in `95e9611` (verified with the GitHub API; see
+>   `docs/PHASE_H_RETRAINED_BASELINE_PROPOSAL.md` §2).
+> - To retrain, check out `95e9611`, which contains the config.
+> - Whether that reproduces the recorded hashes is untested. For example, in quantrl-fetch:
 
 ```bash
 uv run python scripts/train.py --config configs/fetch_push.json --seed 0 1 2 --device cpu

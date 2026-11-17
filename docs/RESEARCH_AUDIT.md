@@ -126,6 +126,13 @@ packages. Cross-machine reproducibility has not been tested; MuJoCo and PyTorch 
 the last bits across platforms, which can flip closed-loop outcomes. The statistical
 conclusions should be robust to this, but bitwise reproduction is not guaranteed elsewhere.
 
+**[DOC] R4b. FetchPush training-config provenance (added 2026-11-17).**
+- `checkpoints.json` and `PROVENANCE.md` record training at quantrl-fetch `fdb6266` with
+  `configs/fetch_push.json` on a clean tree.
+- That file first appears in `95e9611`, two commits later.
+- So the recorded commit cannot have contained the training config.
+- See `docs/PHASE_H_RETRAINED_BASELINE_PROPOSAL.md` §2.
+
 **[DOC] R4. Phase 1 provenance is not public.** quantrl-fetch's `phase1-disturbance-eval`
 commits are not on GitHub, as PROVENANCE.md says; this was confirmed for `633d953`. The FetchReach
 checkpoints come from a dirty tree, but they are not used after Phase 1.
