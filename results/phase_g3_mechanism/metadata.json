@@ -1,0 +1,77 @@
+{
+  "config_file": "configs/delaychange/g3_mechanism.json",
+  "config_sha256": "9f65e086bc51adf198fc67e7c23d615d11269c0f01fe26e1627089b4125ab179",
+  "plan_sha256": "ec2c762355ad0c69929b6923dcd6a8c998247617843230c2681d7beb1e1aeac0",
+  "git_commit": "8a825c96a402162c70840c6158e3adc37cd4a0dd",
+  "role": "evaluation",
+  "seeds": [
+    3681000,
+    3681999
+  ],
+  "configurations": [
+    "base_only",
+    "contact_learned",
+    "C_full",
+    "ORACLE_full",
+    "PRIV_true_schedule",
+    "C_pause",
+    "C_reset",
+    "C_pause_own",
+    "sham_pause_random",
+    "sham_full_yoked",
+    "ORACLE_pause",
+    "ORACLE_reset"
+  ],
+  "checkpoint_sha256": {
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt": "07f6244471f87c75b374da3aacd67a31ded3330c737074d1ad38d7081aeb8ef9",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt": "1f569ab405ed710b17a931fa1c9af44e3cf33f7d5dc7794db1f6a5ea4761aa4f",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt": "901ab0c01a2a3a4edda10c51090d532c1d006d95cb3ed71497592e47fd8e09e9"
+  },
+  "config": {
+    "name": "phase_g3_mechanism",
+    "plan": "docs/PHASE_G3_PROPOSAL.md",
+    "plan_sha256": "ec2c762355ad0c69929b6923dcd6a8c998247617843230c2681d7beb1e1aeac0",
+    "model": "$FARC_DATA_DIR/models/contact_predictor/model.pt",
+    "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+    "checkpoints": [
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+      "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+    ],
+    "debug_seed_offset": 3680000,
+    "debug_episodes": 10,
+    "evaluation_seed_offset": 3681000,
+    "evaluation_episodes": 1000,
+    "perturbation_seed": 20261700,
+    "estimator": {
+      "nominal_gain": 0.62,
+      "window": 10,
+      "max_lag": 4,
+      "min_transitions": 4,
+      "min_excitation": 0.000225,
+      "min_r2": 0.8,
+      "min_margin": 2.0
+    },
+    "constants": {
+      "A_window": 7,
+      "B_fast_window": 4,
+      "C_threshold": 12.0,
+      "C_sigma0_mm": 4.0,
+      "C_variant": "gauss"
+    },
+    "alpha_one_sided": 0.025,
+    "minimum_meaningful": 0.01,
+    "persistent_noninferiority": 0.01,
+    "sac_noninferiority": 0.02,
+    "harm_ci_floor": -0.02,
+    "harm_max_fraction": 0.02,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20261700,
+    "output": "$FARC_DATA_DIR/experiments/phase_g3_mechanism",
+    "role": "evaluation"
+  },
+  "episodes_rows": 324000,
+  "step_rows": 16200000,
+  "seconds": 2886.1,
+  "finished_utc": "2026-11-17T03:41:20Z"
+}

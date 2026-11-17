@@ -1,0 +1,5 @@
+test,configuration,reference,two_sided,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,p_holm,confirmatory,label
+M1,C_pause,sham_pause_random,False,0.01325,0.0085,0.018083333333333333,0.0,0.0,12000,516.0,357.0,10693.0,0.0,True,meaningful
+M2,C_reset,contact_learned,False,-0.013416666666666667,-0.020083333333333335,-0.006833333333333334,0.9999,0.0,12000,744.0,905.0,10617.0,0.9999,True,inconclusive
+M3,interaction,,True,0.023916666666666666,0.016833333333333332,0.031083333333333334,0.0,0.0,12000,,,,0.0,True,meaningful
+M4,C_full,sham_full_yoked,False,0.023916666666666666,0.017916666666666668,0.02975,0.0,0.0,12000,784.0,497.0,10691.0,0.0,True,meaningful

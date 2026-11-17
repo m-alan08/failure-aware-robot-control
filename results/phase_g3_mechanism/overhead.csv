@@ -1,0 +1,13 @@
+configuration,median_us,p99_us
+C_full,111.583,715.917
+C_pause,77.625,673.5
+C_pause_own,79.416,672.2508300000007
+C_reset,84.542,722.417
+ORACLE_full,75.75,646.25
+ORACLE_pause,75.917,658.75
+ORACLE_reset,83.125,714.083
+PRIV_true_schedule,100.084,730.75
+base_only,70.958,161.792
+contact_learned,80.625,666.541
+sham_full_yoked,77.917,675.5
+sham_pause_random,78.458,678.291
