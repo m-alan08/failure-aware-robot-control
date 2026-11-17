@@ -48,7 +48,23 @@ uv run python scripts/train.py --config configs/fetch_push.json --seed 0 1 2 --d
 
 Training is deterministic on CPU in quantrl-fetch's tests, but a retrained file is only accepted here if its hash matches. The FetchReach policies were trained from an uncommitted tree on top of `6355bf7` (see [PROVENANCE.md](../PROVENANCE.md)), so they are not guaranteed to be regenerable bit for bit.
 
-**Archival copy (recommended, not yet done).** The six files total about 28 MB. Attaching them to a GitHub release of this repository (or another artifact store), with the manifest hashes, would remove the dependency on a local quantrl-fetch clone. They are not committed to git.
+**Archival copy.** The GitHub release [`artifacts-v1`](https://github.com/m-alan08/failure-aware-robot-control/releases/tag/artifacts-v1) (2026-11-17, private like the repository) holds every artifact outside git:
+- the six checkpoints;
+- the F1 contact model and the Phase B failure-predictor models;
+- every raw experiment directory, including both held-out confirmations: 29 tar archives, 764 files, about 1.1 GB.
+
+`MANIFEST.json` in the release lists the SHA-256 of every archive and of every file inside it. Before upload, every archive was extracted and checked against the manifest, `checkpoints.json` and the raw-file hashes in `results/*/analysis.json`. After upload, every asset's size and GitHub SHA-256 digest matched the local copy.
+
+To restore, extract every archive into `$FARC_DATA_DIR`:
+
+```bash
+for f in *.tar; do tar -xf "$f" -C "${FARC_DATA_DIR:-$HOME/farc-data}"; done
+```
+```bash
+uv run python scripts/verify_checkpoints.py
+```
+
+The archives are not committed to git.
 
 ## Seed ranges
 
@@ -58,6 +74,6 @@ Training is deterministic on CPU in quantrl-fetch's tests, but a retrained file 
 | 2,000,000+ | quantrl-fetch PTQ/QAT calibration |
 | 3,000,000 to 3,499,999 | disturbance pilots (`stage: "pilot"`) |
 | 3,500,000 to 3,999,999 | validation: baseline characterization, detector design (`stage: "validation"`) |
-| 4,000,000 to 4,999,999 | **reserved final held-out test** (`stage: "heldout"`); never used so far |
+| 4,000,000 to 4,999,999 | **reserved final held-out test** (`stage: "heldout"`). Used once each: 4,000,000–299 (E/F1 confirmation) and 4,000,300–599 (G4 confirmation). Nothing at or above 4,000,600 has been used. |
 
 The config validator enforces these ranges.

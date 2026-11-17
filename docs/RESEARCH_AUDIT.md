@@ -79,7 +79,16 @@ exactly.
 
 ### Findings
 
-**[CRITICAL] R1. No archived artifacts.**
+**[CRITICAL → resolved 2026-11-17] R1. No archived artifacts.**
+- **Status update, added after this audit:** the release
+  [`artifacts-v1`](https://github.com/m-alan08/failure-aware-robot-control/releases/tag/artifacts-v1)
+  now holds the checkpoints, models and all raw experiment directories, with a per-file
+  SHA-256 manifest, and was verified before and after upload (see `docs/DATA.md`).
+- **What remains:**
+  - the release is private, like the repository, so outside reproduction still needs access
+    or a public archive with a DOI;
+  - bitwise re-trainability of the models is still undemonstrated.
+- The original finding follows unchanged.
 - The following exist only in `~/farc-data` on one machine:
   - the six SAC checkpoints;
   - the F1 contact model (`8a960329…`);
