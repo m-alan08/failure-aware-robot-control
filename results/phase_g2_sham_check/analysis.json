@@ -1,0 +1,19 @@
+{
+  "E1_estimate": 0.015909090909090907,
+  "E1_ci": [
+    0.008333333333333333,
+    0.023484848484848483
+  ],
+  "E1_p_one_sided": 0.0,
+  "E1_result": "timing matters",
+  "episodes": 26400,
+  "seeds": [
+    3674000,
+    3674099
+  ],
+  "raw_sha256": {
+    "episodes.csv.gz": "358a9011fabe4b429dba0d706da8913d2f4f14f7d7591f591935a311d703ac24",
+    "steps.csv.gz": "8dfebee9a094896c369d02e1af599686bfef2c23cf840ace0dd4defdd916f049",
+    "metadata.json": "8bcaecaf0cc739c9bf477fb9de721271c6d6ffc901c5db9a1a3043644ae7285c"
+  }
+}

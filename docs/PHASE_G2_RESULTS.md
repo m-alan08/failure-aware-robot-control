@@ -183,3 +183,12 @@ identify them.
 - **On-off delays are the open problem.** Closing that gap needs faster identification than
   any residual test on this estimator gives, or a policy that does not need compensation for
   short delays at all.
+
+## Addendum: exploratory random-timing sham (after the run)
+
+Added after the Stage-3 analysis, on the user's request; nothing above was changed. On the
+exploratory seeds 3,674,000–099, C beat a sham with the same suspension counts at random times
+by +1.6 [+0.8, +2.4] on T + I. Random-timed suspension gave nothing over contact-aware (+0.2
+[−0.2, +0.6]). So the timing of C's suspensions matters; how much of it comes from per-episode
+detection rather than schedule-aligned timing is still open. See
+`docs/PHASE_G2_SHAM_CHECK_RESULTS.md`.
