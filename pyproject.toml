@@ -50,6 +50,11 @@ no_implicit_optional = true
 module = ["gymnasium_robotics.*", "mujoco.*", "matplotlib.*"]
 ignore_missing_imports = true
 
+# Phase H: upstream quantrl-fetch code ported verbatim (src/farc/retrain/qrl); not re-typed here.
+[[tool.mypy.overrides]]
+module = ["farc.retrain.qrl.*"]
+ignore_errors = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]

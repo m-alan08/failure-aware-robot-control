@@ -1,0 +1,4 @@
+test,scope,configuration,reference,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,p_holm,result
+H1,RT+RI,retrained_R2,base_only,-0.0019444444444444444,-0.014444444444444444,0.010555555555555556,0.0032,-0.02,3600,218,225,3343,0.0064,supported
+H2,RT+RI,retrained_R2,C,0.009444444444444445,-0.003611111111111111,0.021944444444444444,0.0792,0.0,3600,251,217,3302,0.0792,not supported
+H3,persistent: RP + F-P + E C1-C7,C,retrained_R2,0.28629629629629627,0.26999814814814815,0.3028148148148148,0.0,-0.02,13500,4160,295,9039,0.0,supported

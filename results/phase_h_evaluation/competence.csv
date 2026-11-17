@@ -1,0 +1,16 @@
+configuration,policy_seed,undisturbed_success,training_failed_flag
+C,0,0.99,False
+C,1,0.9966666666666667,False
+C,2,0.9833333333333333,False
+base_only,0,0.99,False
+base_only,1,0.9966666666666667,False
+base_only,2,0.9833333333333333,False
+contact_learned,0,0.99,False
+contact_learned,1,0.9966666666666667,False
+contact_learned,2,0.9833333333333333,False
+retrained_R1,0,0.9333333333333333,False
+retrained_R1,1,0.9633333333333334,False
+retrained_R1,2,0.9933333333333333,False
+retrained_R2,0,0.99,False
+retrained_R2,1,0.9266666666666666,False
+retrained_R2,2,0.9633333333333334,False

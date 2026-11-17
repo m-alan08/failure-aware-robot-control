@@ -45,9 +45,11 @@ def _u(rng: np.random.Generator, low: int, high: int) -> int:
     return int(rng.integers(low, high + 1))
 
 
-def draw_pulses(cell: RandomCell, cell_index: int,
-                episode_seed: int) -> tuple[tuple[int, int | None, int], ...]:  # fmt: skip
-    rng = np.random.default_rng([GENERATOR_SEED, cell_index, episode_seed])
+def draw_pulses(
+    cell: RandomCell, cell_index: int, episode_seed: int, generator_seed: int = GENERATOR_SEED
+) -> tuple[tuple[int, int | None, int], ...]:
+    """``generator_seed`` defaults to the G3/G4 value; Phase H training passes its own."""
+    rng = np.random.default_rng([generator_seed, cell_index, episode_seed])
     if cell.family == "RT":
         onset = _u(rng, 4, 34)
         return ((onset, _u(rng, 3, min(16, 46 - onset)), cell.delay),)
