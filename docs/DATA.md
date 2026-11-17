@@ -66,6 +66,16 @@ uv run python scripts/verify_checkpoints.py
 
 The archives are not committed to git.
 
+**Verifying a restore.** `scripts/verify_reproduction.py` performs every step of a restore and
+checks it:
+- verifies the release against `MANIFEST.json`;
+- extracts it safely into an empty directory;
+- checks the checkpoints, the F1 model and the raw-file hashes;
+- recomputes the supported analyses and compares them with `results/`.
+
+On 2026-11-17 it passed in a clean clone at the tagged commit (`docs/REPRODUCIBILITY_REPORT.md`).
+Running it on another machine is still outstanding.
+
 ## Seed ranges
 
 | Range | Use |

@@ -1,0 +1,1394 @@
+{
+  "tag": "artifacts-v1",
+  "environment": {
+    "commit": "e7aedddf0666b766f6fe13e9d0726298d1bce693",
+    "uv_lock_sha256": "c6e63ad9e1045118d5f46a3dfe9b61a3c36d333b22e456f792577b5190f8e6c3",
+    "python": "3.12.14",
+    "platform": "macOS-26.5-arm64-arm-64bit",
+    "machine": "arm64",
+    "packages": {
+      "torch": "2.14.1",
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "mujoco": "3.11.0",
+      "gymnasium": "1.4.0",
+      "gymnasium-robotics": "1.4.2",
+      "scipy": null
+    }
+  },
+  "analyses": {
+    "e_pilot": {
+      "tables": {
+        "selection_actuator_pooled": "byte-identical",
+        "evaluation_by_condition": "byte-identical",
+        "evaluation_actuator_pooled": "byte-identical",
+        "evaluation_by_policy_seed": "byte-identical",
+        "estimator_accuracy": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 0.1
+    },
+    "e2": {
+      "tables": {
+        "hypotheses": "byte-identical",
+        "by_condition": "byte-identical",
+        "by_policy_seed": "byte-identical",
+        "identification": "byte-identical",
+        "onset_latency": "byte-identical",
+        "contact_harm": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 0.9
+    },
+    "f1_eval": {
+      "tables": {
+        "hypotheses": "byte-identical",
+        "by_condition": "byte-identical",
+        "prediction_accuracy": "byte-identical",
+        "closed_loop_prediction": "byte-identical",
+        "contact_split": "byte-identical",
+        "harm_cases": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 4.6
+    },
+    "heldout_e_f1": {
+      "tables": {
+        "gatekeeping": "byte-identical",
+        "safety_gates": "byte-identical",
+        "by_condition": "byte-identical",
+        "by_policy_seed": "byte-identical",
+        "prediction_accuracy": "byte-identical",
+        "closed_loop_prediction": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 14.1
+    },
+    "g1": {
+      "tables": {
+        "hypotheses": "byte-identical",
+        "specificity": "byte-identical",
+        "safety_gates": "byte-identical",
+        "by_condition": "byte-identical",
+        "latency": "byte-identical",
+        "false_activations": "byte-identical",
+        "false_releases": "byte-identical",
+        "switching": "byte-identical",
+        "oscillation_cases": "byte-identical",
+        "computation": "byte-identical",
+        "prediction_errors": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 15.2
+    },
+    "g2_stage1": {
+      "tables": {
+        "decision_rules": "byte-identical",
+        "success": "byte-identical",
+        "comparisons": "byte-identical",
+        "mismatch": "byte-identical",
+        "prediction_errors": "byte-identical",
+        "placeholders": "byte-identical",
+        "branches": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 2.1
+    },
+    "g2_stage3": {
+      "tables": {
+        "primary": "byte-identical",
+        "secondary": "byte-identical",
+        "safety_gates": "byte-identical",
+        "comparisons": "byte-identical",
+        "latency": "byte-identical",
+        "rates": "byte-identical",
+        "switching": "byte-identical",
+        "overhead": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 14.8
+    },
+    "g2_sham_check": {
+      "tables": {
+        "comparisons": "byte-identical",
+        "success_by_family": "byte-identical",
+        "suspended_steps": "byte-identical",
+        "activity": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 0.2
+    },
+    "g3": {
+      "tables": {
+        "gatekeeper": "byte-identical",
+        "primary": "byte-identical",
+        "secondary": "byte-identical",
+        "oracle": "byte-identical",
+        "decomposition": "byte-identical",
+        "safety": "byte-identical",
+        "divergence": "byte-identical",
+        "sensitivity": "byte-identical",
+        "latency": "byte-identical",
+        "rates": "byte-identical",
+        "overhead": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 32.5
+    },
+    "g4": {
+      "tables": {
+        "primary": "byte-identical",
+        "secondary": "byte-identical",
+        "gates": "byte-identical",
+        "descriptive": "byte-identical",
+        "success": "byte-identical",
+        "latency": "byte-identical",
+        "rates": "byte-identical",
+        "overhead": "byte-identical"
+      },
+      "summary": "byte-identical",
+      "seconds": 12.7
+    }
+  },
+  "checks": [
+    {
+      "group": "environment",
+      "name": "HEAD is the commit tagged artifacts-v1",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "head": "e7aedddf0666b766f6fe13e9d0726298d1bce693",
+        "tagged": "e7aedddf0666b766f6fe13e9d0726298d1bce693"
+      }
+    },
+    {
+      "group": "environment",
+      "name": "git tree is clean",
+      "passed": true,
+      "required": true,
+      "detail": "clean"
+    },
+    {
+      "group": "environment",
+      "name": "installed versions match uv.lock",
+      "passed": true,
+      "required": true,
+      "detail": "all match"
+    },
+    {
+      "group": "environment",
+      "name": "python version matches .python-version",
+      "passed": true,
+      "required": true,
+      "detail": "3.12.14"
+    },
+    {
+      "group": "archives",
+      "name": "release assets are exactly the manifest's",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "missing": [],
+        "unexpected": []
+      }
+    },
+    {
+      "group": "archives",
+      "name": "checkpoints.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "checkpoints.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__heldout_confirmation_e_f1.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__heldout_confirmation_e_f1.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__heldout_confirmation_e_f1_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__heldout_confirmation_e_f1_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase1_extended.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase1_extended.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_c_development.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_c_development.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_d_full.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_d_full.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_d_pilot.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_d_pilot.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_d_placebo.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_d_placebo.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_e2_delay.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_e2_delay.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_e2_delay_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_e2_delay_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_e_pilot.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_e_pilot.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_dynamics_data.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_dynamics_data.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_eval.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_eval.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_eval_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_eval_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_exploratory_ablations.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_f1_exploratory_ablations.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g1_supervision.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g1_supervision.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g1_supervision_calibration.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g1_supervision_calibration.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g1_supervision_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g1_supervision_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage1.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage1.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage1_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage1_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3_calibration.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3_calibration.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3_sham_check.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g2_stage3_sham_check.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g3_mechanism.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g3_mechanism.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g3_mechanism_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g3_mechanism_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g4_heldout.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g4_heldout.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g4_heldout_debug.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "experiments__phase_g4_heldout_debug.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "models.tar hash",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "models.tar paths are safe and match the manifest",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "archives",
+      "name": "all archives verified",
+      "passed": true,
+      "required": true,
+      "detail": "29/29"
+    },
+    {
+      "group": "files",
+      "name": "all manifest files verified",
+      "passed": true,
+      "required": true,
+      "detail": "764/764"
+    },
+    {
+      "group": "files",
+      "name": "no files outside the manifest in the data directory",
+      "passed": true,
+      "required": true,
+      "detail": null
+    },
+    {
+      "group": "models",
+      "name": "checkpoints match checkpoints.json",
+      "passed": true,
+      "required": true,
+      "detail": "6/6"
+    },
+    {
+      "group": "models",
+      "name": "F1 contact model matches its pinned hash",
+      "passed": true,
+      "required": true,
+      "detail": "8a960329371c"
+    },
+    {
+      "group": "e_pilot",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "e_pilot",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "10800 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "e_pilot",
+      "name": "table selection_actuator_pooled",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e_pilot",
+      "name": "table evaluation_by_condition",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e_pilot",
+      "name": "table evaluation_actuator_pooled",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e_pilot",
+      "name": "table evaluation_by_policy_seed",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e_pilot",
+      "name": "table estimator_accuracy",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e_pilot",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e2",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "e2",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "19800 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "e2",
+      "name": "table hypotheses",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e2",
+      "name": "table by_condition",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e2",
+      "name": "table by_policy_seed",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e2",
+      "name": "table identification",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e2",
+      "name": "table onset_latency",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e2",
+      "name": "table contact_harm",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "e2",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "f1_eval",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "f1_eval",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "13500 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "f1_eval",
+      "name": "table hypotheses",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "f1_eval",
+      "name": "table by_condition",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "f1_eval",
+      "name": "table prediction_accuracy",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "f1_eval",
+      "name": "table closed_loop_prediction",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "f1_eval",
+      "name": "table contact_split",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "f1_eval",
+      "name": "table harm_cases",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "f1_eval",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "40500 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "table gatekeeping",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "table safety_gates",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "table by_condition",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "table by_policy_seed",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "table prediction_accuracy",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "table closed_loop_prediction",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "heldout_e_f1",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "g1",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "42900 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "g1",
+      "name": "table hypotheses",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table specificity",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table safety_gates",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table by_condition",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table latency",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table false_activations",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table false_releases",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table switching",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table oscillation_cases",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table computation",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "table prediction_errors",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g1",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "branches.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "g2_stage1",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "19500 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "table decision_rules",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "table success",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "table comparisons",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "table mismatch",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "table prediction_errors",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "table placeholders",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "table branches",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage1",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "g2_stage3",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "125400 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table primary",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table secondary",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table safety_gates",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table comparisons",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table latency",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table rates",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table switching",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "table overhead",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_stage3",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_sham_check",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "g2_sham_check",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "26400 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "g2_sham_check",
+      "name": "table comparisons",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_sham_check",
+      "name": "table success_by_family",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_sham_check",
+      "name": "table suspended_steps",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_sham_check",
+      "name": "table activity",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g2_sham_check",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "g3",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "324000 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "g3",
+      "name": "table gatekeeper",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table primary",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table secondary",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table oracle",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table decomposition",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table safety",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table divergence",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table sensitivity",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table latency",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table rates",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "table overhead",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g3",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "raw files match the committed analysis.json",
+      "passed": true,
+      "required": true,
+      "detail": {
+        "episodes.csv.gz": "match",
+        "steps.csv.gz": "match",
+        "metadata.json": "match"
+      }
+    },
+    {
+      "group": "g4",
+      "name": "paired design complete (one row per pair, same pairs per condition)",
+      "passed": true,
+      "required": true,
+      "detail": "155700 rows, 0 duplicates, 0 incomplete conditions"
+    },
+    {
+      "group": "g4",
+      "name": "table primary",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "table secondary",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "table gates",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "table descriptive",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "table success",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "table latency",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "table rates",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "table overhead",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    },
+    {
+      "group": "g4",
+      "name": "summary (analysis.json)",
+      "passed": true,
+      "required": true,
+      "detail": "byte-identical"
+    }
+  ],
+  "failed": 0,
+  "passed": true
+}

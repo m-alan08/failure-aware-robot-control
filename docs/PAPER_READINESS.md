@@ -39,7 +39,7 @@ literature search has been done.
 | **Statistical rigour** | Pre-registration with SHA-pinned plans; paired design; cluster bootstrap; IUT, Holm and gatekeeping; two held-out confirmations; write-once data; disclosed negative and failed designs | **strong**, the project's best asset |
 | **Real-world transfer** | none | **absent** |
 | **Compute and latency** | Per-step medians of 71–116 µs on a laptop core (descriptive, concurrent processes); no embedded or real-time measurement; model inference not profiled separately | **minimal** |
-| **Reproducibility** | Code, configs, seeds, hashes and analysis are complete in git, and a held-out analysis re-derives exactly. Artifacts (checkpoints, model, raw data) are not archived, and G1–G4 are on unmerged branches. | **good internally, not yet independent** |
+| **Reproducibility** | Code, configs, seeds, hashes and analysis are complete in git. Since 2026-11-17, every artifact is archived in the private release `artifacts-v1`, and one command (`scripts/verify_reproduction.py`) restores it and recomputes 10 analyses, including both held-out confirmations, **byte-identically** in a clean environment. Not yet independent: same machine, private access, simulation not re-run, Phases 1/B–D not covered. G1–G4 are still on unmerged branches. | **good, verified on one machine; not yet independent** |
 | **Limitations** | Thoroughly documented per phase, and consolidated in the audit | **strong** |
 
 ## 3. Readiness by venue
@@ -110,7 +110,9 @@ Listed in order of value. Each would need its own pre-registered plan and approv
    conditional on three policies.
 7. **Systems measurements:** single-process, real-time latency of the estimator, detector and
    learned rollout on the target compute, including worst-case timing.
-8. **Archived artifacts** with a DOI, and a one-command reproduction of every held-out table.
+8. **A public, DOI-backed archive** and an *independent* run of the existing one-command
+   verification on another machine. The private release and the command exist and pass
+   (`docs/REPRODUCIBILITY_REPORT.md`).
 
 ## 5. What is publishable now, honestly stated
 
