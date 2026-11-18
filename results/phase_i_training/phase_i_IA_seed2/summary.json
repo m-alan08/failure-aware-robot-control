@@ -1,0 +1,19 @@
+{
+  "name": "phase_i_IA",
+  "env_id": "FetchPush-v4",
+  "seed": 2,
+  "total_steps": 1000000,
+  "episodes": 20000,
+  "train_wall_seconds": 5499.98,
+  "periodic_eval_seconds": 84.85,
+  "final_eval": {
+    "episodes": 100,
+    "success_rate": 1.0,
+    "success_ci_low": 1.0,
+    "success_ci_high": 1.0,
+    "mean_return": -11.2,
+    "return_ci_low": -12.55,
+    "return_ci_high": -9.94,
+    "mean_final_distance": 0.018827633753876114
+  }
+}

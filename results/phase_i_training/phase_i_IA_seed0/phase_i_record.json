@@ -1,0 +1,28 @@
+{
+  "arm": "IA",
+  "seed": 0,
+  "stage0": false,
+  "checkpoint_sha256": "615b7abfe155196692e2fad63331b7be1257cedbf72557699a590edf384d46eb",
+  "git_commit_at_end": "fd2a71a6a5a993d4d2f58db053d51c949a754223",
+  "config_sha256": "133b8ee9bd6ea534ae102fb24b3607156b0370f13a273b1d5263022d963b69d9",
+  "plan_sha256": "409b2f8eac109fed3e898d78446e988d61dc9d71f37866c6380365b310d54e49",
+  "summary": {
+    "name": "phase_i_IA",
+    "env_id": "FetchPush-v4",
+    "seed": 0,
+    "total_steps": 1000000,
+    "episodes": 20000,
+    "train_wall_seconds": 5484.72,
+    "periodic_eval_seconds": 81.98,
+    "final_eval": {
+      "episodes": 100,
+      "success_rate": 0.97,
+      "success_ci_low": 0.93,
+      "success_ci_high": 1.0,
+      "mean_return": -12.15,
+      "return_ci_low": -13.84,
+      "return_ci_high": -10.6,
+      "mean_final_distance": 0.021774291440095465
+    }
+  }
+}

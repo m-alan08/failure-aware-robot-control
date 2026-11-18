@@ -1,0 +1,65 @@
+{
+  "description": "Phase I policies (new; warm-started from copies of the frozen base policies). Registered after training, before Stage 2.",
+  "checkpoints": {
+    "phase_i_IA_seed0": {
+      "sha256": "615b7abfe155196692e2fad63331b7be1257cedbf72557699a590edf384d46eb",
+      "arm": "IA",
+      "training_seed": 0,
+      "total_steps": 1000000,
+      "training_commit": "7164d6863264e817b22eb0e2b4a398befe36346a",
+      "warm_start_from": "fetch_push_fp32_seed0",
+      "config_sha256": "133b8ee9bd6ea534ae102fb24b3607156b0370f13a273b1d5263022d963b69d9",
+      "path_template": "$FARC_DATA_DIR/models/retrained_phase_i/{id}/checkpoint.pt"
+    },
+    "phase_i_IA_seed1": {
+      "sha256": "a3e16bc75d863de771ff5c3659c8cd39e4f9fe82d9cf83f075111b51b0665854",
+      "arm": "IA",
+      "training_seed": 1,
+      "total_steps": 1000000,
+      "training_commit": "7164d6863264e817b22eb0e2b4a398befe36346a",
+      "warm_start_from": "fetch_push_fp32_seed1",
+      "config_sha256": "133b8ee9bd6ea534ae102fb24b3607156b0370f13a273b1d5263022d963b69d9",
+      "path_template": "$FARC_DATA_DIR/models/retrained_phase_i/{id}/checkpoint.pt"
+    },
+    "phase_i_IA_seed2": {
+      "sha256": "d97ce87527961969190f6d5e69f39bbbfd4effbafcbeae027d12f237158b6b49",
+      "arm": "IA",
+      "training_seed": 2,
+      "total_steps": 1000000,
+      "training_commit": "7164d6863264e817b22eb0e2b4a398befe36346a",
+      "warm_start_from": "fetch_push_fp32_seed2",
+      "config_sha256": "133b8ee9bd6ea534ae102fb24b3607156b0370f13a273b1d5263022d963b69d9",
+      "path_template": "$FARC_DATA_DIR/models/retrained_phase_i/{id}/checkpoint.pt"
+    },
+    "phase_i_IC_seed0": {
+      "sha256": "b8b4e7785ddc353bf07aa4b2bc3fc33751a37123e4c6d2846fa1fbd63503cf5b",
+      "arm": "IC",
+      "training_seed": 0,
+      "total_steps": 1000000,
+      "training_commit": "7164d6863264e817b22eb0e2b4a398befe36346a",
+      "warm_start_from": "fetch_push_fp32_seed0",
+      "config_sha256": "133b8ee9bd6ea534ae102fb24b3607156b0370f13a273b1d5263022d963b69d9",
+      "path_template": "$FARC_DATA_DIR/models/retrained_phase_i/{id}/checkpoint.pt"
+    },
+    "phase_i_IC_seed1": {
+      "sha256": "75e576c4b674e94ea60291321d7db0ee645bfaf316436f3cc6af9d4d4a66f345",
+      "arm": "IC",
+      "training_seed": 1,
+      "total_steps": 1000000,
+      "training_commit": "7164d6863264e817b22eb0e2b4a398befe36346a",
+      "warm_start_from": "fetch_push_fp32_seed1",
+      "config_sha256": "133b8ee9bd6ea534ae102fb24b3607156b0370f13a273b1d5263022d963b69d9",
+      "path_template": "$FARC_DATA_DIR/models/retrained_phase_i/{id}/checkpoint.pt"
+    },
+    "phase_i_IC_seed2": {
+      "sha256": "b0e31af15ca0711dc48c832375ca45317bbb3daaec688006d76a7a2a24ae2f98",
+      "arm": "IC",
+      "training_seed": 2,
+      "total_steps": 1000000,
+      "training_commit": "7164d6863264e817b22eb0e2b4a398befe36346a",
+      "warm_start_from": "fetch_push_fp32_seed2",
+      "config_sha256": "133b8ee9bd6ea534ae102fb24b3607156b0370f13a273b1d5263022d963b69d9",
+      "path_template": "$FARC_DATA_DIR/models/retrained_phase_i/{id}/checkpoint.pt"
+    }
+  }
+}

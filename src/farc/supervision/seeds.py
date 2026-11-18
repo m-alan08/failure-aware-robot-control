@@ -175,3 +175,32 @@ def check_h_seeds(seeds: list[int], role: str) -> None:
     a, b = H_SEED_BLOCKS[role]
     if not all(a <= s < b for s in seeds):
         raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
+
+
+# --- Phase I (docs/PHASE_I_STRONG_BASELINE_PROPOSAL.md, section 8) -----------------------------
+
+I_USED_SEED_RANGES = {
+    **H_USED_SEED_RANGES,
+    **{f"phase_h_{role}": block for role, block in H_SEED_BLOCKS.items()},
+}
+I_SEED_BLOCKS = {
+    "debugging": (3_700_100, 3_700_110),
+    "evaluation": (3_702_000, 3_702_300),
+}
+
+
+def check_i_seeds(seeds: list[int], role: str) -> None:
+    """Development blocks only; every seed >= 4,000,000 is refused."""
+    if role not in I_SEED_BLOCKS:
+        raise AdaptationConfigError(f"unknown Phase I seed role {role!r}")
+    if not seeds:
+        raise AdaptationConfigError(f"{role} needs at least one seed")
+    held_low, _ = SEED_RANGES["heldout"]
+    if any(s >= held_low for s in seeds):
+        raise AdaptationConfigError("held-out seeds (4,000,000+) are reserved")
+    for name, (a, b) in I_USED_SEED_RANGES.items():
+        if any(a <= s < b for s in seeds):
+            raise AdaptationConfigError(f"{role} seeds overlap {name} [{a}, {b})")
+    a, b = I_SEED_BLOCKS[role]
+    if not all(a <= s < b for s in seeds):
+        raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
