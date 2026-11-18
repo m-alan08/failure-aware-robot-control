@@ -270,14 +270,17 @@ def manifest() -> dict[str, Any]:
     return json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {"checkpoints": {}}
 
 
-def load_phase_i(path: str | Path, checkpoint_id: str,
-                 verify: bool = True) -> tuple[FrozenPolicy, HybridNormalizer]:  # fmt: skip
+def load_phase_i(
+    path: str | Path, checkpoint_id: str, verify: bool = True, manifest_path: Path | None = None
+) -> tuple[FrozenPolicy, HybridNormalizer]:
     path = Path(path)
     sha = file_sha256(path)
     if verify:
-        entry = manifest()["checkpoints"].get(checkpoint_id)
+        mpath = manifest_path or MANIFEST
+        entries = json.loads(mpath.read_text())["checkpoints"] if mpath.exists() else {}
+        entry = entries.get(checkpoint_id)
         if entry is None or entry["sha256"] != sha:
-            raise CheckpointError(f"{checkpoint_id!r}: not in, or not matching, {MANIFEST.name}")
+            raise CheckpointError(f"{checkpoint_id!r}: not in, or not matching, {mpath.name}")
     raw = read_checkpoint(path)
     config = raw["config"]
     known = {f.name for f in fields(EnvConfig)}
