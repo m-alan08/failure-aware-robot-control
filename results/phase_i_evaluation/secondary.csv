@@ -1,0 +1,7 @@
+test,scope,configuration,reference,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,p_holm,result,gate_IC
+S1,persistent,phase_i_IC,C,-0.17014814814814816,-0.1824462962962963,-0.1577037037037037,1.0,-0.02,13500,348,2645,12915,1.0,not supported,baseline not nominally competent
+S2,RT+RI,phase_i_IC,base_only,-0.04611111111111111,-0.058611111111111114,-0.03361111111111111,1.0,-0.02,3600,145,311,3399,1.0,not supported,baseline not nominally competent
+S3,RT+RI,phase_i_IC,C,-0.024722222222222222,-0.0375,-0.011666666666666667,0.9998,0.0,3600,214,303,3322,1.0,not supported,baseline not nominally competent
+S4,persistent,phase_i_IC,retrained_R2,0.12422222222222222,0.11081481481481481,0.13814814814814816,0.0,0.0,13500,3075,1398,8941,0.0,supported,baseline not nominally competent
+S5,persistent,phase_i_IC,phase_i_IA,0.006074074074074074,-0.004962962962962963,0.017333333333333333,0.1399,0.0,13500,1850,1768,10536,0.5596,not supported,baseline not nominally competent
+S6,RT+RI,phase_i_IA,contact_learned,0.010277777777777778,-0.0044444444444444444,0.025277777777777777,0.0964,0.0,3600,325,288,3190,0.482,not supported,baseline not nominally competent

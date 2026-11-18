@@ -1,0 +1,5 @@
+test,scope,configuration,reference,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,per_seed_success,passed
+G-nominal,H_undisturbed + E_C0,phase_i_IA,base_only,-0.005555555555555556,-0.015555555555555555,0.0044444444444444444,0.0038,-0.02,1800,18,28,1782,"{0: 0.9767, 1: 0.9833, 2: 0.9933}",True
+G-noise,H_noise0.01 + E_C8,phase_i_IA,base_only,-0.02,-0.04111111111111111,0.0011111111111111111,0.5209,-0.02,1800,68,104,1722,,False
+G-nominal,H_undisturbed + E_C0,phase_i_IC,base_only,0.0011111111111111111,-0.005555555555555556,0.0077777777777777776,0.0,-0.02,1800,14,12,1782,"{0: 0.99, 1: 0.9867, 2: 0.9967}",True
+G-noise,H_noise0.01 + E_C8,phase_i_IC,base_only,-0.03222222222222222,-0.05333333333333334,-0.011111111111111112,0.8902,-0.02,1800,66,124,1722,,False
