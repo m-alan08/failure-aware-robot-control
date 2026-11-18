@@ -233,3 +233,32 @@ def check_j_seeds(seeds: list[int], role: str) -> None:
     a, b = J_SEED_BLOCKS[role]
     if not all(a <= s < b for s in seeds):
         raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
+
+
+# --- Phase J-2 (docs/PHASE_J2_PROPOSAL.md) ------------------------------------------------------
+
+J2_USED_SEED_RANGES = {
+    **J_USED_SEED_RANGES,
+    **{f"phase_j1_{role}": block for role, block in J_SEED_BLOCKS.items()},
+}
+J2_SEED_BLOCKS = {
+    "debugging": (3_700_300, 3_700_310),
+    "evaluation": (3_704_000, 3_704_300),
+}
+
+
+def check_j2_seeds(seeds: list[int], role: str) -> None:
+    """Development blocks only; every seed >= 4,000,000 is refused."""
+    if role not in J2_SEED_BLOCKS:
+        raise AdaptationConfigError(f"unknown Phase J-2 seed role {role!r}")
+    if not seeds:
+        raise AdaptationConfigError(f"{role} needs at least one seed")
+    held_low, _ = SEED_RANGES["heldout"]
+    if any(s >= held_low for s in seeds):
+        raise AdaptationConfigError("held-out seeds (4,000,000+) are reserved")
+    for name, (a, b) in J2_USED_SEED_RANGES.items():
+        if any(a <= s < b for s in seeds):
+            raise AdaptationConfigError(f"{role} seeds overlap {name} [{a}, {b})")
+    a, b = J2_SEED_BLOCKS[role]
+    if not all(a <= s < b for s in seeds):
+        raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")

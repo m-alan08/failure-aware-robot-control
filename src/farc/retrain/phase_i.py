@@ -58,8 +58,12 @@ MANIFEST = Path(__file__).with_name("checkpoints_phase_i.json")
 # --- training delay distribution (proposal section 4.4) ----------------------------------------
 
 
-def training_schedule(run_seed: int, episode: int) -> tuple[str, DelaySchedule]:
-    rng = np.random.default_rng([GENERATOR_SEED, run_seed, episode])
+def training_schedule(
+    run_seed: int, episode: int, generator_seed: int = GENERATOR_SEED
+) -> tuple[str, DelaySchedule]:
+    """``generator_seed`` defaults to Phase I's; J-2 passes its own (same distribution)."""
+    GENERATOR_SEED_ = generator_seed
+    rng = np.random.default_rng([GENERATOR_SEED_, run_seed, episode])
     group = int(rng.integers(3))
     key = run_seed * 1_000_000 + episode
     if group == 0:
@@ -69,15 +73,15 @@ def training_schedule(run_seed: int, episode: int) -> tuple[str, DelaySchedule]:
         if rng.integers(2) == 0:
             return "constant", DelaySchedule(((0, None, d),))
         cell: RandomCell = RandomCell("RP_i", "RP", d)
-        return "persistent", DelaySchedule(draw_pulses(cell, 2, key, GENERATOR_SEED))
+        return "persistent", DelaySchedule(draw_pulses(cell, 2, key, GENERATOR_SEED_))
     kind = int(rng.integers(3))
     if kind == 0:
         cell = RandomCell("RT_i", "RT", int(rng.choice([2, 4])))
-        return "pulse", DelaySchedule(draw_pulses(cell, 3, key, GENERATOR_SEED))
+        return "pulse", DelaySchedule(draw_pulses(cell, 3, key, GENERATOR_SEED_))
     if kind == 1:
         cell = RandomCell("RI_i", "RI", int(rng.choice([2, 4])))
-        return "on_off", DelaySchedule(draw_pulses(cell, 4, key, GENERATOR_SEED))
-    return "change", DelaySchedule(draw_pulses(RandomCell("RS_i", "RS"), 5, key, GENERATOR_SEED))
+        return "on_off", DelaySchedule(draw_pulses(cell, 4, key, GENERATOR_SEED_))
+    return "change", DelaySchedule(draw_pulses(RandomCell("RS_i", "RS"), 5, key, GENERATOR_SEED_))
 
 
 # --- features (identical in training and evaluation) -------------------------------------------
