@@ -1,0 +1,33 @@
+{
+  "primary": {
+    "J1": {
+      "estimate": -0.02,
+      "ci": [
+        -0.0378,
+        -0.0022
+      ],
+      "p_holm": 0.9867,
+      "result": "not supported"
+    },
+    "J2": {
+      "estimate": 0.0233,
+      "ci": [
+        0.0022,
+        0.0444
+      ],
+      "p_holm": 0.0332,
+      "result": "not supported"
+    }
+  },
+  "gate_checks": {
+    "IA": true,
+    "IA_clean_features": false,
+    "IC": false,
+    "IC_clean_estimate": false
+  },
+  "episodes": 22500,
+  "raw_sha256": {
+    "episodes.csv.gz": "c0d82a5f6e9625638e0dfd02f1ddd8b0ae35914cd4e13813855635f9bbb08f90",
+    "metadata.json": "81886aef3aff40f1483c7a2957f6394dabbd1a000319cece1b535379b5d0e864"
+  }
+}

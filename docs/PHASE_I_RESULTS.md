@@ -140,3 +140,19 @@ Short-delay behaviour varies strongly by seed. Every seed is far below C under p
 - All six Phase I checkpoints are registered with their warm-start sources.
 - Training records are in `results/phase_i_training/`, and the analysis tables in
   `results/phase_i_evaluation/`.
+
+## Erratum (added 2026-11-18; the recorded numbers above are unchanged)
+
+- **Duplicate cells:** this evaluation contains six pairs of conditions that are identical
+  episodes:
+  - `H_undisturbed` = `E_C0_undisturbed`;
+  - `H_noise0.01` = `E_C8_noise0.01`;
+  - `P_d1`–`P_d4` = `E_C1`–`E_C4`.
+- **Gate estimates and CIs are unaffected,** because the cluster bootstrap resamples whole
+  episode seeds. **Rescued, harmed and base-success counts on those cells are doubled.**
+- **The pooled persistent scope double-weights the four constant-delay cells.** With duplicates
+  removed (descriptive):
+  - Phase H H3: +28.6 → +25.8 [+24.2, +27.4];
+  - Phase I P1: −17.6 → −17.2;
+  - Phase I P4: +11.8 → +9.2.
+- **No pre-registered decision changes.** Details are in `docs/PHASE_J1_RESULTS.md`.
