@@ -87,3 +87,17 @@ authoritative.
 - **Cells:** the same 50 cells as Phase H.
 - **Seeds:** perturbation seed 20262050; bootstrap seed 20262000 with 10,000 resamples.
 - **Analysis:** as proposal §6, with the gates first.
+
+## Recorded after Stage 1 (training), before any evaluation seed was used
+
+**K9. Training completed as planned.**
+- All 6 runs (I-A and I-C × seeds 0–2) reached 1,000,000 steps in about 5,400–5,500 s each,
+  run in parallel. Each checkpoint's metadata records commit `7164d68` with a clean tree.
+- All 6 are registered in `src/farc/retrain/checkpoints_phase_i.json`, with their warm-start
+  sources.
+- **The K7 dip recovered in every run.** Upstream's in-training undisturbed evaluation, which is
+  descriptive and used for nothing, ended at 0.94–1.00 at 1M steps. The final 100-episode
+  evaluation gave 0.97–1.00.
+- Rolling training success on the delayed mix ended at 0.85–0.91, against 0.69–0.84 for Phase H
+  R2.
+- No decision is taken on these numbers. The gates are evaluated in Stage 2.
