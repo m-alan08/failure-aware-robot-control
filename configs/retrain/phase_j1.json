@@ -1,0 +1,15 @@
+{
+  "description": "Phase J-1 privileged-input ablation (docs/PHASE_J1_PROTOCOL.md; approved 2026-11-18). Evaluation only.",
+  "protocol": "docs/PHASE_J1_PROTOCOL.md",
+  "protocol_sha256": "b9e7a81ac6477f5617713bcc48b2af53fa550e0c93a319e89e87d94593ba5bbf",
+  "recommendation": "docs/PHASE_J_NEXT_EXPERIMENT_RECOMMENDATION.md",
+  "recommendation_sha256": "01b2c69574d9e7d3bf0327e73e7ec0e642666af32b6ceb72179bd4e4c7a328e1",
+  "debug_seed_offset": 3700200,
+  "debug_episodes": 10,
+  "evaluation_seed_offset": 3703000,
+  "evaluation_episodes": 300,
+  "perturbation_seed": 20262100,
+  "bootstrap_seed": 20262100,
+  "bootstrap_resamples": 10000,
+  "output": "$FARC_DATA_DIR/experiments/phase_j1_ablation"
+}
