@@ -1,0 +1,9 @@
+condition,input,reliable_share,latched_nonzero_share
+C0_undisturbed,noise-free,0.5654666666666667,0.006333333333333333
+C0_undisturbed,noisy view,0.5654666666666667,0.006333333333333333
+C3_delay3,noise-free,0.8343333333333334,0.92
+C3_delay3,noisy view,0.8343333333333334,0.92
+C6_delay3_posnoise0.005,noise-free,0.8418000000000001,0.92
+C6_delay3_posnoise0.005,noisy view,0.73,0.8931999999999999
+C8_posnoise0.01,noise-free,0.9063333333333334,0.0
+C8_posnoise0.01,noisy view,0.18780000000000002,0.0017333333333333335

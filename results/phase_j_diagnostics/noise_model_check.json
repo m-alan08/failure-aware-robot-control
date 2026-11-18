@@ -1,0 +1,20 @@
+{
+  "gripper_noise_std_per_axis": [
+    0.01005,
+    0.00998,
+    0.0099
+  ],
+  "gripper_noise_mean_per_axis": [
+    4.6e-05,
+    0.000241,
+    0.000226
+  ],
+  "lag1_autocorrelation_per_axis": [
+    0.0066,
+    -0.0259,
+    0.0126
+  ],
+  "relative_position_noise_equals_object_minus_gripper": true,
+  "gripper_velocity_noise_max_abs": 0.0,
+  "steps": 15000
+}
