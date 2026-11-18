@@ -1,0 +1,12 @@
+{
+  "steps": 20000,
+  "tensors": 124,
+  "same_keys": true,
+  "differing_tensors": [],
+  "bitwise_identical": true,
+  "seconds": {
+    "upstream": 61.7,
+    "ported": 42.6
+  },
+  "seconds_per_1M_steps_estimate": 2129
+}

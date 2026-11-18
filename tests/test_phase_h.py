@@ -65,7 +65,7 @@ def test_ported_trainer_differs_from_upstream_only_by_the_marked_hook():
     fn = next(
         n for n in ast.parse(src).body if isinstance(n, ast.FunctionDef) and n.name == "train"
     )
-    assert [a.arg for a in fn.args.args][-1] == "env_wrapper"
+    assert "env_wrapper" in [a.arg for a in fn.args.args]
 
 
 # --- simulator --------------------------------------------------------------------------------

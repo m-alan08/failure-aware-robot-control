@@ -1,6 +1,7 @@
 # Ported unchanged from m-alan08/quantrl-fetch @ 95e961118411a4f9f088e96529ab3fa8f83c5880
 # (src/quantrl/training.py); import paths rewritten, plus ONE marked change: the optional
-# ``env_wrapper`` hook (PHASE H CHANGE below), a no-op when None (docs/PHASE_H_AMENDMENTS.md).
+# ``env_wrapper`` hook (PHASE H CHANGE below), a no-op when None (docs/PHASE_H_AMENDMENTS.md),
+# and the ``init_hook`` (PHASE I CHANGE below), a no-op when None (docs/PHASE_I_AMENDMENTS.md).
 from __future__ import annotations
 
 import csv
@@ -100,6 +101,7 @@ def train(
     actor_linear_factory: LinearFactory = plain_linear,
     verbose: bool = True,
     env_wrapper: Any = None,  # PHASE H CHANGE: callable(env, role) with role "train" | "eval"
+    init_hook: Any = None,  # PHASE I CHANGE: callable(agent, normalizer) -> (agent, normalizer)
 ) -> dict[str, Any]:
     run_dir = config.run_dir
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -146,6 +148,8 @@ def train(
         device,
         actor_linear_factory=actor_linear_factory,
     )
+    if init_hook is not None:  # PHASE I CHANGE: warm start and normaliser
+        agent, normalizer = init_hook(agent, normalizer)
 
     def policy(inputs: np.ndarray) -> np.ndarray:
         return agent.act(inputs, deterministic=True)
