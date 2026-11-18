@@ -1,0 +1,3 @@
+test,configuration,reference,estimate,ci_low,ci_high,p,bound,episodes,rescued,harmed,reference_successes,p_holm,result
+J1,IA_clean_features,IA,-0.02,-0.03777777777777778,-0.0022222222222222222,0.9867,0.0,1800,60,96,1720,0.9867,not supported
+J2,IC_clean_estimate,IC,0.023333333333333334,0.0022222222222222222,0.044444444444444446,0.0166,0.0,1800,120,78,1654,0.0332,not supported

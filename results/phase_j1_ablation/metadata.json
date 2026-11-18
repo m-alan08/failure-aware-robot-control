@@ -1,0 +1,75 @@
+{
+  "protocol_sha256": "b9e7a81ac6477f5617713bcc48b2af53fa550e0c93a319e89e87d94593ba5bbf",
+  "config_sha256": "32c4523c87b2b47b8cf7a31cdf6401ea2289791533a717b80dd66a3058eb62e6",
+  "git_commit": "782d258ca7730aea3f89d8ed86e6ceff105d836e",
+  "role": "evaluation",
+  "seeds": [
+    3703000,
+    3703299
+  ],
+  "episodes_rows": 22500,
+  "integrity": [
+    {
+      "cell": "H_undisturbed",
+      "pair": "IA_clean_features vs IA",
+      "identical": true
+    },
+    {
+      "cell": "H_undisturbed",
+      "pair": "IC_clean_estimate vs IC",
+      "identical": true
+    },
+    {
+      "cell": "E_C0_undisturbed",
+      "pair": "IA_clean_features vs IA",
+      "identical": true
+    },
+    {
+      "cell": "E_C0_undisturbed",
+      "pair": "IC_clean_estimate vs IC",
+      "identical": true
+    },
+    {
+      "cell": "H_undisturbed",
+      "pair": "IA_clean_features vs IA",
+      "identical": true
+    },
+    {
+      "cell": "H_undisturbed",
+      "pair": "IC_clean_estimate vs IC",
+      "identical": true
+    },
+    {
+      "cell": "E_C0_undisturbed",
+      "pair": "IA_clean_features vs IA",
+      "identical": true
+    },
+    {
+      "cell": "E_C0_undisturbed",
+      "pair": "IC_clean_estimate vs IC",
+      "identical": true
+    },
+    {
+      "cell": "H_undisturbed",
+      "pair": "IA_clean_features vs IA",
+      "identical": true
+    },
+    {
+      "cell": "H_undisturbed",
+      "pair": "IC_clean_estimate vs IC",
+      "identical": true
+    },
+    {
+      "cell": "E_C0_undisturbed",
+      "pair": "IA_clean_features vs IA",
+      "identical": true
+    },
+    {
+      "cell": "E_C0_undisturbed",
+      "pair": "IC_clean_estimate vs IC",
+      "identical": true
+    }
+  ],
+  "integrity_passed": true,
+  "seconds": 125.4
+}
