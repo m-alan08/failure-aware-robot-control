@@ -1,0 +1,65 @@
+{
+  "description": "Phase J-2 noise-augmented fine-tuning (docs/PHASE_J2_PROPOSAL.md, approved as written 2026-11-18). 'training' identical to Phase I.",
+  "plan": "docs/PHASE_J2_PROPOSAL.md",
+  "plan_sha256": "0b0f0046af6108eca966d50df2346bf9ef892f7da3a422dc669d48b7cc0ed7aa",
+  "training": {
+    "name": "fetch_push_fp32",
+    "env": {
+      "env_id": "FetchPush-v4"
+    },
+    "sac": {
+      "hidden_sizes": [
+        256,
+        256,
+        256
+      ],
+      "batch_size": 512,
+      "gamma": 0.98,
+      "tau": 0.005
+    },
+    "her": {
+      "replay_k": 4,
+      "buffer_episodes": 20000
+    },
+    "train": {
+      "total_steps": 1000000,
+      "random_steps": 0,
+      "update_after": 10000,
+      "updates_per_step": 0.5,
+      "eval_interval": 20000,
+      "eval_episodes": 50
+    },
+    "eval": {
+      "episodes": 100
+    }
+  },
+  "training_seeds": [
+    0,
+    1,
+    2
+  ],
+  "arms": {
+    "J2A": "IA",
+    "J2C": "IC"
+  },
+  "training_generator_seed": 20262200,
+  "training_noise_seed": 20262300,
+  "training_sigma_max_m": 0.01,
+  "estimator": {
+    "nominal_gain": 0.62,
+    "window": 10,
+    "max_lag": 4,
+    "min_transitions": 4,
+    "min_excitation": 0.000225,
+    "min_r2": 0.8,
+    "min_margin": 2.0
+  },
+  "output": "$FARC_DATA_DIR/models/retrained_phase_j2",
+  "debug_seed_offset": 3700300,
+  "debug_episodes": 10,
+  "evaluation_seed_offset": 3704000,
+  "evaluation_episodes": 300,
+  "perturbation_seed": 20262250,
+  "bootstrap_seed": 20262200,
+  "bootstrap_resamples": 10000
+}

@@ -1,0 +1,49 @@
+{
+  "gates_passed": {
+    "J2A": false,
+    "J2C": false
+  },
+  "primary": {
+    "N1": {
+      "estimate": -0.07,
+      "ci": [
+        -0.0989,
+        -0.0411
+      ],
+      "p_holm": 1.0,
+      "result": "not supported"
+    },
+    "N2": {
+      "estimate": -0.0456,
+      "ci": [
+        -0.0744,
+        -0.0167
+      ],
+      "p_holm": 1.0,
+      "result": "not supported"
+    },
+    "D1": {
+      "estimate": -0.1588,
+      "ci": [
+        -0.1736,
+        -0.1444
+      ],
+      "p_holm": 1.0,
+      "result": "not supported"
+    },
+    "D2": {
+      "estimate": -0.1714,
+      "ci": [
+        -0.1848,
+        -0.1582
+      ],
+      "p_holm": 1.0,
+      "result": "not supported"
+    }
+  },
+  "episodes": 289800,
+  "raw_sha256": {
+    "episodes.csv.gz": "5d3bb68965251d3d94dd15cdf92cda64fe1812c653c4a4c30dc1631e6ac59fa9",
+    "metadata.json": "6c332b89110f20d834bb6071ee9c199f03cd5b47338839d4cd7ce33137034816"
+  }
+}
