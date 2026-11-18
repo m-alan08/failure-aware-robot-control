@@ -31,3 +31,15 @@ written 2026-11-18, pinned in `configs/retrain/phase_j2.json`.
 - **Configurations:** frozen SAC, contact-aware, C, Phase I I-A and I-C (registered), and J2-A
   and J2-C (registered after training).
 - **Seeds:** perturbation seed 20262250; bootstrap seed 20262200.
+
+## Recorded after Stage 1, before any evaluation seed was used
+
+**L4. Training completed.**
+- All 6 runs reached 1,000,000 steps in about 7,900–8,200 s each, at commit `cc0a5d4` with a
+  clean tree.
+- They are registered in `src/farc/retrain/checkpoints_phase_j2.json`.
+- **Upstream's end-of-training check** (100 episodes, no delay, no noise, quantrl seeds) gave
+  **0.85–0.96**. Phase I's equivalent was 0.97–1.00.
+  - This hints at a nominal cost of noise augmentation.
+  - It is descriptive only. **The pre-registered G-nominal gate decides.** Nothing is changed in
+    response.

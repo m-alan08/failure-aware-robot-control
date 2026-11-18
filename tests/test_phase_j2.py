@@ -70,3 +70,13 @@ def test_noisy_wrapper_with_zero_sigma_equals_phase_i_and_noise_matches_model():
         assert np.all(d[20:25] == 0) and np.all(d[9:20] == 0)
         assert 0.0 <= noisy.sigma <= 0.01
     assert np.std(np.array(diffs)[:, 0:3]) > 0.002
+
+
+def test_evaluation_cells_have_no_duplicates():
+    from farc.retrain.evaluation_j2 import DUPLICATES, j2_cells
+
+    cells = j2_cells()
+    assert len(cells) == 46 and not {c.name for c in cells} & set(DUPLICATES)
+    specs = [(c.extra, c.fixed.pulses if c.fixed is not None else ("random", c.index))
+             for c in cells]  # fmt: skip
+    assert len({repr(s) for s in specs}) == len(specs)

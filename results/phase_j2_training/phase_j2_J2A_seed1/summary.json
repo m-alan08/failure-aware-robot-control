@@ -1,0 +1,19 @@
+{
+  "name": "phase_j2_J2A",
+  "env_id": "FetchPush-v4",
+  "seed": 1,
+  "total_steps": 1000000,
+  "episodes": 20000,
+  "train_wall_seconds": 8182.62,
+  "periodic_eval_seconds": 146.42,
+  "final_eval": {
+    "episodes": 100,
+    "success_rate": 0.85,
+    "success_ci_low": 0.78,
+    "success_ci_high": 0.92,
+    "mean_return": -15.87,
+    "return_ci_low": -18.76025,
+    "return_ci_high": -13.08,
+    "mean_final_distance": 0.035511901144699196
+  }
+}

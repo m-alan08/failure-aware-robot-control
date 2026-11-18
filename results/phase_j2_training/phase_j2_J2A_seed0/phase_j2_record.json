@@ -1,0 +1,28 @@
+{
+  "arm": "J2A",
+  "seed": 0,
+  "stage0": false,
+  "checkpoint_sha256": "5bf7a3c2aa38785c907c49524cbaa3f2da87d542e2f0e7dc4a16ebc8606bc579",
+  "git_commit_at_end": "179c06bd5f4b4e72b4d52a0db0f669c259490342",
+  "config_sha256": "f7da5fea2f2d4e5b307871ca2c6f0d26de614fb31ba15929d2a6fa4b8018cd6b",
+  "plan_sha256": "0b0f0046af6108eca966d50df2346bf9ef892f7da3a422dc669d48b7cc0ed7aa",
+  "summary": {
+    "name": "phase_j2_J2A",
+    "env_id": "FetchPush-v4",
+    "seed": 0,
+    "total_steps": 1000000,
+    "episodes": 20000,
+    "train_wall_seconds": 8094.3,
+    "periodic_eval_seconds": 129.7,
+    "final_eval": {
+      "episodes": 100,
+      "success_rate": 0.91,
+      "success_ci_low": 0.85,
+      "success_ci_high": 0.96,
+      "mean_return": -14.83,
+      "return_ci_low": -17.310249999999996,
+      "return_ci_high": -12.49,
+      "mean_final_distance": 0.04016900312200683
+    }
+  }
+}
