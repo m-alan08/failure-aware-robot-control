@@ -1,201 +1,310 @@
-# Stage H1 pre-registration: free-space system identification (draft)
+# Stage H1 pre-registration: free-space system identification
 
-**Status: a draft for approval. H1 is NOT approved.**
-- No hardware has been arranged, and nothing here was run.
-- The design, endpoints, decision rules and analysis are fixed *now*. Values that need a
-  measurement are marked **[CAL]** and are filled at the H1 setup step, before any trial, under
-  rules stated here.
+**Status:**
+- **Design approved** (2026-11-18), with the decisions recorded in §0. **H1 execution is NOT
+  approved.**
+- No hardware has been arranged, no code deployed, no robot moved, and nothing here was run.
+- Values that need a measurement are marked **[CAL]**. They are filled during setup, before any
+  trial, under the rules stated here.
 
 **Parent documents:**
 - `docs/HARDWARE_VALIDATION_PROPOSAL.md` (§5, H1);
 - `docs/HARDWARE_H0_RESULTS.md`;
 - `docs/HARDWARE_H1_READINESS.md`, whose blockers B1–B5 must be closed before H1 starts.
 
-**Unchanged:**
-- The Phase E estimator, its constants (window 10, maximum lag 4, R² ≥ 0.8, margin ≥ 2,
-  excitation ≥ 2.25 × 10⁻⁴, nominal gain 0.62), Candidate C, F1 and the frozen SAC policies.
-- **H1 runs no policy and moves no object.**
-- **Simulation held-out seeds 4,000,600–899 are untouched.**
+**Unchanged and frozen:**
+- the Phase E estimator and its constants: window 10, maximum lag 4, R² ≥ 0.8, margin ≥ 2,
+  excitation ≥ 2.25 × 10⁻⁴, nominal gain 0.62;
+- Candidate C (h = 12, σ₀ = 4 mm, Gaussian), F1 and the frozen SAC policies;
+- all earlier results;
+- **simulation held-out seeds 4,000,600–899**, which H1 does not touch.
 
 ---
 
-## 1. Questions and endpoints
+## 0. Approved design decisions (recorded verbatim in intent)
 
-| | question | primary endpoint |
+| # | decision | where |
 |---|---|---|
-| **Q5** | What is the natural command-to-motion latency of the real command path, and how variable is it? | natural delay d₀ in control steps (40 ms), plus the latency distribution in ms |
-| **Q1** | Does the unchanged Phase E estimator identify injected command delays on the real arm? | per injected d, the share of episodes whose **final latched estimate** equals d + d₀ |
-| Q1-gain | Does the real per-step tracking gain match the simulator's K0 = 0.62? | the estimator's gain estimate ĝ = K̂ / K0, reported (not tuned) |
-| S | Sensor noise floor relevant to the estimator | per-axis std and lag-1 autocorrelation of gripper and object position |
+| 1 | 18/20 per delay is a **feasibility threshold**, not an accuracy estimate | §5.2 |
+| 2 | wrong latches ≤ 1/20, with false positives defined for a true total delay of zero | §5.2 |
+| 3 | Q5 first. Injected discrete delay is kept distinct from natural latency, and the additivity of d + d₀ is tested by independent timestamps. Expected answers are frozen before Q1. | §4, §5.1, §5.3 |
+| 4 | target-computer timing gate: p99 ≤ 10 ms, max ≤ 40 ms, ≥ 10,000 cycles | §2 |
+| 5 | order seed 20264100 and the pre-registered sequence selection | §3 |
+| 6 | Candidate C runs in **shadow mode only** | §3.4 |
+| 7 | robot-side limits are authoritative; offline screening is not a safety argument | §1.1 |
+| 8 | safety commissioning is separate from trials and needs host-lab authorisation | §1.2 |
+| 9 | fixed protocol, stopping rules, no selective re-runs, write-once logs | §6 |
+| 10 | models, constants, results and held-out seeds unchanged | header |
 
-**Q5 is measured first,** because Q1's correct answer is d + d₀: the estimator sees the *total*
-command delay, natural plus injected. d₀ is fixed from the Q5 data before any Q1 trial is run.
+## 1. Safety framework
 
-## 2. Pre-trial gates (all must pass; recorded in an amendments log before Q5 starts)
+### 1.1 Authority
+
+- **The robot-side safety layer is authoritative:** the workspace box and the force, velocity
+  and acceleration limits enforced in the robot controller, plus the hardware e-stop.
+- **Nothing in this software can override, relax or replace those limits.** The software stops
+  (H0 observation checks, watchdog) are *additional*, not substitutes.
+- **The offline sequence screening (§3.1) is not a safety argument.** It integrates a
+  simulation-derived nominal gain, and it exists only to avoid planned paths that hit
+  the limits and abort the trial. Physical safety rests entirely on the robot-side limits,
+  host-lab procedures and supervision.
+
+### 1.2 Commissioning (separate from experimental trials)
+
+- **Safety commissioning** is any robot motion used to verify limits, the e-stop, the watchdog,
+  the command mapping or calibration. That includes the low-speed test at injected delay 4 with
+  no object.
+- **Commissioning is not an H1 trial,** and its data are not used in any H1 analysis.
+- **Before execution, commissioning requires** documented host-lab authorisation and
+  supervision by the lab's designated responsible person. The authorisation is filed (without
+  personal data) in the amendments log.
+- Commissioning logs are kept separately, labelled `commissioning`, and are never pooled with
+  trial logs.
+- **No H1 trial starts** until commissioning is complete and signed off by the host lab (gate
+  G0-safety).
+
+## 2. Pre-trial gates (all must pass; recorded in the amendments log before any trial)
 
 | gate | requirement |
 |---|---|
 | **G0-access** | robot access is confirmed, and the platform (Fetch or Franka) is recorded |
-| **G0-safety** | the host lab's written safety approval; a trained operator; an e-stop. The robot-side workspace box and velocity, acceleration and force limits are active **and tested at d = 4 at low speed** with no object. |
-| **G0-cal** | every **[CAL]** value in `configs/hardware/<platform>.json` is measured and `HardwareConfig.require_calibrated()` passes |
-| **G0-sw** | the robot driver, the command mapping and a 40 ms missed-cycle watchdog are implemented, unit-tested, and reviewed. The H0 equivalence suite still passes bitwise on the deployment commit. |
-| **G0-T1** | target-computer timing: the full H0 pipeline under the deployment process (middleware running, robot idle) reaches **p99 ≤ 10 ms and max ≤ 40 ms over ≥ 10,000 cycles**. If it fails, H1 does not start. |
+| **G0-safety** | the host lab's written safety approval; a trained operator; an e-stop within reach. Commissioning (§1.2) is complete and signed off, including the d = 4 low-speed test. |
+| **G0-cal** | every **[CAL]** value in `configs/hardware/<platform>.json` is measured; `HardwareConfig.require_calibrated()` passes |
+| **G0-sw** | the robot driver, command mapping and a 40 ms missed-cycle watchdog are implemented, unit-tested and reviewed. The H0 equivalence suite passes bitwise on the deployment commit. The shadow-mode isolation test passes (§3.4). |
+| **G0-T1** | target-computer timing: the full H0 pipeline, including the shadow C supervisor, in the deployment process (middleware running, robot idle) reaches **p99 ≤ 10 ms and max ≤ 40 ms over ≥ 10,000 consecutive cycles**. If it fails, H1 does not start. |
+| **G0-clock** | robot, sensors and controller timestamps share one monotonic time base, or have a measured, documented offset. The method is recorded. |
 
 ## 3. Design
 
-### 3.1 Excitation: no policy
+### 3.1 Excitation (no policy) and the selection procedure
 
-H1 drives the arm with **pre-generated command sequences**, not the policy. The estimator needs
-command variation (excitation), and running the policy without an object would be off-task.
+**Excitation:**
+- H1 drives the arm with **pre-generated command sequences,** not the policy.
+- **Source:** issued-command sequences (`cmd0..2`) from archived Phase F1 frozen-SAC
+  **no-delay** episodes (`C0_undisturbed`, development seeds 3,653,000–099, policy seed 1).
+  These seeds are already consumed; they serve only as excitation signals.
+- The finger component is 0, and z is set to 0 (planar motion). The estimator uses x and y only.
 
-**Source:**
-- Issued-command sequences (`cmd0..2`) from the archived Phase F1 **frozen-SAC, no-delay**
-  episodes (`C0_undisturbed`, development seeds 3,653,000–099, policy seed 1). That gives
-  realistic magnitudes and spectra.
-- These seeds are already consumed. They are used only as excitation signals, not as a
-  test-set.
-- The finger component is 0. The z component is set to 0, so motion stays planar above the
-  table; this matches the estimator, which uses x and y only.
-
-**Selection rule (fixed now, applied offline after G0-cal, before any trial):**
-1. Integrate each sequence's commanded displacement, K0 × 0.05 m × command per step, from the
+**Selection procedure (fixed now; applied offline after G0-cal, before any trial):**
+1. Integrate each sequence's planned displacement, K0 × 0.05 m × command per step, from the
    calibrated start pose **[CAL]**.
-2. Keep a sequence only if the whole path stays inside the workspace box shrunk by 5 cm on each
-   side **[CAL]**, under every injected d. Delay does not change the commanded path, only its
-   timing.
-3. Take the first **60** admissible sequences in episode-seed order. Never choose them by
+2. Keep a sequence only if the planned path stays inside the robot-side workspace box shrunk by
+   5 cm per side **[CAL]**. Delay shifts only the timing, not the path.
+3. Take the first **60** admissible sequences in episode-seed order. They are never chosen by any
    hardware outcome.
 
-**The admissible set:** 20 sequences per Q1 block × 3 blocks (§3.3). If fewer than 60 are
-admissible, sequences are reused in the same order, and this is disclosed.
+If fewer than 60 are admissible, sequences are reused in the same order, and this is
+disclosed. As §1.1 says, this screening does not establish physical safety.
 
 ### 3.2 Episode
 
-- **Start:** the arm moves to the calibrated start pose at low speed (outside the experiment)
-  and holds for 2 s.
-- **Steps:** 50 control steps at 25 Hz, the same horizon as FetchPush.
-- **Pipeline:** each step runs the H0 software path: adapter → estimator and latch only (no
-  predictor, no policy) → FIFO with injected delay d → the robot's Cartesian command.
-- **Logging:** every step is written to the H0 hash-chained, write-once log.
-- **The estimator** is the unchanged `ActuatorEstimator` with `stage3.Latched`.
+- **Start:** move to the calibrated start pose at low speed (outside the experiment) and hold
+  for 2 s.
+- **Steps:** 50 control steps at 25 Hz.
+- **Active path:** adapter → estimator + `stage3.Latched` (unchanged) → FIFO with injected delay
+  d → robot Cartesian command. No predictor, no policy.
+- **Logging:** every step goes to the H0 hash-chained, write-once log, with command-issue,
+  FIFO-release, driver-send and sensor timestamps (§4.1).
 
 ### 3.3 Conditions and order
 
 | block | content | episodes |
 |---|---|---|
-| **S** (sensor) | robot holding still, puck static on the table, 30 s recording | 3 recordings |
-| **Q5** (latency) | d = 0; excitation sequences 1–20 | 20 |
-| **Q1** | d ∈ {0, 1, 2, 3, 4} × 20 sequences = 100 episodes, run in 3 blocks: within each block, the (sequence, d) order is randomised by a generator with seed **20264100** (fixed now) | 100 |
-| **Q5-repeat** | d = 0; sequences 1–5, at the end of the session (drift check) | 5 |
+| **S** (sensor) | robot holding still, puck static, 30 s | 3 recordings |
+| **Q5** (latency) | d = 0, sequences 1–20 | 20 |
+| **Q1** | d ∈ {0, 1, 2, 3, 4} × 20 sequences, run in 3 blocks. Within each block the (sequence, d) order is randomised by a generator with **seed 20264100**. | 100 |
+| **Q5-repeat** | d = 0, sequences 1–5, at the end of the session (drift check) | 5 |
 
-**Total:** about 125 episodes and about 1 lab day, matching the proposal.
+### 3.4 Candidate C in shadow mode only
 
-## 4. Measurements and analysis (fixed now)
+**What the shadow does:**
+- The C supervisor (`mechanism.sequential`, frozen constants) runs on its **own**
+  `ActuatorEstimator` instance.
+- That instance is fed the same observations and the commands **actually issued by the active
+  controller**.
+- Its decisions (alarm, suspension, trusted lag, CUSUM statistics) are **logged only.**
 
-### 4.1 Q5: natural latency
+**Isolation:** no shadow output reaches the command path, the active estimator, the latch, the
+FIFO or the robot.
 
-**Primary estimator of d₀:**
-- For each Q5 episode, run the unchanged `ActuatorEstimator.estimate()` at the end of the
-  episode. Its least-squares lag at step 49 is the episode's d₀ estimate, kept only if it was
-  delay-reliable.
-- **d₀ is the mode** over reliable Q5 episodes.
-- It is **valid only if** at least 15 of 20 Q5 episodes are reliable and at least 80% of those
-  agree on the mode. Otherwise Q5 is "unresolved" and **Q1 is not run** (§6).
+**Enforcement:**
+- The shadow has no reference to the command path.
+- G0-sw requires a test showing that the issued and executed commands are **bitwise identical**
+  with the shadow enabled and disabled, on recorded H0 replay data.
 
-**Secondary, descriptive:**
-- Latency in ms from cross-correlating the commanded and measured gripper velocity. Reported as
-  median, p95 and max per episode, with the quantisation relative to 40 ms.
-- Q5-repeat compared with Q5, to check drift.
+**Analysis:** shadow results are descriptive only. There is no criterion and no decision depends
+on them.
 
-### 4.2 Q1: delay identification
+## 4. Definitions: injected delay vs natural latency
 
-For each episode:
+### 4.1 Quantities
+
+| symbol | meaning | how it is known |
+|---|---|---|
+| **d** | **injected discrete delay** (0–4 control steps) applied by the FIFO | exact by construction; verified from the log (`executed_source_step = t − d` at every step) |
+| **L** | **natural command-to-motion latency** (continuous, ms): time from the command leaving the controller (driver-send timestamp) to the measured onset of the corresponding gripper motion | independent timestamp measurement (§4.2) |
+| **d₀** | natural latency expressed as the estimator's discrete lag at d = 0 | the estimator's mode in Q5 (§5.1) |
+| **d\*** | the **expected total discrete delay** the estimator should report in a Q1 episode with injected d | fixed before Q1: d\* = d + d₀, valid only if the additivity test passes (§5.3) |
+
+### 4.2 Independent timestamp-based latency measurement (fixed now)
+
+Per episode, on x and y separately and then pooled:
+1. Let c(t) be the issued command at driver-send timestamps, and v(t) the measured gripper
+   velocity at proprioception timestamps, both resampled onto a common 1 ms grid by linear
+   interpolation. Sample times are not altered.
+2. **L_ep** = the lag in [0, 300] ms that maximises the normalised cross-correlation between
+   c(t − lag) and v(t).
+3. Sensor latency **[CAL]** (`proprio_latency_s`) is reported separately. It is not subtracted
+   from L_ep: the estimator sees it too.
+
+**L_ep is computed independently of the estimator.** It never uses estimator outputs.
+
+## 5. Analysis (fixed now)
+
+### 5.1 Q5: natural latency (before any Q1 trial)
+
+**Estimator d₀:** the unchanged estimator's least-squares lag at step 49 of each Q5 episode,
+kept only if it is delay-reliable. **d₀ is the mode** over reliable episodes.
+
+**Timestamp d₀_ts:**
+- d₀_ts = round(median L_ep over Q5 / 40 ms).
+- **Half-step ambiguity:** if (median L_ep mod 40 ms) lies within ±8 ms of 20 ms, the latency is
+  close to a step boundary and d₀_ts is flagged as **ambiguous**.
+
+**Q5 is resolved only if all of these hold:**
+- (a) at least 15 / 20 Q5 episodes are delay-reliable;
+- (b) at least 80% of reliable episodes agree on the mode;
+- (c) d₀_ts is not ambiguous;
+- (d) **d₀ = d₀_ts.**
+
+**Otherwise Q5 is "unresolved",** and Q1 is not run (§7).
+
+**Freezing:** at the end of Q5, d₀ and the expected answers d\* = d + d₀ for every d are written
+to a numbered amendment and committed **before the first Q1 trial**. They are never changed after
+any Q1 data are seen.
+
+**Drift check:** Q5-repeat is reported against Q5, both median L_ep and the estimator lag.
+
+### 5.2 Q1: delay identification
+
+**Per episode:**
 
 | quantity | definition |
 |---|---|
-| **final latched estimate** | the latch's delay at step 49 (the primary quantity) |
-| **correct** | final latched estimate = d + d₀ |
+| **final latched estimate** | the latch's delay at step 49 (primary) |
+| **correct** | final latched estimate = d\* |
 | reliable share | share of steps with `delay_reliable` |
-| correct-when-reliable | share of reliable steps where the estimate is d + d₀ |
+| correct-when-reliable | share of reliable steps whose estimate = d\* |
 | time to first reliable | first step at which the estimate is reliable |
-| wrong latch | final latched estimate ≠ d + d₀ and > 0; a false compensation risk |
 
-**Primary success criterion, per injected d:**
-- **≥ 18 / 20 episodes correct.**
-- For d + d₀ > 4, the true delay exceeds the estimator's maximum lag. Those d are reported
-  descriptively, are expected to fail, and are excluded from the criterion.
-- **Q1 passes** if every eligible d meets the criterion.
-- **Statistical meaning:** with 18/20 the one-sided exact 95% lower bound on accuracy is 0.72.
-  The simulation reference (Phase J-3, noise-free) is 0.90–0.99.
+**Wrong latch, per episode:**
+- **If d\* > 0:** the final latched estimate is > 0 and ≠ d\*. The controller would compensate
+  for the wrong delay.
+- **If d\* = 0** (no injected delay and d₀ = 0): **a false positive** is any final latched
+  estimate > 0. The controller would compensate when no delay exists.
+  - In addition, a **transient false latch** is reported: the latch was > 0 at any step, even if
+    it returned to 0. This is descriptive and has no criterion.
+- A final latched estimate of 0 (abstention) when d\* > 0 is **incorrect but not a wrong latch.**
+  It is the estimator's conservative failure mode, and it is counted against the 18/20 criterion,
+  not the wrong-latch limit.
 
-**Safety-relevant secondary criterion:** wrong latches ≤ 1 / 20 per d. A wrong latch would make
-compensation act on the wrong delay.
+**Eligibility:** d is eligible if d\* ≤ 4, the estimator's maximum lag. Ineligible d are reported
+descriptively and are expected to fail.
 
-**Reported, not a criterion:** the gain estimate ĝ per d (median, interquartile range).
-- The estimator's nominal gain stays 0.62; **nothing is retuned.**
-- If the median ĝ lies outside [0.7, 1.3], that is reported as a plant-model mismatch to be
-  resolved by a *new* proposal before H2. It is not changed in H1.
+**Criteria, per eligible d** (20 episodes each):
+- **Feasibility: ≥ 18 / 20 correct.**
+- **Wrong latches: ≤ 1 / 20.**
+- **Q1 passes** if every eligible d meets both and passes the additivity test (§5.3).
 
-### 4.3 S: sensor noise
+**What 18/20 does and does not mean:**
+- It is a **feasibility threshold**: a pre-set bar for whether identification works well enough
+  on this robot to justify H2.
+- **Observing 18/20 (90%) does not establish 90% population accuracy.** With 20 episodes the
+  one-sided exact (Clopper-Pearson) 95% lower bound for 18/20 is **0.72**, and for 20/20 it is
+  0.86.
+- The result is reported as the observed count with that exact interval. It is not claimed as
+  an accuracy estimate beyond what the interval supports.
+- It applies to one robot, one session, these excitation sequences and injected delays only.
+
+**Reported, never tuned:**
+- the gain estimate ĝ per d (median, interquartile range);
+- if the median ĝ lies outside [0.7, 1.3], that is a plant-model mismatch, to be resolved only by
+  a new proposal.
+
+### 5.3 Additivity test: is d\* = d + d₀ valid? (fixed now)
+
+**Purpose:** d\* assumes that injected discrete delay and natural latency simply add. That is
+checked by timestamps, independently of the estimator.
+
+**For each Q1 delay d:**
+- **(i) FIFO exactness:** in every episode, `executed_source_step = t − d` at every step. This
+  holds by construction and is verified from the log.
+- **(ii) Timestamp additivity:**
+  - Δ_d = median L_ep(Q1, d) − median L_ep(Q5) − d × 40 ms.
+  - **Additivity holds for d if |Δ_d| ≤ 10 ms** (a quarter of a step), with a paired-bootstrap
+    95% CI on Δ_d (2,000 resamples over episodes, seed 20264101) inside ±20 ms.
+
+**If additivity fails for some d:**
+- d\* for that d is **not revised.**
+- That d is reported as "**additivity violated: not interpretable**" and **counts as not
+  passed.**
+- The expected answers are never changed after inspecting Q1 outcomes.
+
+### 5.4 S: sensor noise
 
 For gripper and object position, per axis:
 - the standard deviation and lag-1 autocorrelation over each 30 s still recording, after
   removing a linear trend;
-- the sampling rate actually achieved, and timestamp jitter.
+- the sampling rate achieved, and timestamp jitter.
 
-**Reference points (simulation, J-3):**
-- the estimator abstains increasingly above about 0.5 cm of independent gripper-position noise,
-  and mostly abstains at 1 cm;
-- the H2 design assumes gripper noise ≤ 1 mm.
+**A gripper-position std above 2.5 mm** is flagged as a risk to Q1, but does not stop the
+session. Reference points: J-3 found increasing estimator abstention above about 0.5 cm of
+independent noise.
 
-**A gripper-position std above 2.5 mm** is flagged as a risk for Q1, but does not stop the
-session.
+### 5.5 Logs and integrity
 
-### 4.4 Logs and integrity
+- Every episode log must pass `verify_log`. A broken chain makes the episode invalid; it is
+  reported, never selectively re-run.
+- The analysis code (§4.2, §5) is written, tested on H0 replay data and committed **before** the
+  session. It is run once on the locked logs and never changed afterwards.
+- Raw logs are write-once. A SHA-256 manifest is committed after the session.
 
-- Every episode log must pass `verify_log`. An episode with a broken chain is invalid, and is
-  reported, not re-run selectively.
-- Analysis code is written and committed **before** the session, run once on the locked logs,
-  and not changed afterwards.
-- Raw logs are write-once, and a manifest of SHA-256 hashes is committed after the session.
-
-## 5. Stopping and deviation rules
+## 6. Stopping and deviation rules
 
 | event | rule |
 |---|---|
-| a safety stop (observation error, watchdog, robot-side limit, e-stop) | the episode is recorded as aborted, with its reason. The session pauses for an operator check. After 3 safety stops in one session, H1 stops, the cause is investigated, and a resumption needs your approval. |
-| an aborted episode | **no selective re-run.** One re-run at the end of its block is allowed only for a stop caused by a documented external interruption (for example a person entering the cell), decided before seeing the episode's estimator output |
-| hardware fault | stop; report; any resumption is a new session with the same order |
-| any change to a frozen constant, the selection rule, d₀ after Q1 has started, or the criteria | **not allowed.** Any change is a new, separately approved protocol. |
+| a safety stop (observation error, watchdog, robot-side limit, e-stop) | the episode is recorded as aborted, with its reason, and the session pauses for an operator check. After 3 safety stops in one session, H1 stops; resumption needs your approval and host-lab clearance. |
+| an aborted episode | **no selective re-run.** One re-run at the end of its block is allowed only for a documented external interruption, decided before seeing the episode's estimator output. |
+| hardware fault | stop and report. Resumption is a new session with the same order. |
+| changes | no change to frozen constants, the selection procedure, the order seed, the expected answers d\* after Q1 starts, the additivity rule, or the criteria. Any change needs a new, separately approved protocol. |
 | amendments | numbered, committed before the trials they affect, never after seeing the affected data |
 
-## 6. Outcomes and what they decide (no automatic progression)
+## 7. Outcomes and what they decide (no automatic progression)
 
 | outcome | reading | next step (needs your approval) |
 |---|---|---|
-| Q5 resolved, Q1 passes, wrong latches within limit | identification transfers to the real arm under injected delay | propose H2 (nominal gate) |
-| Q5 unresolved | the natural delay is too variable or the estimator is unreliable at d = 0 on this plant | stop; report; investigate timing or the plant before anything else |
-| Q1 fails for some d | identification does not transfer at those delays | report as a negative result. Any estimator change is a new protocol. |
-| ĝ outside [0.7, 1.3] | the plant gain differs from the simulator | report; resolve in a new proposal before H2 |
-| gripper noise > 2.5 mm | sensing is too noisy for the estimator | report; consider other sensing in a new proposal |
+| Q5 resolved, additivity holds, Q1 passes | identification is feasible on this arm under injected delay | propose H2 (nominal gate) |
+| Q5 unresolved | the natural latency is ambiguous or variable, or the estimator is unreliable at d = 0 | stop and report; investigate timing or the plant first |
+| additivity violated for some d | the injected and natural delays do not combine simply on this system | report; those d are not interpretable. A redesign is a new protocol. |
+| Q1 fails the feasibility threshold or the wrong-latch limit for some d | identification is not shown to be feasible at those delays | report as a negative result; any estimator change is a new protocol |
+| ĝ outside [0.7, 1.3] | plant gain mismatch | report; resolve in a new proposal before H2 |
+| gripper noise > 2.5 mm | sensing too noisy | report; consider other sensing in a new proposal |
 
-**Paper claims allowed from H1:** identification accuracy on *one* robot, under *injected* delay,
-with the measured natural latency. No task-performance claim.
+**Claims allowed:** identification feasibility on *one* robot under *injected* delay, with the
+measured natural latency. They come as counts with exact intervals. No task-performance claim and
+no population-accuracy claim.
 
-## 7. What H1 does not do
+## 8. Not in H1
 
 - No policy, no object contact, no pushing task.
-- No predictor or Candidate C evaluation. The C supervisor may run in *shadow* mode for logging
-  only; this is descriptive and has no criterion.
+- No active predictor or Candidate C. C runs as a logging-only shadow (§3.4).
 - No retuning, no learned-model fitting, no use of simulation held-out seeds.
 
-## 8. Decisions requiring your approval
+## 9. Still required before execution can be approved
 
-1. The design above: excitation from recorded commands, 20 episodes per d, 18/20 per-d
-   criterion, wrong latches ≤ 1/20.
-2. Measuring d₀ first and scoring Q1 against d + d₀.
-3. The pre-trial gates G0, including the target-computer timing requirement.
-4. The order seed 20264100 and the selection rule.
-5. Whether C may run in shadow mode for descriptive logging (default: yes, with no criterion).
-6. **Approval to proceed** only once blockers B1–B5 in `docs/HARDWARE_H1_READINESS.md` are
-   closed. Until then this document stays a draft.
+- Blockers B1–B5 in `docs/HARDWARE_H1_READINESS.md` closed: access, safety approval, platform
+  choice, driver and watchdog, calibration.
+- Commissioning completed under host-lab authorisation (§1.2).
+- The shadow-mode isolation test and the §4.2/§5 analysis code implemented and committed. This is
+  software only, but it needs your instruction.
+- **Your explicit approval of H1 execution.** This document does not grant it.
