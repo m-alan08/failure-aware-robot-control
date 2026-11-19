@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-SCHEMA_VERSION = "h0-1"
+SCHEMA_VERSION = "h1-1"  # h0-1 plus the shadow fields
 # field -> allowed JSON types (None allowed where listed)
 SCHEMA: dict[str, tuple[type, ...]] = {
     "seq": (int,), "prev_sha256": (str,),
@@ -40,6 +40,10 @@ SCHEMA: dict[str, tuple[type, ...]] = {
     "lat_predictor_ns": (int, type(None)), "lat_compensated_policy_ns": (int, type(None)),
     "lat_controller_total_ns": (int, type(None)), "lat_pipeline_total_ns": (int, type(None)),
     "error": (str, type(None)), "safety_event": (str, type(None)),
+    # Candidate C shadow (logging only; None when the shadow is disabled)
+    "shadow_alarm": (bool, type(None)), "shadow_suspended": (bool, type(None)),
+    "shadow_active": (bool, type(None)), "shadow_trusted": (int, type(None)),
+    "shadow_cusum_stats": (list, type(None)), "lat_shadow_ns": (int, type(None)),
 }  # fmt: skip
 
 
