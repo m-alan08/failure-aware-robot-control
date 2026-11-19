@@ -18,6 +18,7 @@ from farc.hardware.controller import HardwareController
 from farc.hardware.fifo import CommandFIFO
 from farc.hardware.logging import empty_record
 from farc.hardware.observation import ObservationAdapter, ObservationError, RawState
+from farc.hardware.shadow import ShadowSupervisor
 
 
 @dataclass
@@ -29,14 +30,17 @@ class CycleOutput:
 
 class HardwarePipeline:
     def __init__(self, adapter: ObservationAdapter, controller: HardwareController,
-                 fifo: CommandFIFO):  # fmt: skip
+                 fifo: CommandFIFO, shadow: ShadowSupervisor | None = None):  # fmt: skip
         self.adapter, self.controller, self.fifo = adapter, controller, fifo
+        self.shadow = shadow  # logging only; never read when forming a command
         self.reset()
 
     def reset(self, schedule=None) -> None:
         self.adapter.reset()
         self.controller.reset()
         self.fifo.reset(schedule)
+        if self.shadow is not None:
+            self.shadow.reset()
         self.aborted: str | None = None
 
     def cycle(self, state: RawState | None, goal_world: np.ndarray) -> CycleOutput:
@@ -52,6 +56,8 @@ class HardwarePipeline:
                 raise ObservationError("missing", "no sensor sample this cycle")
             rec["obs_gripper_stamp_ns"] = int(state.gripper_stamp_ns)
             rec["obs_object_stamp_ns"] = int(state.object_stamp_ns)
+            if state.gripper_receipt_ns is not None:
+                rec["obs_gripper_receipt_ns"] = int(state.gripper_receipt_ns)
             obs = self.adapter.observation(state)
             goal = self.adapter.goal(goal_world)
         except ObservationError as err:
@@ -61,6 +67,10 @@ class HardwarePipeline:
         t1 = time.perf_counter_ns()
         out = self.controller.step(obs, goal)
         fifo = self.fifo.push(out.command, time.monotonic_ns())
+        if self.shadow is not None:  # after the command is final; fed copies only
+            ts = time.perf_counter_ns()
+            rec.update(self.shadow.step(obs[0:3], out.command))
+            rec["lat_shadow_ns"] = time.perf_counter_ns() - ts
         t2 = time.perf_counter_ns()
         rec.update(out.record)
         rec.update({"lat_adapter_ns": t1 - t0, "lat_pipeline_total_ns": t2 - t0,

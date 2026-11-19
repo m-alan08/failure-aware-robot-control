@@ -66,6 +66,9 @@ class RawState:
     object_angular_velocity: np.ndarray
     finger_position: np.ndarray | None = None
     finger_velocity: np.ndarray | None = None
+    # H1-A1: monotonic time the controller received the gripper sample (logged for the
+    # latency analysis; not used by the controller)
+    gripper_receipt_ns: int | None = None
 
 
 def _vec(name: str, v, n: int) -> np.ndarray:
