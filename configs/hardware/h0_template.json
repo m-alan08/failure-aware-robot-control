@@ -1,0 +1,19 @@
+{
+  "description": "Stage H0 template. Every calibration value is a placeholder (null) and must be measured in Stage H1 on the actual robot, cameras and table. Copy per platform (fetch or franka); HardwareConfig.require_calibrated() refuses to run with any null. Do not fill these with guesses.",
+  "platform": "franka",
+  "control_period_s": 0.04,
+  "action_scale_m": 0.05,
+  "p99_budget_s": 0.01,
+  "calibration": {
+    "world_from_base_rotation": null,
+    "world_from_base_translation": null,
+    "object_marker_offset_m": null,
+    "camera_latency_s": null,
+    "proprio_latency_s": null,
+    "max_observation_age_s": null,
+    "max_sensor_skew_s": null,
+    "workspace_min_m": null,
+    "workspace_max_m": null,
+    "finger_position_m": null
+  }
+}
