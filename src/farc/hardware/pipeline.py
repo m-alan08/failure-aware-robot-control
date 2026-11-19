@@ -56,6 +56,8 @@ class HardwarePipeline:
                 raise ObservationError("missing", "no sensor sample this cycle")
             rec["obs_gripper_stamp_ns"] = int(state.gripper_stamp_ns)
             rec["obs_object_stamp_ns"] = int(state.object_stamp_ns)
+            if state.gripper_receipt_ns is not None:
+                rec["obs_gripper_receipt_ns"] = int(state.gripper_receipt_ns)
             obs = self.adapter.observation(state)
             goal = self.adapter.goal(goal_world)
         except ObservationError as err:

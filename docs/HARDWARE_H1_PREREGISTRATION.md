@@ -112,7 +112,7 @@ disclosed. As §1.1 says, this screening does not establish physical safety.
 |---|---|---|
 | **S** (sensor) | robot holding still, puck static, 30 s | 3 recordings |
 | **Q5** (latency) | d = 0, sequences 1–20 | 20 |
-| **Q1** | d ∈ {0, 1, 2, 3, 4} × 20 sequences, run in 3 blocks. Within each block the (sequence, d) order is randomised by a generator with **seed 20264100**. | 100 |
+| **Q1** | d ∈ {0, 1, 2, 3, 4} × sequences 1–20 (*H1-A4*): the 100 (sequence, d) episodes are randomised by a generator with **seed 20264100** and split in that order into 3 blocks of 34, 33 and 33. | 100 |
 | **Q5-repeat** | d = 0, sequences 1–5, at the end of the session (drift check) | 5 |
 
 ### 3.4 Candidate C in shadow mode only
@@ -148,14 +148,18 @@ on them.
 
 ### 4.2 Independent timestamp-based latency measurement (fixed now)
 
-Per episode, on x and y separately and then pooled:
-1. Let c(t) be the issued command at driver-send timestamps, and v(t) the measured gripper
-   velocity at proprioception timestamps, both resampled onto a common 1 ms grid by linear
-   interpolation. Sample times are not altered.
+*Amended by H1-A1 and H1-A2 (§10).* Per episode, on x and y separately and then pooled:
+1. Let c(t) be the issued command as a **zero-order hold**: c_k holds from its driver-send time
+   t_k until t_{k+1}, sampled on a common 1 ms grid. Let v(t) be the measured gripper velocity,
+   with each sample stamped at the monotonic time the controller **receives** it (the logged
+   receipt time, which includes sensor and transport latency), linearly interpolated onto the
+   same grid.
 2. **L_ep** = the lag in [0, 300] ms that maximises the normalised cross-correlation between
-   c(t − lag) and v(t).
-3. Sensor latency **[CAL]** (`proprio_latency_s`) is reported separately. It is not subtracted
-   from L_ep: the estimator sees it too.
+   c(t − lag) and v(t). **Pooled L_ep** is the lag that maximises the mean of the x and y
+   normalised cross-correlations.
+3. Because samples are stamped at receipt, L_ep includes sensor latency, as the estimator
+   does. The sensor's own latency (`proprio_latency_s`) is reported separately for
+   information.
 
 **L_ep is computed independently of the estimator.** It never uses estimator outputs.
 
@@ -207,6 +211,10 @@ any Q1 data are seen.
 - A final latched estimate of 0 (abstention) when d\* > 0 is **incorrect but not a wrong latch.**
   It is the estimator's conservative failure mode, and it is counted against the 18/20 criterion,
   not the wrong-latch limit.
+
+**Aborted and invalid episodes** (*H1-A3*): they remain in the 20-episode denominator, count as
+not correct, and do not count as wrong latches. They are reported separately in the safety
+accounting.
 
 **Eligibility:** d is eligible if d\* ≤ 4, the estimator's maximum lag. Ineligible d are reported
 descriptively and are expected to fail.
@@ -308,3 +316,26 @@ no population-accuracy claim.
 - The shadow-mode isolation test and the §4.2/§5 analysis code implemented and committed. This is
   software only, but it needs your instruction.
 - **Your explicit approval of H1 execution.** This document does not grant it.
+
+## 10. Amendments (numbered; adopted before any H1 data exist)
+
+All four were adopted on 2026-11-18, on your instruction. No H1 data of any kind existed then:
+no trial, no commissioning, no hardware. Rationale and the SYNTHETIC evidence are in
+`docs/HARDWARE_H1_AMENDMENT_OPTIONS.md` (`results/hardware_h1_amendments/p1_check.json`). None
+changes a threshold or endpoint.
+
+| # | section | change | reason |
+|---|---|---|---|
+| **H1-A1** | §4.2 steps 1 and 3 | commands are resampled as a zero-order hold, and velocity samples are stamped at **controller receipt** | As first written, linear interpolation read about +20 ms high (P1), and measurement-time stamps excluded the sensor latency the estimator sees (P5). On a SYNTHETIC kinematic plant, only the amended definition matched the unchanged estimator's lag at every reliable point (37/37, against 27/37 as written). |
+| **H1-A2** | §4.2 step 2 | pooled L_ep = the lag maximising the mean of the x and y normalised cross-correlations | "pooled" was undefined (P2) |
+| **H1-A3** | §5.2 | aborted or invalid episodes stay in the denominator, count as not correct, and are not wrong latches | the denominator was unspecified (P3); consistent with "safety stop = failure" |
+| **H1-A4** | §3.3 | Q5 and every Q1 delay use sequences 1–20; the 100 Q1 episodes are randomised by seed 20264100 into blocks of 34/33/33; sequences 21–60 are reserves for the §3.1 fallback | the assignment was unspecified (P4); needed for the §5.3 paired bootstrap |
+
+**Consequences for software and hardware:**
+- `h1_analysis.episode_latency` implements A1 and A2.
+- The log schema `h1-2` carries `obs_gripper_receipt_ns`.
+- **The robot driver (B4) must record the receipt time of every proprioception sample.**
+
+**A known consequence that was approved and left unchanged:** the ±8 ms half-step band
+(§5.1 (c)) may leave Q5 unresolved for natural latencies near a step boundary, even when the
+estimator is consistent.

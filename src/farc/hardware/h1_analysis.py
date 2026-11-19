@@ -41,19 +41,16 @@ NOISE_FLAG_M = 0.0025  # 5.4
 SAFETY_STOP_LIMIT = 3  # section 6
 
 IMPLEMENTATION_NOTES = {
-    "pooled_latency": "L_ep pooled over x and y = the lag maximising the mean of the two per-axis "
-    "normalised cross-correlations (section 4.2 says 'separately and then pooled').",
-    "aborted_episodes": "an aborted or invalid-log episode counts as not correct and not a wrong "
-    "latch; it stays in the 20-episode denominator (safety stop = failure, proposal 4.5).",
-    "bootstrap_pairing": "the paired bootstrap pairs Q5 and Q1 episodes by excitation-sequence id; "
-    "if no ids are shared the additivity test is reported as not computable (= not passed).",
-    "half_period_offset": "FINDING P1 (not resolved here): with zero-order-hold 25 Hz commands, "
-    "the pre-registered linear interpolation makes L_ep read about +20 ms (half a period) above "
-    "the transport lag. It cancels in the additivity difference but can shift d0_ts by one step "
-    "relative to the estimator's d0 (criterion 5.1 (d)). Implemented as written; needs a "
-    "decision before execution.",
-    "rounding": "d0_ts = floor(median/40 + 0.5); exact half-steps are excluded by the ambiguity "
-    "band anyway.",
+    "amendments": "H1-A1 to H1-A4 adopted 2026-11-18 (docs/HARDWARE_H1_PREREGISTRATION.md, 10).",
+    "latency": "H1-A1: commands as a zero-order hold from driver-send time; velocity samples "
+    "stamped at controller receipt, so L_ep includes sensor latency like the estimator.",
+    "pooled_latency": "H1-A2: pooled L_ep = the lag maximising the mean of the x and y "
+    "normalised cross-correlations.",
+    "aborted_episodes": "H1-A3: aborted or invalid-log episodes stay in the 20-episode "
+    "denominator, count as not correct and do not count as wrong latches.",
+    "bootstrap_pairing": "H1-A4: Q5 and every Q1 delay use sequences 1-20; the paired bootstrap "
+    "pairs by sequence id (no shared ids = not computable = not passed).",
+    "rounding": "d0_ts = floor(median/40 + 0.5); exact half-steps fall inside the ambiguity band.",
 }
 
 
@@ -103,12 +100,15 @@ class Latency:
     peak_correlation: float
 
 
-def episode_latency(cmd_t_ns: np.ndarray, cmd_xy: np.ndarray, vel_t_ns: np.ndarray,
+def episode_latency(cmd_t_ns: np.ndarray, cmd_xy: np.ndarray, vel_receipt_t_ns: np.ndarray,
                     vel_xy: np.ndarray) -> Latency:  # fmt: skip
-    """L_ep: the lag in [0, 300] ms maximising the normalised cross-correlation between
-    c(t - lag) (driver-send timestamps) and v(t) (proprioception timestamps), both linearly
-    interpolated onto a common 1 ms grid. Sensor latency is not subtracted (4.2 step 3)."""
-    cmd_t, vel_t = np.asarray(cmd_t_ns, np.int64), np.asarray(vel_t_ns, np.int64)
+    """L_ep (section 4.2 as amended by H1-A1): the lag in [0, 300] ms maximising the
+    normalised cross-correlation between c(t - lag) and v(t) on a common 1 ms grid, where
+    c is the issued command as a ZERO-ORDER HOLD from its driver-send time to the next, and v
+    is the measured gripper velocity stamped at the time the controller RECEIVED each sample
+    (callers pass receipt timestamps), linearly interpolated. Because samples are stamped at
+    receipt, L_ep includes sensor latency, as the estimator does."""
+    cmd_t, vel_t = np.asarray(cmd_t_ns, np.int64), np.asarray(vel_receipt_t_ns, np.int64)
     if np.any(np.diff(cmd_t) <= 0) or np.any(np.diff(vel_t) <= 0):
         raise ValueError("timestamps must increase strictly")
     t0 = int(max(cmd_t[0], vel_t[0]))
@@ -121,7 +121,8 @@ def episode_latency(cmd_t_ns: np.ndarray, cmd_xy: np.ndarray, vel_t_ns: np.ndarr
     lags = range(LAG_RANGE_MS[0], LAG_RANGE_MS[1] + 1)
     scores = np.zeros((2, len(lags)))
     for axis in range(2):
-        c = np.interp(grid + off_c, (cmd_t - cmd_t[0]) / 1e6, np.asarray(cmd_xy)[:, axis])
+        held = np.searchsorted((cmd_t - cmd_t[0]) / 1e6, grid + off_c, side="right") - 1
+        c = np.asarray(cmd_xy, np.float64)[np.clip(held, 0, len(cmd_t) - 1), axis]
         v = np.interp(grid + off_v, (vel_t - vel_t[0]) / 1e6, np.asarray(vel_xy)[:, axis])
         for j, lag in enumerate(lags):
             scores[axis, j] = _ncc(c[: len(c) - lag], v[lag:])

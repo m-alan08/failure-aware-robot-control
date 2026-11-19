@@ -1,8 +1,9 @@
 # H1 pre-registration: amendment options for P1–P4 (draft, for decision)
 
 **Status:**
-- **Options only. Nothing in `docs/HARDWARE_H1_PREREGISTRATION.md` or the locked analysis has
-  been changed.**
+- **Decision (2026-11-18): the recommended amendments H1-A1–A4 were adopted.** They are recorded
+  in `docs/HARDWARE_H1_PREREGISTRATION.md` §10 and implemented in `h1_analysis`.
+- The text below is the options analysis as presented for the decision.
 - H1 execution remains unapproved, and no data of any kind exist yet.
 - Whichever option you choose becomes a numbered amendment, committed before any hardware
   trial. Because no H1 data exist, the change cannot be informed by outcomes.

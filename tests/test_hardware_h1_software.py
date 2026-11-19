@@ -177,28 +177,34 @@ def _latency_fixture(lag_ms: int, seed: int, noise: float = 0.02):
     return cmd_t, cmd, vel_t, vel
 
 
-@pytest.mark.parametrize("lag", [0, 23, 45, 87, 160, 250])
-def test_latency_method_as_preregistered_has_half_period_offset(lag):
-    """FINDING (see readiness doc, P1): with zero-order-hold commands at 25 Hz, the
-    pre-registered linear interpolation of c(t) places each command at its tick instead of
-    over its hold interval, so the pre-registered L_ep reads the true transport lag plus
-    about half a control period (20 ms). The method is implemented exactly as written; this
-    test pins its behaviour on SYNTHETIC data so any amendment is a visible change."""
+@pytest.mark.parametrize("lag", [0, 23, 45, 87, 160, 250, 290])
+def test_latency_recovers_transport_lag_with_zero_order_hold(lag):
+    """H1-A1: commands are treated as a zero-order hold, so a SYNTHETIC hold-command plant
+    gives back its transport lag (the pre-amendment linear method read about +20 ms)."""
     lat = A.episode_latency(*_latency_fixture(lag, lag))
-    assert abs(lat.pooled_ms - (lag + 20)) <= 2
-    assert all(abs(x - (lag + 20)) <= 3 for x in lat.per_axis_ms)
+    assert abs(lat.pooled_ms - lag) <= 2
+    assert all(abs(x - lag) <= 3 for x in lat.per_axis_ms)
     assert lat.peak_correlation > 0.85
 
 
-def test_latency_on_smooth_signals_has_no_offset():
-    """SYNTHETIC smooth command (no hold): the cross-correlation recovers the lag exactly."""
+@pytest.mark.parametrize("lag,sensor", [(25, 15), (60, 30), (100, 8)])
+def test_latency_with_receipt_stamps_includes_sensor_latency(lag, sensor):
+    """H1-A1: velocity samples stamped at controller receipt (measurement + S) give L + S,
+    the delay the estimator experiences. SYNTHETIC."""
+    ct, c, vt, v = _latency_fixture(lag, lag + sensor)
+    lat = A.episode_latency(ct, c, vt + sensor * 1_000_000, v)
+    assert abs(lat.pooled_ms - (lag + sensor)) <= 2
+
+
+def test_latency_on_smooth_signals():
+    """SYNTHETIC smooth command sampled every 5 ms: within the hold quantisation (<= 3 ms)."""
     t = np.arange(0, 3_000_000_000, 5_000_000, dtype=np.int64)
     c = np.c_[np.sin(t / 1e9 * 7.0), np.cos(t / 1e9 * 5.0) * np.sin(t / 1e9 * 3.1)]
     lag = 63
     vt = t + 1_000_000
     u = vt / 1e9 - lag / 1e3
     v = np.c_[np.sin(u * 7.0), np.cos(u * 5.0) * np.sin(u * 3.1)]
-    assert abs(A.episode_latency(t, c, vt, v).pooled_ms - lag) <= 1
+    assert abs(A.episode_latency(t, c, vt, v).pooled_ms - lag) <= 3
 
 
 def test_latency_input_errors():

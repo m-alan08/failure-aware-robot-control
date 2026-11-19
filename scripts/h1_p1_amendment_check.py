@@ -30,11 +30,41 @@ import numpy as np
 
 from farc.adaptation.estimator import ActuatorEstimator, EstimatorConfig
 from farc.hardware.controller import ESTIMATOR
-from farc.hardware.h1_analysis import episode_latency
+from farc.hardware.h1_analysis import LAG_RANGE_MS, Latency, _ncc
 
 STEP_NS = 40_000_000
 K0 = 0.62
 SEED = 20264200  # synthetic fixture seed (not an episode seed)
+
+
+# PRE-AMENDMENT copy of the section 4.2 method (linear interpolation, as first written), kept
+# so the committed p1_check.json reproduces exactly. The locked analysis now uses H1-A1.
+def episode_latency(cmd_t_ns: np.ndarray, cmd_xy: np.ndarray, vel_t_ns: np.ndarray,
+                    vel_xy: np.ndarray) -> Latency:  # fmt: skip
+    """L_ep: the lag in [0, 300] ms maximising the normalised cross-correlation between
+    c(t - lag) (driver-send timestamps) and v(t) (proprioception timestamps), both linearly
+    interpolated onto a common 1 ms grid. Sensor latency is not subtracted (4.2 step 3)."""
+    cmd_t, vel_t = np.asarray(cmd_t_ns, np.int64), np.asarray(vel_t_ns, np.int64)
+    if np.any(np.diff(cmd_t) <= 0) or np.any(np.diff(vel_t) <= 0):
+        raise ValueError("timestamps must increase strictly")
+    t0 = int(max(cmd_t[0], vel_t[0]))
+    t1 = int(min(cmd_t[-1], vel_t[-1]))
+    span = (t1 - t0) // 1_000_000
+    if span <= LAG_RANGE_MS[1] + 100:
+        raise ValueError("overlap too short for the 0-300 ms lag search")
+    grid = np.arange(0, span + 1, dtype=np.float64)
+    off_c, off_v = (t0 - cmd_t[0]) / 1e6, (t0 - vel_t[0]) / 1e6
+    lags = range(LAG_RANGE_MS[0], LAG_RANGE_MS[1] + 1)
+    scores = np.zeros((2, len(lags)))
+    for axis in range(2):
+        c = np.interp(grid + off_c, (cmd_t - cmd_t[0]) / 1e6, np.asarray(cmd_xy)[:, axis])
+        v = np.interp(grid + off_v, (vel_t - vel_t[0]) / 1e6, np.asarray(vel_xy)[:, axis])
+        for j, lag in enumerate(lags):
+            scores[axis, j] = _ncc(c[: len(c) - lag], v[lag:])
+    per_axis = (int(np.nanargmax(scores[0])), int(np.nanargmax(scores[1])))
+    pooled = np.nanmean(scores, axis=0)
+    j = int(np.nanargmax(pooled))
+    return Latency(lags[j], (lags[per_axis[0]], lags[per_axis[1]]), float(pooled[j]))
 
 
 def plant(cmd: np.ndarray, lag_ms: float, rate_hz: int = 1000):
