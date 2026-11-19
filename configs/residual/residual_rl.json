@@ -1,0 +1,20 @@
+{
+  "description": "Residual RL on frozen Candidate C (docs/RESIDUAL_RL_PREREGISTRATION.md). DRAFT: not approved; no runner accepts this config until approved is true.",
+  "approved": false,
+  "plan": "docs/RESIDUAL_RL_PREREGISTRATION.md",
+  "plan_sha256": "32330bd5bac0f191c5c91391cb57df62f6db3fa780079ad294b27441a289604a",
+  "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
+  "seed_blocks": {"training": [3710000, 3720000], "debugging": [3720000, 3720010],
+                  "selection": [3721000, 3721100], "evaluation": [3722000, 3722300]},
+  "generator_seed": 20261900,
+  "bootstrap_seed": 20261900,
+  "bootstrap_resamples": 10000,
+  "alphas": [0.05, 0.1, 0.2],
+  "network_seeds": [0, 1, 2],
+  "env_steps": 1000000,
+  "target_entropy": -8.0,
+  "nominal_noninferiority": 0.01,
+  "delay_noninferiority": 0.01,
+  "practical_threshold": 0.02,
+  "rollback_drop": 0.02
+}
