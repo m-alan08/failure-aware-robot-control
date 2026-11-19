@@ -41,7 +41,7 @@ def check(args) -> list[dict[str, Any]]:
     loaded, policy, normalizer, env, est_cfg, preds = _setup(config, checkpoint)
     actor_state = {k: v.clone() for k, v in loaded.actor.state_dict().items()}
     torch.manual_seed(0)
-    modes = {"zero": (ZeroResidual(), 0.0),
+    modes: dict[str, tuple[Any, float]] = {"zero": (ZeroResidual(), 0.0),
              "actor": (ResidualActor(ObservationSpec().dim), 0.2)}  # fmt: skip
     out = []
     for seed in config.seeds:

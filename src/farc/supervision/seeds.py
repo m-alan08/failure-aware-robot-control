@@ -262,3 +262,38 @@ def check_j2_seeds(seeds: list[int], role: str) -> None:
     a, b = J2_SEED_BLOCKS[role]
     if not all(a <= s < b for s in seeds):
         raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")
+
+
+# --- Residual RL on Candidate C (docs/RESIDUAL_RL_PREREGISTRATION.md) ----------------------------
+# Registered 2026-11-18, before any of these seeds was used. The G4 debugging block
+# (3,690,000-009) was used for the residual zero-equivalence code check and is listed as used.
+
+R_USED_SEED_RANGES = {
+    **J2_USED_SEED_RANGES,
+    **{f"phase_j2_{role}": block for role, block in J2_SEED_BLOCKS.items()},
+    "residual_zero_equivalence_g4_debugging": (3_690_000, 3_690_010),
+    "j3_suggested_future_block": (3_704_300, 3_704_600),  # kept free for a possible J arm
+}
+R_SEED_BLOCKS = {
+    "training": (3_710_000, 3_720_000),
+    "debugging": (3_720_000, 3_720_010),
+    "selection": (3_721_000, 3_721_100),
+    "evaluation": (3_722_000, 3_722_300),
+}
+
+
+def check_r_seeds(seeds: list[int], role: str) -> None:
+    """Residual-RL blocks only; every seed >= 4,000,000 is refused."""
+    if role not in R_SEED_BLOCKS:
+        raise AdaptationConfigError(f"unknown residual-RL seed role {role!r}")
+    if not seeds:
+        raise AdaptationConfigError(f"{role} needs at least one seed")
+    held_low, _ = SEED_RANGES["heldout"]
+    if any(s >= held_low for s in seeds):
+        raise AdaptationConfigError("held-out seeds (4,000,000+) are reserved")
+    for name, (a, b) in R_USED_SEED_RANGES.items():
+        if any(a <= s < b for s in seeds):
+            raise AdaptationConfigError(f"{role} seeds overlap {name} [{a}, {b})")
+    a, b = R_SEED_BLOCKS[role]
+    if not all(a <= s < b for s in seeds):
+        raise AdaptationConfigError(f"{role} seeds must lie in [{a}, {b})")

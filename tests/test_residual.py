@@ -472,3 +472,45 @@ def test_reward_terms():
     assert residual_reward(cfg, True, 0.0, 0.0, z, z, 0.1) == 0.0
     assert residual_reward(cfg, False, 0.0, 0.0, z, z, 0.1) == -1.0
     assert residual_reward(cfg, True, 0.0, 0.0, np.ones(4), z, 0.5) < 0.0
+
+
+# --- pre-registration: seeds and config ---------------------------------------------------------
+
+
+def test_residual_seed_blocks_disjoint_from_every_registered_block():
+    import json
+    from pathlib import Path
+
+    from farc.adaptation.experiment import AdaptationConfigError
+    from farc.supervision import seeds as S
+
+    others = {}
+    for name in dir(S):
+        if (name.endswith("_SEED_BLOCKS") or name.endswith("_USED_SEED_RANGES")) and not \
+                name.startswith("R_"):  # fmt: skip
+            others.update({f"{name}.{k}": v for k, v in getattr(S, name).items()})
+    others.update({k: v for k, v in S.R_USED_SEED_RANGES.items()})
+    for role, (a, b) in S.R_SEED_BLOCKS.items():
+        assert b <= 4_000_000
+        for name, (c, d) in others.items():
+            assert b <= c or d <= a, f"{role} overlaps {name}"
+        S.check_r_seeds([a, b - 1], role)
+        with pytest.raises(AdaptationConfigError):
+            S.check_r_seeds([b], role)
+    for bad in ([4_000_600], [3_690_005], [3_704_000]):
+        with pytest.raises(AdaptationConfigError):
+            S.check_r_seeds(bad, "evaluation")
+    cfg = json.loads(Path("configs/residual/residual_rl.json").read_text())
+    assert {k: tuple(v) for k, v in cfg["seed_blocks"].items()} == S.R_SEED_BLOCKS
+
+
+def test_preregistration_config_pins_plan_and_is_not_approved():
+    import hashlib
+    import json
+    from pathlib import Path
+
+    cfg = json.loads(Path("configs/residual/residual_rl.json").read_text())
+    assert cfg["approved"] is False
+    assert hashlib.sha256(Path(cfg["plan"]).read_bytes()).hexdigest() == cfg["plan_sha256"]
+    g4 = json.loads(Path("configs/delaychange/g4_heldout.json").read_text())
+    assert cfg["model_sha256"] == g4["model_sha256"]
