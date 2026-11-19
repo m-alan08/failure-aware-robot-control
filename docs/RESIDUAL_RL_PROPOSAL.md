@@ -98,9 +98,37 @@ cover action bounds, all 16 observation-group combinations, read-only building, 
 delay queue carrying a_final, causal prediction errors, deterministic resets, invalid inputs,
 protocol misuse and held-out seed refusal.
 
-**Not yet checked:** equivalence against the *real* simulator loop with the real F1 model. That
-needs simulator episodes, so it is deliberately deferred. It is the first item of §6 (debugging
-seeds only).
+### 1.5 Real-simulator zero-residual equivalence (§6.1.1, approved 2026-11-18)
+
+Run with `uv run python scripts/check_residual_zero_equivalence.py`; outputs are in
+`results/residual_zero_equivalence/`.
+
+**Inputs:**
+- G4 **debugging** seeds 3,690,000–009 only;
+- all 41 G4 cells × the 3 frozen SAC policies;
+- the real F1 model `8a960329…`;
+- C's frozen constants.
+
+**Comparison:** each residual mode against G4's `C` loop (`mechanism.run_episode` with
+`sequential`).
+
+| mode | episodes | commands bitwise identical | delay used, active, alarm, suspended identical |
+|---|---|---|---|
+| `ZeroResidual`, alpha 0 | 1,230 | **1,230** | **1,230** |
+| untrained `ResidualActor`, alpha 0.2 | 1,230 | **1,230** | **1,230** |
+
+**The check is not vacuous:**
+- C compensated in 928 of the 1,230 episodes and raised an alarm in 963.
+- The largest residual applied was 0.0.
+
+**Frozen actor:** its weights were checked unchanged after every task.
+
+Success outcomes were recorded, as a code check only, and are **not analysed**.
+
+**Timing (§6.1.2, rough):** 3,690 episodes took 188 CPU-seconds, about 1 ms per step for the
+environment plus C and F1. One million steps of environment interaction is therefore about 17
+CPU-minutes. SAC updates, not the environment, will dominate the per-run cost, so the ~3 h/run
+estimate in §7 is conservative.
 
 ## 2. Hypothesis and expected contribution
 
@@ -319,7 +347,7 @@ results.
 
 ## 9. Not done (by design)
 
-- No training and no simulator episodes, including the real-simulator equivalence check.
+- No training. The only simulator episodes are the approved §1.5 code check on debugging seeds.
 - No new environment disturbances (mass, friction, size, correlated noise).
 - No seed registration.
 - No changes to H0/H1, frozen checkpoints or prior results.
