@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from typing import cast
 
 import numpy as np
 import pandas as pd
@@ -54,7 +55,8 @@ def logs() -> pd.DataFrame:
                     "pair": arm_i, "phase": phase, "arm": arm, "seed": seed,
                     "eval_first_20k": p["eval_success_rate"].iloc[0],
                     "eval_min": p["eval_success_rate"].min(),
-                    "eval_min_step": int(p.loc[p["eval_success_rate"].idxmin(), "step"]),
+                    "eval_min_step": int(p["step"].to_numpy()[
+                        int(p["eval_success_rate"].to_numpy().argmin())]),
                     "eval_mean_first5": first["eval_success_rate"].mean(),
                     "eval_mean_last10": last["eval_success_rate"].mean(),
                     "train_success_last10": last["train_success"].mean(),
@@ -149,8 +151,8 @@ def trajectories() -> pd.DataFrame:
 
 
 def _episodes(s: pd.DataFrame):
-    for (seed, cond, ep_seed), ep in s.groupby(["policy_seed", "condition", "episode_seed"],
-                                                sort=False):  # fmt: skip
+    for key, ep in s.groupby(["policy_seed", "condition", "episode_seed"], sort=False):
+        seed, cond, ep_seed = cast(tuple[int, str, int], key)
         g = ep[[f"true{i}" for i in range(3)]].to_numpy(float)
         cmd = np.c_[ep[[f"cmd{i}" for i in range(3)]].to_numpy(float), np.zeros(len(ep))]
         yield int(cond[1]), seed, ep_seed, g, cmd
@@ -186,8 +188,8 @@ def lag_identification(s: pd.DataFrame) -> pd.DataFrame:
                         best, res = lag, r
                 picks.setdefault((sg, d), []).append(best)
     base = int(np.bincount(picks[(0.0, 0)]).argmax())
-    for (sg, d), v in sorted(picks.items()):
-        v = np.array(v)
+    for (sg, d), chosen in sorted(picks.items()):
+        v = np.array(chosen)
         rows.append({"sigma_m": sg, "true_delay": d,
                      "accuracy": float((v == base + d).mean()),
                      "within_1": float((np.abs(v - (base + d)) <= 1).mean()),
@@ -206,14 +208,15 @@ def estimator_under_noise(s: pd.DataFrame) -> pd.DataFrame:
             obs = np.zeros((len(g), 25))
             obs[:, 0:3] = g + sg * rng.standard_normal(g.shape)
             f = Featurizer("IC", EST)
-            dh, rel = [], []
+            dh_list: list[int] = []
+            rel_list: list[float] = []
             for t in range(len(obs)):
                 f.observe(obs[t])
                 feat = f.features()
-                dh.append(int(feat[12:17].argmax()))
-                rel.append(feat[17])
+                dh_list.append(int(feat[12:17].argmax()))
+                rel_list.append(float(feat[17]))
                 f.issued(cmd[t])
-            dh, rel = np.array(dh), np.array(rel, bool)
+            dh, rel = np.array(dh_list), np.array(rel_list, bool)
             rows.append({"sigma_m": sg, "true_delay": d, "reliable_share": rel.mean(),
                          "latched_correct": (dh == d).mean(),
                          "latched_zero": (dh == 0).mean()})  # fmt: skip

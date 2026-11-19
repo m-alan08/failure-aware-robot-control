@@ -1,0 +1,128 @@
+{
+ "machine": {
+  "role": "LOCAL development machine (NOT the target lab computer)",
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "cpu": "Apple M5",
+  "python": "3.12.14",
+  "torch": "2.14.1",
+  "torch_threads": "1"
+ },
+ "inputs": {
+  "policy_seed": 1,
+  "conditions": [
+   "C0_undisturbed",
+   "C3_delay3",
+   "C4_delay4",
+   "C5_delay3_onset15"
+  ],
+  "episodes": 400,
+  "steps": 20000
+ },
+ "budget_p99_us": 10000.0,
+ "latency": {
+  "observation_adapter": {
+   "n": 20000,
+   "median_us": 24.292,
+   "p95_us": 29.083,
+   "p99_us": 31.084409999999934,
+   "max_us": 70.167
+  },
+  "frozen_sac_inference": {
+   "n": 20000,
+   "median_us": 27.334,
+   "p95_us": 31.75,
+   "p99_us": 33.91740999999993,
+   "max_us": 133.959
+  },
+  "phase_e_estimator_observe_estimate": {
+   "n": 20000,
+   "median_us": 22.167,
+   "p95_us": 26.875,
+   "p99_us": 29.709409999999934,
+   "max_us": 156.416
+  },
+  "candidate_c_supervisor_step": {
+   "n": 20000,
+   "median_us": 30.125,
+   "p95_us": 35.042,
+   "p99_us": 38.208009999999994,
+   "max_us": 277.584
+  },
+  "kinematic_predictor_d4": {
+   "n": 20000,
+   "median_us": 7.917,
+   "p95_us": 8.542,
+   "p99_us": 13.0,
+   "max_us": 33.5
+  },
+  "f1_contact_model_rollout_d4": {
+   "n": 20000,
+   "median_us": 109.75,
+   "p95_us": 115.542,
+   "p99_us": 124.83440999999993,
+   "max_us": 502.75
+  },
+  "full_pipeline_F": {
+   "n": 20000,
+   "median_us": 86.0,
+   "p95_us": 92.958,
+   "p99_us": 99.08482999999987,
+   "max_us": 140.458
+  },
+  "controller_only_F": {
+   "n": 20000,
+   "median_us": 53.541,
+   "p95_us": 59.25204999999997,
+   "p99_us": 63.208009999999994,
+   "max_us": 92.916
+  },
+  "full_pipeline_K": {
+   "n": 20000,
+   "median_us": 124.583,
+   "p95_us": 134.16904999999997,
+   "p99_us": 140.04240999999993,
+   "max_us": 518.458
+  },
+  "controller_only_K": {
+   "n": 20000,
+   "median_us": 88.5,
+   "p95_us": 96.5,
+   "p99_us": 100.91740999999993,
+   "max_us": 443.916
+  },
+  "full_pipeline_CA": {
+   "n": 20000,
+   "median_us": 207.667,
+   "p95_us": 245.0,
+   "p99_us": 252.583,
+   "max_us": 636.792
+  },
+  "controller_only_CA": {
+   "n": 20000,
+   "median_us": 169.792,
+   "p95_us": 205.37704999999997,
+   "p99_us": 211.875,
+   "max_us": 470.625
+  },
+  "full_pipeline_C": {
+   "n": 20000,
+   "median_us": 100.917,
+   "p95_us": 256.75,
+   "p99_us": 265.542,
+   "max_us": 302.666
+  },
+  "controller_only_C": {
+   "n": 20000,
+   "median_us": 65.875,
+   "p95_us": 216.12704999999997,
+   "p99_us": 223.417,
+   "max_us": 256.5
+  }
+ },
+ "p99_within_budget_on_this_machine": {
+  "full_pipeline_F": true,
+  "full_pipeline_K": true,
+  "full_pipeline_CA": true,
+  "full_pipeline_C": true
+ }
+}
