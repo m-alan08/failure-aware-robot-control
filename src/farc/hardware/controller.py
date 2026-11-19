@@ -37,9 +37,9 @@ S = OBJECT.slices
 CONFIGURATIONS = ("F", "K", "CA", "C")
 PREDICTOR = {"F": None, "K": "phase_e", "CA": "learned", "C": "learned"}
 # Frozen constants, as pinned in configs/delaychange/g4_heldout.json (checked by a test).
-ESTIMATOR = {"nominal_gain": 0.62, "window": 10, "max_lag": 4, "min_transitions": 4,
+ESTIMATOR: dict[str, Any] = {"nominal_gain": 0.62, "window": 10, "max_lag": 4, "min_transitions": 4,
              "min_excitation": 0.000225, "min_r2": 0.8, "min_margin": 2.0}  # fmt: skip
-C_CONSTANTS = {"C_threshold": 12.0, "C_sigma0_mm": 4.0, "C_variant": "gauss"}
+C_CONSTANTS: dict[str, Any] = {"C_threshold": 12.0, "C_sigma0_mm": 4.0, "C_variant": "gauss"}
 
 
 @dataclass

@@ -29,7 +29,7 @@ import argparse
 import json
 import multiprocessing as mp
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import pandas as pd
@@ -40,6 +40,7 @@ from farc.base_policy.checkpoint import deterministic_policy_function, load_poli
 from farc.contact.dynamics import load_dynamics
 from farc.contact.episodes import learned_predictor, phase_e_predictor
 from farc.delaychange.mechanism import run_episode, sequential
+from farc.delaychange.schedule import ScheduledDelaySession
 from farc.delaychange.stage3 import Latched, run_g2_episode
 from farc.disturbances.rollout import FrozenNormalizer
 from farc.envs.factory import make_env
@@ -86,7 +87,8 @@ def closed_loop(ep: Episode, name: str, policy, normalizer, preds, path: str) ->
         pipe = HardwarePipeline(ObservationAdapter(replay_config()), ctrl, CommandFIFO())
         pipe.reset()
     assert ep.goal is not None
-    out = {"cmd_max_abs": 0.0, "cmd_exact_steps": 0, "pred_max_abs": 0.0, "first_divergence": -1,
+    out: dict[str, Any] = {"cmd_max_abs": 0.0, "cmd_exact_steps": 0, "pred_max_abs": 0.0,
+           "first_divergence": -1,
            "delay_mismatch": 0, "gain_max_abs": 0.0, "active_mismatch": 0,
            "adapter_obs_max_abs": 0.0, "steps": len(ep.view)}  # fmt: skip
     for t in range(len(ep.view)):
@@ -152,7 +154,11 @@ def reference(ep: Episode, name: str, policy, normalizer, preds) -> dict[str, An
 
     rpreds = {k: recording(v) for k, v in preds.items()}
     assert ep.goal is not None
-    session = ReplaySession(ep.view, ep.goal, policy, normalizer)
+    replay = ReplaySession(ep.view, ep.goal, policy, normalizer)
+    # ReplaySession provides the members the original loops use (observe, act, commands,
+    # schedule, policy, normalizer, done, condition); the loops are typed for the simulator
+    # session, so the stub is presented under that type at this boundary only.
+    session = cast(ScheduledDelaySession, replay)
     est = ActuatorEstimator(EstimatorConfig(**ESTIMATOR))
     rec_ctrl = None
     if name == "K":
@@ -160,10 +166,10 @@ def reference(ep: Episode, name: str, policy, normalizer, preds) -> dict[str, An
         dec = [(r["est_delay"], bool(r["est_reliable"]), None, None) for r in rows]
     else:
         rec_ctrl = Recorder(sequential(C_CONSTANTS) if name == "C" else Latched())
-        kw = {"mode": "base"} if name == "F" else {}
-        rows = run_episode(session, est, rec_ctrl, rpreds, **kw)["rows"]
+        mode = "base" if name == "F" else "normal"  # "normal" is run_episode's default
+        rows = run_episode(session, est, rec_ctrl, rpreds, mode=mode)["rows"]
         dec = rec_ctrl.log
-    return {"commands": np.array(session.commands), "rows": rows, "dec": dec, "preds": calls}
+    return {"commands": np.array(replay.commands), "rows": rows, "dec": dec, "preds": calls}
 
 
 def open_loop(ep: Episode, name: str, policy, normalizer, preds) -> dict[str, Any]:
@@ -175,7 +181,7 @@ def open_loop(ep: Episode, name: str, policy, normalizer, preds) -> dict[str, An
     hw_preds = [np.array(r["pred_gripper_position"] + r["pred_object_position"]) for r in hw
                 if r["pred_gripper_position"] is not None]  # fmt: skip
     ref_preds = [np.r_[p[0:3], p[3:6]] for p in ref["preds"]]
-    out = {"cmd_max_abs": _diff(cmds, ref["commands"]),
+    out: dict[str, Any] = {"cmd_max_abs": _diff(cmds, ref["commands"]),
            "cmd_bitwise": bool(np.array_equal(cmds, ref["commands"])), "mismatch": []}  # fmt: skip
     for t, (h, r, d) in enumerate(zip(hw, ref["rows"], ref["dec"], strict=True)):
         for key, rv in (("delay_used", r["delay_used"]), ("active", r["active"]),

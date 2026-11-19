@@ -67,10 +67,11 @@ def main() -> None:
     eps = [e for e in load_f1(("base_only",)) if e.policy_seed == POLICY_SEED
            and e.condition in CONDITIONS]  # fmt: skip
     eps = [e for c in CONDITIONS for e in [x for x in eps if x.condition == c][: a.episodes]]
+    goal_of = {id(e): reconstruct_goal(env, e) for e in eps}
     for e in eps:
-        e.goal = reconstruct_goal(env, e)
+        e.goal = goal_of[id(e)]
     views = np.concatenate([e.view for e in eps])
-    goals = np.concatenate([np.repeat(e.goal[None], len(e.view), 0) for e in eps])
+    goals = np.concatenate([np.repeat(goal_of[id(e)][None], len(e.view), 0) for e in eps])
     cmds = np.concatenate([np.c_[e.cmd, np.zeros(len(e.cmd))] for e in eps])
     ns = time.perf_counter_ns
     out: dict[str, dict] = {}
@@ -137,7 +138,7 @@ def main() -> None:
             pipe.reset()
             for t in range(len(e.view)):
                 r = raw_from_sim_observation(e.view[t], (t + 1) * PERIOD_NS)
-                rec = pipe.cycle(r, e.goal).record
+                rec = pipe.cycle(r, goal_of[id(e)]).record
                 total.append(rec["lat_pipeline_total_ns"])
                 ctrl.append(rec["lat_controller_total_ns"])
         out[f"full_pipeline_{name}"] = stats(total)

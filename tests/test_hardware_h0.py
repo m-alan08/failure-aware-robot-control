@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 import gymnasium as gym
 import numpy as np
@@ -38,7 +39,7 @@ needs_data = pytest.mark.skipif(not (has_ckpt and has_f1), reason="checkpoints o
 
 
 def _state(t: int = 1, **kw) -> RawState:
-    base = dict(decision_ns=t * P, gripper_stamp_ns=t * P, object_stamp_ns=t * P,
+    base: dict[str, Any] = dict(decision_ns=t * P, gripper_stamp_ns=t * P, object_stamp_ns=t * P,
                 gripper_position=np.array([1.3, 0.75, 0.42]),
                 gripper_velocity=np.array([0.1, -0.2, 0.0]),
                 object_position=np.array([1.35, 0.7, 0.425]),

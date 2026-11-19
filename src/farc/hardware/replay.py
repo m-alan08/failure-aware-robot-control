@@ -21,7 +21,7 @@ configuration other than the one that recorded them.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import pandas as pd
@@ -72,7 +72,9 @@ def load_f1(configurations: tuple[str, ...] | None = None) -> list[Episode]:
                                                 "episode_seed"], sort=True):  # fmt: skip
         if not np.array_equal(ep["t"].to_numpy(), np.arange(len(ep))):
             raise RuntimeError(f"{key}: steps not contiguous")
-        out.append(Episode(*key, ep[VIEW].to_numpy(np.float64), ep[TRUE].to_numpy(np.float64),
+        cfg, ps, cond, seed = cast(tuple[str, int, str, int], key)
+        out.append(Episode(str(cfg), int(ps), str(cond), int(seed),
+                           ep[VIEW].to_numpy(np.float64), ep[TRUE].to_numpy(np.float64),
                            ep[CMD].to_numpy(np.float64), ep["delay_param"].to_numpy(int),
                            ep["gain_param"].to_numpy(np.float64),
                            ep["active"].to_numpy(bool), ep[PRED].to_numpy(np.float64)))  # fmt: skip
