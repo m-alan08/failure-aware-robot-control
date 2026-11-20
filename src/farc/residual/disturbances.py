@@ -44,8 +44,10 @@ class ObjectDynamics:
     friction_scale: float = 1.0
 
     def __post_init__(self):
-        for name, value in (("mass_scale", self.mass_scale),
-                            ("friction_scale", self.friction_scale)):
+        for name, value in (
+            ("mass_scale", self.mass_scale),
+            ("friction_scale", self.friction_scale),
+        ):
             if not (math.isfinite(value) and value > 0):
                 raise ValueError(f"{name} must be a positive finite number, got {value!r}")
 
@@ -65,30 +67,57 @@ class ObjectDynamicsPatch:
     bitwise identical to an unpatched episode. Restoring writes back the exact saved values.
     """
 
-    def __init__(self, model: Any, dynamics: ObjectDynamics, object_name: str = OBJECT_NAME):
+    FRICTION_MODES = ("object_geom", "object_table")
+
+    def __init__(self, model: Any, dynamics: ObjectDynamics, object_name: str = OBJECT_NAME,
+                 friction_mode: str = "object_geom", table_name: str = "table0"):  # fmt: skip
+        """``friction_mode``:
+
+        - ``"object_geom"`` (default; §3 read literally): scale the object geom's sliding
+          friction only. CAUTION: MuJoCo combines two geoms' friction by the element-wise
+          maximum, and in FetchPush the table and fingers have sliding friction 1.0, so any
+          scale below 1 has **no effect at all** (verified bitwise; see
+          ``docs/RESIDUAL_RL_INFRASTRUCTURE.md``).
+        - ``"object_table"`` (a proposed amendment, NOT approved): scale both the object's and
+          the table's sliding friction, so the object-table contact coefficient is scaled by
+          exactly s in both directions. Finger contacts keep max(s, 1).
+        """
         import mujoco
 
+        if friction_mode not in self.FRICTION_MODES:
+            raise ValueError(f"friction_mode must be one of {self.FRICTION_MODES}")
         self.model = model
         self.dynamics = dynamics
+        self.friction_mode = friction_mode
         self.body_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, object_name)
-        self.geom_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, object_name)
-        if self.body_id < 0 or self.geom_id < 0:
+        self.geom_ids = [mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, object_name)]
+        if self.body_id < 0 or self.geom_ids[0] < 0:
             raise ValueError(f"model has no body and geom named {object_name!r}")
-        self._saved: tuple[float, np.ndarray, float] | None = None
+        if friction_mode == "object_table":
+            table = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, table_name)
+            ids = [g for g in range(model.ngeom) if model.geom_bodyid[g] == table]
+            if table < 0 or not ids:
+                raise ValueError(f"model has no geoms on a body named {table_name!r}")
+            self.geom_ids += ids
+        self.geom_id = self.geom_ids[0]
+        self._saved: tuple[float, np.ndarray, np.ndarray] | None = None
 
     def __enter__(self) -> ObjectDynamicsPatch:
         if self._saved is not None:
             raise RuntimeError("patch is already applied")
         m = self.model
-        self._saved = (float(m.body_mass[self.body_id]),
-                       m.body_inertia[self.body_id].copy(),
-                       float(m.geom_friction[self.geom_id, 0]))
+        self._saved = (
+            float(m.body_mass[self.body_id]),
+            m.body_inertia[self.body_id].copy(),
+            m.geom_friction[self.geom_ids, 0].copy(),
+        )
         if not self.dynamics.is_nominal:
             s = self.dynamics.mass_scale
             m.body_mass[self.body_id] = self._saved[0] * s
-            # Same shape and density change: the inertia scales with the mass.
+            # Same shape, uniformly denser: what MuJoCo itself computes from the geom when
+            # the MJCF mass is scaled (the inertia is derived from geom mass and size).
             m.body_inertia[self.body_id] = self._saved[1] * s
-            m.geom_friction[self.geom_id, 0] = self._saved[2] * self.dynamics.friction_scale
+            m.geom_friction[self.geom_ids, 0] = self._saved[2] * self.dynamics.friction_scale
         return self
 
     def __exit__(self, *exc) -> None:
@@ -97,7 +126,7 @@ class ObjectDynamicsPatch:
         mass, inertia, friction = self._saved
         self.model.body_mass[self.body_id] = mass
         self.model.body_inertia[self.body_id] = inertia
-        self.model.geom_friction[self.geom_id, 0] = friction
+        self.model.geom_friction[self.geom_ids, 0] = friction
         self._saved = None
 
 
@@ -114,8 +143,14 @@ class CorrelatedObservationNoise:
     every step whatever sigma is (common random numbers across severities).
     """
 
-    def __init__(self, layout: FetchObservationLayout, sigma: float,
-                 rng: np.random.Generator, rho: float = AR_RHO, dt: float = 0.04):
+    def __init__(
+        self,
+        layout: FetchObservationLayout,
+        sigma: float,
+        rng: np.random.Generator,
+        rho: float = AR_RHO,
+        dt: float = 0.04,
+    ):
         if not (math.isfinite(sigma) and sigma >= 0):
             raise ValueError(f"sigma must be a non-negative finite number, got {sigma!r}")
         if not 0 <= rho < 1:
@@ -125,8 +160,9 @@ class CorrelatedObservationNoise:
         self._state: np.ndarray | None = None
 
     @classmethod
-    def sample(cls, layout: FetchObservationLayout, rng: np.random.Generator,
-               dt: float = 0.04) -> CorrelatedObservationNoise:
+    def sample(
+        cls, layout: FetchObservationLayout, rng: np.random.Generator, dt: float = 0.04
+    ) -> CorrelatedObservationNoise:
         return cls(layout, float(rng.uniform(*SIGMA_RANGE)), rng, dt=dt)
 
     def reset(self) -> None:

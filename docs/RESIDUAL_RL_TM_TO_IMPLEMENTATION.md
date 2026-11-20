@@ -31,3 +31,6 @@ block). Flag it at approval if a mass-only change was intended.
    plus the §8.4 real-simulator zero-residual re-check.
 3. Wire T-M/T-O into the `ResidualEnv` session factory and write the training runner, selection
    script and pre-written analysis, with tests, before any training seed is used.
+
+**Update:** see `docs/RESIDUAL_RL_INFRASTRUCTURE.md`. It covers the `ResidualEnv` wiring, the
+runner, and the finding that friction scales below 1 are a no-op as literally specified.
