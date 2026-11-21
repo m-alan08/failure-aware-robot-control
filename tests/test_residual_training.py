@@ -492,7 +492,7 @@ def test_gatekeeping_claim_wording():
     assert res["steps_passed"] == 2 and res["claim"] == A.CLAIMS[2]
     harm = {**strong, ("R", "nominal"): -0.2}
     res = A.development_analysis(_table(harm), resamples=2000)
-    assert res["claim"] == A.CLAIMS[0]
+    assert res["claim_draft_wording"] == A.CLAIMS[0]
     assert [s["tested"] for s in res["primary"]] == [True, False, False, False]
 
 

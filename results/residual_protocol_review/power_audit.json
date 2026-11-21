@@ -1,0 +1,1151 @@
+{
+  "g4_inputs": {
+    "episodes": 155700,
+    "families": {
+      "F-I": {
+        "pairs": 3600,
+        "C_success": 0.7830555555555555,
+        "discordance_C_vs_contact_learned": 0.29444444444444445,
+        "discordance_C_vs_base_only": 0.2427777777777778
+      },
+      "F-P": {
+        "pairs": 5400,
+        "C_success": 0.9657407407407408,
+        "discordance_C_vs_contact_learned": 0.012962962962962963,
+        "discordance_C_vs_base_only": 0.48185185185185186
+      },
+      "F-T": {
+        "pairs": 16200,
+        "C_success": 0.9803703703703703,
+        "discordance_C_vs_contact_learned": 0.029074074074074075,
+        "discordance_C_vs_base_only": 0.021358024691358026
+      },
+      "H": {
+        "pairs": 1800,
+        "C_success": 0.9766666666666667,
+        "discordance_C_vs_contact_learned": 0.0005555555555555556,
+        "discordance_C_vs_base_only": 0.0011111111111111111
+      },
+      "NG": {
+        "pairs": 3600,
+        "C_success": 0.9147222222222222,
+        "discordance_C_vs_contact_learned": 0.042222222222222223,
+        "discordance_C_vs_base_only": 0.36694444444444446
+      },
+      "RI": {
+        "pairs": 1800,
+        "C_success": 0.86,
+        "discordance_C_vs_contact_learned": 0.19444444444444445,
+        "discordance_C_vs_base_only": 0.13722222222222222
+      },
+      "RP": {
+        "pairs": 1800,
+        "C_success": 0.9422222222222222,
+        "discordance_C_vs_contact_learned": 0.0661111111111111,
+        "discordance_C_vs_base_only": 0.40055555555555555
+      },
+      "RS": {
+        "pairs": 900,
+        "C_success": 0.9433333333333334,
+        "discordance_C_vs_contact_learned": 0.08888888888888889,
+        "discordance_C_vs_base_only": 0.6666666666666666
+      },
+      "RT": {
+        "pairs": 1800,
+        "C_success": 0.9711111111111111,
+        "discordance_C_vs_contact_learned": 0.03611111111111111,
+        "discordance_C_vs_base_only": 0.019444444444444445
+      }
+    },
+    "within_seed_policy_corr_median": 0.003304682284818339,
+    "within_seed_policy_corr_max": 0.36706024269040427
+  },
+  "grid": [
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.0,
+      "reject_rate": 1.0,
+      "coverage": 1.0
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.01,
+      "reject_rate": 0.05,
+      "coverage": 0.935
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.002,
+      "reject_rate": 1.0,
+      "coverage": 0.9425
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.012,
+      "reject_rate": 0.04,
+      "coverage": 0.9275
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.005400000000000005,
+      "reject_rate": 0.9975,
+      "coverage": 0.8925
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.015400000000000004,
+      "reject_rate": 0.04,
+      "coverage": 0.945
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.0,
+      "reject_rate": 1.0,
+      "coverage": 1.0
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.01,
+      "reject_rate": 0.0325,
+      "coverage": 0.9475
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.002,
+      "reject_rate": 1.0,
+      "coverage": 0.88
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.012,
+      "reject_rate": 0.0375,
+      "coverage": 0.9425
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.005400000000000005,
+      "reject_rate": 1.0,
+      "coverage": 0.935
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.015400000000000004,
+      "reject_rate": 0.0225,
+      "coverage": 0.955
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.0,
+      "reject_rate": 1.0,
+      "coverage": 1.0
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.01,
+      "reject_rate": 0.0475,
+      "coverage": 0.9275
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.002,
+      "reject_rate": 1.0,
+      "coverage": 0.9325
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.012,
+      "reject_rate": 0.0275,
+      "coverage": 0.95
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.005400000000000005,
+      "reject_rate": 1.0,
+      "coverage": 0.9575
+    },
+    {
+      "group": "N",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.015400000000000004,
+      "reject_rate": 0.025,
+      "coverage": 0.9525
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.0,
+      "reject_rate": 1.0,
+      "coverage": 1.0
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.02,
+      "reject_rate": 0.0275,
+      "coverage": 0.96
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.002,
+      "reject_rate": 1.0,
+      "coverage": 0.9525
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.022,
+      "reject_rate": 0.035,
+      "coverage": 0.955
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.005400000000000005,
+      "reject_rate": 1.0,
+      "coverage": 0.88
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.025400000000000006,
+      "reject_rate": 0.03,
+      "coverage": 0.9425
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.0,
+      "reject_rate": 1.0,
+      "coverage": 1.0
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.02,
+      "reject_rate": 0.02,
+      "coverage": 0.9675
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.002,
+      "reject_rate": 1.0,
+      "coverage": 0.905
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.022,
+      "reject_rate": 0.0275,
+      "coverage": 0.9575
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.005400000000000005,
+      "reject_rate": 1.0,
+      "coverage": 0.945
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.025400000000000006,
+      "reject_rate": 0.035,
+      "coverage": 0.9475
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.0,
+      "reject_rate": 1.0,
+      "coverage": 1.0
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.02,
+      "reject_rate": 0.035,
+      "coverage": 0.9475
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.002,
+      "reject_rate": 1.0,
+      "coverage": 0.9525
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.022,
+      "reject_rate": 0.0325,
+      "coverage": 0.9325
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.005400000000000005,
+      "reject_rate": 1.0,
+      "coverage": 0.9325
+    },
+    {
+      "group": "N",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.025400000000000006,
+      "reject_rate": 0.0275,
+      "coverage": 0.94
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.9475
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.03,
+      "reject_rate": 0.025,
+      "coverage": 0.9225
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.94
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.060000000000000005,
+      "reject_rate": 0.02,
+      "coverage": 0.945
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 0.715,
+      "coverage": 0.9525
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.11,
+      "reject_rate": 0.015,
+      "coverage": 0.955
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.9475
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.03,
+      "reject_rate": 0.0225,
+      "coverage": 0.96
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.9525
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.060000000000000005,
+      "reject_rate": 0.035,
+      "coverage": 0.9375
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 0.95,
+      "coverage": 0.9575
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.11,
+      "reject_rate": 0.0275,
+      "coverage": 0.93
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.96
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.03,
+      "reject_rate": 0.02,
+      "coverage": 0.9575
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.925
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.060000000000000005,
+      "reject_rate": 0.02,
+      "coverage": 0.9475
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 0.9975,
+      "coverage": 0.935
+    },
+    {
+      "group": "D",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.11,
+      "reject_rate": 0.025,
+      "coverage": 0.9525
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.9675
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.04,
+      "reject_rate": 0.0325,
+      "coverage": 0.9425
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.9325
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.07,
+      "reject_rate": 0.015,
+      "coverage": 0.955
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 1.0,
+      "coverage": 0.9425
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.12000000000000001,
+      "reject_rate": 0.0225,
+      "coverage": 0.93
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.93
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.04,
+      "reject_rate": 0.0125,
+      "coverage": 0.96
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.9475
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.07,
+      "reject_rate": 0.0175,
+      "coverage": 0.9325
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 1.0,
+      "coverage": 0.95
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.12000000000000001,
+      "reject_rate": 0.025,
+      "coverage": 0.9275
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.95
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.04,
+      "reject_rate": 0.025,
+      "coverage": 0.955
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.935
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.07,
+      "reject_rate": 0.02,
+      "coverage": 0.955
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 1.0,
+      "coverage": 0.9375
+    },
+    {
+      "group": "D",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.12000000000000001,
+      "reject_rate": 0.02,
+      "coverage": 0.94
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.95
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.03,
+      "reject_rate": 0.02,
+      "coverage": 0.9475
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 0.97,
+      "coverage": 0.96
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.060000000000000005,
+      "reject_rate": 0.015,
+      "coverage": 0.95
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 0.645,
+      "coverage": 0.96
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.11,
+      "reject_rate": 0.035,
+      "coverage": 0.945
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.93
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.03,
+      "reject_rate": 0.025,
+      "coverage": 0.95
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.9525
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.060000000000000005,
+      "reject_rate": 0.0175,
+      "coverage": 0.94
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 0.9025,
+      "coverage": 0.95
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.11,
+      "reject_rate": 0.0225,
+      "coverage": 0.9425
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.9375
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.03,
+      "reject_rate": 0.0325,
+      "coverage": 0.9325
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.9425
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.060000000000000005,
+      "reject_rate": 0.0225,
+      "coverage": 0.9525
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 0.9925,
+      "coverage": 0.9275
+    },
+    {
+      "group": "M",
+      "margin": 0.01,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.11,
+      "reject_rate": 0.0125,
+      "coverage": 0.9525
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.9525
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.04,
+      "reject_rate": 0.03,
+      "coverage": 0.955
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.96
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.07,
+      "reject_rate": 0.0225,
+      "coverage": 0.9575
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 1.0,
+      "coverage": 0.94
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 300,
+      "scenario": "delta=-margin",
+      "discordance": 0.12000000000000001,
+      "reject_rate": 0.025,
+      "coverage": 0.9375
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.935
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.04,
+      "reject_rate": 0.03,
+      "coverage": 0.95
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.915
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.07,
+      "reject_rate": 0.0225,
+      "coverage": 0.97
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 1.0,
+      "coverage": 0.945
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 600,
+      "scenario": "delta=-margin",
+      "discordance": 0.12000000000000001,
+      "reject_rate": 0.0175,
+      "coverage": 0.9625
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.02,
+      "reject_rate": 1.0,
+      "coverage": 0.9325
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.04,
+      "reject_rate": 0.03,
+      "coverage": 0.945
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.05,
+      "reject_rate": 1.0,
+      "coverage": 0.935
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.07,
+      "reject_rate": 0.0325,
+      "coverage": 0.9425
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=0",
+      "discordance": 0.1,
+      "reject_rate": 1.0,
+      "coverage": 0.9375
+    },
+    {
+      "group": "M",
+      "margin": 0.02,
+      "n_seeds": 1200,
+      "scenario": "delta=-margin",
+      "discordance": 0.12000000000000001,
+      "reject_rate": 0.03,
+      "coverage": 0.95
+    }
+  ],
+  "run_level_variance": [
+    {
+      "net_sd": 0.0,
+      "coverage_of_mean_network_effect": 0.9525
+    },
+    {
+      "net_sd": 0.5,
+      "coverage_of_mean_network_effect": 0.47
+    },
+    {
+      "net_sd": 1.0,
+      "coverage_of_mean_network_effect": 0.2225
+    }
+  ],
+  "selection_nominal_filter": [
+    {
+      "true_nominal_harm": 0.0,
+      "p_pass_filter": 1.0
+    },
+    {
+      "true_nominal_harm": 0.005,
+      "p_pass_filter": 0.9725
+    },
+    {
+      "true_nominal_harm": 0.01,
+      "p_pass_filter": 0.5625
+    },
+    {
+      "true_nominal_harm": 0.02,
+      "p_pass_filter": 0.0125
+    },
+    {
+      "true_nominal_harm": 0.03,
+      "p_pass_filter": 0.0
+    }
+  ],
+  "normal_approx_pairs_single_network_independent": [
+    {
+      "group": "N",
+      "discordance": 0.002,
+      "margin": 0.01,
+      "pairs_80pct": 157,
+      "pairs_90pct": 211
+    },
+    {
+      "group": "N",
+      "discordance": 0.002,
+      "margin": 0.02,
+      "pairs_80pct": 40,
+      "pairs_90pct": 53
+    },
+    {
+      "group": "N",
+      "discordance": 0.006,
+      "margin": 0.01,
+      "pairs_80pct": 471,
+      "pairs_90pct": 631
+    },
+    {
+      "group": "N",
+      "discordance": 0.006,
+      "margin": 0.02,
+      "pairs_80pct": 118,
+      "pairs_90pct": 158
+    },
+    {
+      "group": "D",
+      "discordance": 0.05,
+      "margin": 0.01,
+      "pairs_80pct": 3925,
+      "pairs_90pct": 5254
+    },
+    {
+      "group": "D",
+      "discordance": 0.05,
+      "margin": 0.02,
+      "pairs_80pct": 982,
+      "pairs_90pct": 1314
+    },
+    {
+      "group": "M",
+      "discordance": 0.05,
+      "margin": 0.01,
+      "pairs_80pct": 3925,
+      "pairs_90pct": 5254
+    },
+    {
+      "group": "M",
+      "discordance": 0.05,
+      "margin": 0.02,
+      "pairs_80pct": 982,
+      "pairs_90pct": 1314
+    },
+    {
+      "group": "M",
+      "discordance": 0.1,
+      "margin": 0.01,
+      "pairs_80pct": 7849,
+      "pairs_90pct": 10508
+    },
+    {
+      "group": "M",
+      "discordance": 0.1,
+      "margin": 0.02,
+      "pairs_80pct": 1963,
+      "pairs_90pct": 2627
+    }
+  ],
+  "settings": {
+    "sims": 400,
+    "boot": 1000,
+    "rng_seed": 20261901
+  },
+  "note": "synthetic simulation calibrated on existing G4 data; not a result"
+}

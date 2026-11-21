@@ -1,0 +1,76 @@
+{
+  "seeds": [
+    0,
+    19
+  ],
+  "policy": "fetch_push_fp32_seed0 (frozen), nominal commands replayed open loop",
+  "object_contact_steps_by_body": {
+    "table0": 3390,
+    "robot0:l_gripper_finger_link": 116,
+    "robot0:r_gripper_finger_link": 105,
+    "robot0:gripper_link": 2
+  },
+  "settings": {
+    "object_geom | mass x0.5": {
+      "episodes_bitwise_identical_to_nominal": 0,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.11670476232538968,
+      "share_episodes_dev_gt_1mm": 1.0
+    },
+    "object_geom | mass x2.0": {
+      "episodes_bitwise_identical_to_nominal": 0,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.06094124835690634,
+      "share_episodes_dev_gt_1mm": 1.0
+    },
+    "object_geom | friction x0.5": {
+      "episodes_bitwise_identical_to_nominal": 20,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.0,
+      "share_episodes_dev_gt_1mm": 0.0
+    },
+    "object_geom | friction x1.5": {
+      "episodes_bitwise_identical_to_nominal": 0,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.06934401766704273,
+      "share_episodes_dev_gt_1mm": 1.0
+    },
+    "object_geom | nominal (1, 1)": {
+      "episodes_bitwise_identical_to_nominal": 20,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.0,
+      "share_episodes_dev_gt_1mm": 0.0
+    },
+    "object_table | mass x0.5": {
+      "episodes_bitwise_identical_to_nominal": 0,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.11670476232538968,
+      "share_episodes_dev_gt_1mm": 1.0
+    },
+    "object_table | mass x2.0": {
+      "episodes_bitwise_identical_to_nominal": 0,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.06094124835690634,
+      "share_episodes_dev_gt_1mm": 1.0
+    },
+    "object_table | friction x0.5": {
+      "episodes_bitwise_identical_to_nominal": 0,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.07472222612958446,
+      "share_episodes_dev_gt_1mm": 1.0
+    },
+    "object_table | friction x1.5": {
+      "episodes_bitwise_identical_to_nominal": 0,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.08931124943676105,
+      "share_episodes_dev_gt_1mm": 1.0
+    },
+    "object_table | nominal (1, 1)": {
+      "episodes_bitwise_identical_to_nominal": 20,
+      "episodes": 20,
+      "median_max_block_dev_m": 0.0,
+      "share_episodes_dev_gt_1mm": 0.0
+    }
+  },
+  "note": "protocol check on unregistered seeds; not a result"
+}
