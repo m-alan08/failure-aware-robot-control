@@ -178,7 +178,7 @@ class DisturbedSession:
     session is built and restored as soon as the episode ends (or on ``close``), so the next
     episode always starts from the unpatched model."""
 
-    def __init__(self, session: Any, patch: ObjectDynamicsPatch | None, draw: TrainingDraw):
+    def __init__(self, session: Any, patch: ObjectDynamicsPatch | None, draw: Any):
         self._session, self._patch, self.draw = session, patch, draw
         if patch is not None:
             patch.__enter__()
@@ -226,20 +226,28 @@ class TrainingSessionFactory:
         draw = draw_training(seed, self.shares, self.generator_seed)
         session = self.build(seed, ConditionSpec(f"train_{draw.family}", draw.extra),
                              draw.schedule)  # fmt: skip
-        if draw.obs_sigma > 0:
-            from farc.envs.observation_layout import control_period
-
-            noise = AR1PositionNoise(draw.obs_sigma,
-                                     _rng(self.generator_seed, seed, _STREAM_TO),
-                                     session.horizon)  # fmt: skip
-            noise.configure(session.layout, control_period(session.raw))
-            if session.step != 0 or session.pending_view is not None:
-                raise RuntimeError("T-O must be injected before the first observation")
-            session.perturbations.append(noise)
-        patch = None
-        if not draw.dynamics.is_nominal:
-            patch = ObjectDynamicsPatch(session.raw.model, draw.dynamics,
-                                        friction_mode=self.friction_mode)  # fmt: skip
-        self.current = DisturbedSession(session, patch, draw)
+        self.current = disturb(session, draw, draw.dynamics, draw.obs_sigma, seed,
+                               self.generator_seed, self.friction_mode)  # fmt: skip
         self.draws.append(draw)
         return self.current
+
+
+def disturb(session: Any, record: Any, dynamics: ObjectDynamics, obs_sigma: float, seed: int,
+            generator_seed: int = TRAINING_GENERATOR_SEED,
+            friction_mode: str = "object_geom") -> DisturbedSession:  # fmt: skip
+    """Add T-O (AR(1) controller-view noise) and T-M (model patch for the episode) to a fresh
+    session. Zero sigma and nominal dynamics add nothing at all. ``record`` is kept on the
+    returned session for logging (a ``TrainingDraw`` or an evaluation episode spec)."""
+    if session.step != 0 or session.pending_view is not None:
+        raise RuntimeError("disturbances must be added before the first observation")
+    if obs_sigma > 0:
+        from farc.envs.observation_layout import control_period
+
+        noise = AR1PositionNoise(obs_sigma, _rng(generator_seed, seed, _STREAM_TO),
+                                 session.horizon)  # fmt: skip
+        noise.configure(session.layout, control_period(session.raw))
+        session.perturbations.append(noise)
+    patch = None
+    if not dynamics.is_nominal:
+        patch = ObjectDynamicsPatch(session.raw.model, dynamics, friction_mode=friction_mode)
+    return DisturbedSession(session, patch, record)

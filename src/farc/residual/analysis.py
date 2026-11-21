@@ -171,8 +171,8 @@ def holm(pvalues: Sequence[float]) -> list[float]:
     return adj.tolist()
 
 
-def development_analysis(df: pd.DataFrame, resamples: int = 10_000,
-                         seed: int = 20261900) -> dict:  # fmt: skip
+def development_analysis(df: pd.DataFrame, resamples: int = 10_000, seed: int = 20261900,
+                         ni_margin: float = 0.01, practical: float = 0.02) -> dict:  # fmt: skip
     """Fixed-sequence gatekeeping (one-sided alpha 0.025), claim wording, Holm secondaries,
     and the always-reported safety counts. Every bootstrap uses the same seed, so all
     contrasts share resampling indices when they share clusters."""
@@ -181,29 +181,43 @@ def development_analysis(df: pd.DataFrame, resamples: int = 10_000,
             raise AnalysisInputError(f"group {g} is missing")
     steps, passed = [], 0
     gate_open = True
-    for i, (name, group, margin, practical) in enumerate(PRIMARY, start=1):
+    primary = [(n, g, -ni_margin if m < 0 else m, None if p is None else practical)
+               for n, g, m, p in PRIMARY]  # fmt: skip
+    for i, (name, group, margin, prac) in enumerate(primary, start=1):
         c = contrast(df, name, "R", "C", group=group, resamples=resamples, seed=seed)
-        ok = c.lower > margin and (practical is None or c.estimate >= practical - 1e-12)
+        ok = c.lower > margin and (prac is None or c.estimate >= prac - 1e-12)
         tested = gate_open
+        # Degradation needs its own evidence: the upper one-sided 97.5% bound below 0.
+        # Failing to show non-inferiority (lower bound <= -margin) is NOT that evidence.
+        degraded = bool(c.upper < 0)
         steps.append({"step": i, "claim": name, "group": group, "estimate": c.estimate,
                       "lower": c.lower, "upper": c.upper, "margin": margin,
-                      "practical": practical, "tested": tested,
-                      "passed": bool(ok) if tested else None})  # fmt: skip
+                      "practical": prac, "tested": tested,
+                      "passed": bool(ok) if tested else None,
+                      "degradation_shown": degraded if tested else None,
+                      "degradation_beyond_margin": bool(c.upper < margin) if tested and i <= 2
+                      else None})  # fmt: skip
         if tested and ok:
             passed = i
         gate_open = gate_open and ok
-    if passed >= 4:
-        claim = CLAIMS[4]
-    elif passed == 3:
-        claim = CLAIMS[3]
-    elif passed == 2:
-        claim = CLAIMS[2]
+    # The draft's wording, reproduced literally (it reports any failure of step 1 or 2 as
+    # degradation), and the proposed corrected wording (docs/RESIDUAL_RL_PROTOCOL_REVIEW.md,
+    # S-4). Both are always returned; neither is chosen silently.
+    claim_draft = CLAIMS[min(passed, 4)] if passed >= 2 else CLAIMS[0]
+    if passed >= 2:
+        claim = claim_draft
     else:
-        claim = CLAIMS[0]
+        failed = steps[passed]  # the first protection step that failed
+        if failed["degradation_shown"]:
+            claim = f"the residual degrades C on {failed['group']} (upper bound < 0)"
+        else:
+            claim = (f"non-inferiority to C not shown on {failed['group']}; degradation not "
+                     "shown either (inconclusive)")  # fmt: skip
     secondary: list[dict[str, Any]] = []
     present = set(df.config)
     for name, treat, control, group, family in SECONDARY:
-        if treat not in present or control not in present:
+        rows_exist = (df.group == group) & (df.family == family if family else True)
+        if treat not in present or control not in present or not rows_exist.any():
             secondary.append({"name": name, "missing": True})
             continue
         c = contrast(df, name, treat, control, group=group, family=family,
@@ -215,6 +229,7 @@ def development_analysis(df: pd.DataFrame, resamples: int = 10_000,
         s["p_holm"] = adj
         s["descriptive_only"] = passed < 3
     return {"primary": steps, "steps_passed": passed, "claim": claim,
+            "claim_draft_wording": claim_draft,
             "secondary": secondary, "safety": harmed_rescued(df)}  # fmt: skip
 
 
@@ -227,3 +242,11 @@ def harmed_rescued(df: pd.DataFrame, treat: str = "R") -> pd.DataFrame:
     r["harmed"] = r.c_success.astype(bool) & ~r.success.astype(bool)
     r["rescued"] = ~r.c_success.astype(bool) & r.success.astype(bool)
     return r.groupby("family")[["harmed", "rescued"]].sum().astype(int).reset_index()
+
+
+def rollback_stop(failed_runs: int, total_runs: int) -> bool:
+    """§8.3: the experiment stops if MORE than one third of the R-alpha* runs fail by the
+    rollback rule (with 3 runs: 2 or 3 failures stop it, 1 does not)."""
+    if total_runs < 1 or not 0 <= failed_runs <= total_runs:
+        raise AnalysisInputError("need 0 <= failed_runs <= total_runs and total_runs >= 1")
+    return 3 * failed_runs > total_runs

@@ -229,13 +229,18 @@ class ResidualSAC:
         for g in self.actor_opt.param_groups:
             g["lr"] = lr
 
+    @torch.no_grad()
+    def td_target(self, b: dict[str, torch.Tensor], coef: torch.Tensor) -> torch.Tensor:
+        """r + gamma * (1 - done) * (min target Q(s', a') - coef * log pi(a'|s')),
+        a' ~ pi(.|s') sampled fresh. ``done`` is 1 at the time limit (see ``train``)."""
+        a2, logp2 = self._sample(b["next_obs"], self.generator)
+        q1t, q2t = self.critic_target(b["next_obs"], a2)
+        soft = torch.min(q1t, q2t) - coef * logp2
+        return b["rew"] + self.cfg.gamma * (1 - b["done"]) * soft
+
     def update(self, b: dict[str, torch.Tensor], actor: bool) -> dict[str, float]:
         coef = self.log_entropy_coef.exp().detach()
-        with torch.no_grad():
-            a2, logp2 = self._sample(b["next_obs"], self.generator)
-            q1t, q2t = self.critic_target(b["next_obs"], a2)
-            target = b["rew"] + self.cfg.gamma * (1 - b["done"]) * (torch.min(q1t, q2t)
-                                                                    - coef * logp2)  # fmt: skip
+        target = self.td_target(b, coef)
         q1, q2 = self.critic(b["obs"], b["act"])
         critic_loss = F.mse_loss(q1, target) + F.mse_loss(q2, target)
         self.critic_opt.zero_grad(set_to_none=True)
@@ -272,7 +277,7 @@ class ResidualSAC:
                 "entropy_opt": self.entropy_opt.state_dict(),
                 "generator": self.generator.get_state()}  # fmt: skip
 
-    def load_state_dict(self, s: dict[str, Any]) -> None:
+    def load_state_dict(self, s: dict[str, Any], restore_generator: bool = True) -> None:
         self.actor.load_state_dict(s["actor"])
         self.critic.load_state_dict(s["critic"])
         self.critic_target.load_state_dict(s["critic_target"])
@@ -281,7 +286,8 @@ class ResidualSAC:
         self.actor_opt.load_state_dict(s["actor_opt"])
         self.critic_opt.load_state_dict(s["critic_opt"])
         self.entropy_opt.load_state_dict(s["entropy_opt"])
-        self.generator.set_state(s["generator"])
+        if restore_generator:
+            self.generator.set_state(s["generator"])
 
 
 NominalEval = Callable[[ResidualSAC, float], float]  # (agent, alpha) -> nominal success rate
@@ -334,30 +340,43 @@ def train(cfg: TrainConfig, env, nominal_eval: NominalEval, c_nominal_success: f
                 "step": step,
                 "config": cfg.to_dict(),
                 "actor_lr": agent.actor_opt.param_groups[0]["lr"],
+                "replay_rng": rng.bit_generator.state,
+                "buffer_size": buffer.size,
+                "seeds_used": seeds_used,
                 **(extra or {}),
             },
             path,
         )
         return path
 
+    seeds_used = 0
     good = save("checkpoint_0.pt", 0)  # = Candidate C exactly (zero-initialised output)
     rollbacks, episodes, ep_return, status = 0, 0, 0.0, "completed"
     env.controller.alpha = alpha_schedule(0, cfg)
     obs, _ = env.reset(seed=next(seeds))
+    seeds_used = 1
     step = 0
     for step in range(1, cfg.env_steps + 1):
         alpha = alpha_schedule(step - 1, cfg)
         env.controller.alpha = alpha
         delta = np.zeros(4) if step <= cfg.zero_data_steps else agent.act(obs, False)
         obs2, r, terminated, truncated, info = env.step(delta)
-        buffer.add(obs, delta, r, obs2, terminated)
+        # ResidualEnv returns an all-zero placeholder observation at the time limit (the
+        # session cannot be observed after its last step). Bootstrapping from it would be
+        # wrong, so the time-limit transition is stored as terminal: the 50-step horizon is
+        # the end of the task (see docs/RESIDUAL_RL_PROTOCOL_REVIEW.md, SAC-1).
+        buffer.add(obs, delta, r, obs2, terminated or truncated)
         ep_return += r
         if terminated or truncated:
             episodes += 1
             emit("episode", step=step, episode=episodes, ret=ep_return,
                  success=bool(info["success"]), alpha=alpha)  # fmt: skip
             ep_return = 0.0
-            obs, _ = env.reset(seed=next(seeds))
+            # No reset after the final step: it would consume one unused seed (and raise
+            # SeedsExhausted when the budget fits the seed list exactly).
+            if step < cfg.env_steps:
+                obs, _ = env.reset(seed=next(seeds))
+                seeds_used += 1
         else:
             obs = obs2
         if step == cfg.zero_data_steps:
@@ -379,14 +398,17 @@ def train(cfg: TrainConfig, env, nominal_eval: NominalEval, c_nominal_success: f
                 rollbacks += 1
                 state = torch.load(good, weights_only=False)
                 lr = agent.actor_opt.param_groups[0]["lr"]
-                agent.load_state_dict(state["agent"])
+                # Networks, optimisers and entropy coefficient go back; the exploration
+                # noise stream does not (restoring it would replay the same noise).
+                agent.load_state_dict(state["agent"], restore_generator=False)
                 agent.set_actor_lr(lr / 2)
                 emit("rollback", step=step, to=good.name, rollbacks=rollbacks, actor_lr=lr / 2)
                 if rollbacks >= cfg.max_rollbacks:
                     status = "failed_rollback"  # analysed as C (delta = 0), not excluded
                     break
     final = save("final.pt", step, {"status": status, "rollbacks": rollbacks})
-    emit("end", status=status, step=step, rollbacks=rollbacks, episodes=episodes)
+    emit("end", status=status, step=step, rollbacks=rollbacks, episodes=episodes,
+         seeds_used=seeds_used)  # fmt: skip
     log.close()
     return TrainResult(status, step, rollbacks, episodes, str(final), str(log_path))
 

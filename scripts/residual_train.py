@@ -20,6 +20,7 @@ import numpy as np
 from farc.delaychange.heldout import _setup, load_g4
 from farc.delaychange.schedule import DelaySchedule, ScheduledDelaySession
 from farc.disturbances.config import ConditionSpec
+from farc.residual.base_core import SACBaseCore
 from farc.residual.controller import ResidualController, ResidualEnv, run_residual_episode
 from farc.residual.core import CandidateCCore
 from farc.residual.observation import ObservationSpec
@@ -48,8 +49,6 @@ def _spec(arm: str) -> ObservationSpec:
 
 
 def build(cfg: TrainConfig, plan: dict):
-    if cfg.arm == "B2":
-        raise SystemExit("B2 (residual on frozen SAC) needs a base-only core: not wired yet")
     g4 = load_g4(G4_CONFIG, "debugging")  # constants/estimator only; no G4 seed is used
     loaded, policy, normalizer, env, _, preds = _setup(g4, g4.checkpoints[cfg.policy_index])
     pseed = plan["generator_seed"]
@@ -62,12 +61,18 @@ def build(cfg: TrainConfig, plan: dict):
                                      schedule, "replay_drop")  # fmt: skip
 
     def core():
+        if cfg.arm == "B2":  # residual on frozen SAC: no Candidate C at all
+            return SACBaseCore(policy, normalizer)
         return CandidateCCore(policy, normalizer, preds["learned"], g4.estimator, g4.constants)
 
     from farc.residual.observation import ResidualObservationBuilder
 
     spec = _spec(cfg.arm)
-    factory = TrainingSessionFactory(base, cfg.shares or ARM_SHARES[cfg.arm], pseed)
+    # The draft's literal T-M friction semantics unless an approved amendment sets the key
+    # (docs/RESIDUAL_RL_PROTOCOL_REVIEW.md, T-M-2).
+    friction_mode = plan.get("tm_friction_mode", "object_geom")
+    factory = TrainingSessionFactory(base, cfg.shares or ARM_SHARES[cfg.arm], pseed,
+                                     friction_mode)  # fmt: skip
     controller = ResidualController(core(), alpha=cfg.alpha_start,
                                     builder=ResidualObservationBuilder(spec))  # fmt: skip
     renv = ResidualEnv(factory, controller)
