@@ -36,3 +36,15 @@ stopped or changed.
 - Descriptive note, not a test: every α has a slightly negative efficacy-family difference on the
   selection block. The confirmatory question is answered only by the development evaluation.
 - A1, A2, A3 and B2 runs at α\* = 0.05 started 03:28.
+
+## 2026-11-27 11:12: ablation runs complete; evaluation paused by a battery hibernation
+
+- All 12 A1, A2, A3 and B2 runs at α\* = 0.05 completed (03:28–09:20). Rollbacks: 1 in `A3_n0`
+  (then completed), 0 elsewhere. No run failed, so all 21 registered runs are `completed`.
+- The batches took about 85 min each (54 min for the R-α batches). The Mac was on battery.
+- The 600-seed development evaluation started 09:19:43. At 09:43 the Mac reached 1% battery and
+  hibernated (`pmset` log: "Low Power Sleep", 2,712 s); it woke at 10:28 when AC was attached.
+  `caffeinate -i` does not prevent this. The rollout pool was suspended, not killed, and episodes
+  are deterministic functions of their seeds, so the pause cannot change any outcome; it only
+  delays the evaluation. Training had already finished before the hibernation.
+- First evaluation task finished after 4,039 s of awake time (24 tasks in 3 waves of 8).
