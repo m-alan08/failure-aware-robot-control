@@ -1,0 +1,15 @@
+{
+  "identical": {
+    "actor": true,
+    "critic": true,
+    "critic_target": true,
+    "log_entropy_coef": true,
+    "replay_rng": true,
+    "seeds_used": true,
+    "log": true
+  },
+  "all_identical": true,
+  "resumed_from_step": 500,
+  "steps": 1500,
+  "note": "smoke seeds 500-530, 100-109; software check only"
+}

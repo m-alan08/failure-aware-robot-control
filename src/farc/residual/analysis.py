@@ -270,7 +270,14 @@ def development_analysis(df: pd.DataFrame, resamples: int = 10_000, seed: int = 
     for s, adj in zip(with_p, holm([s["p"] for s in with_p]), strict=True):
         s["p_holm"] = adj
         s["descriptive_only"] = passed < 3
-    return {"primary": steps, "steps_passed": passed, "claim": claim,
+    # Amendment R-A2 (GEN-2): reporting-only groups (no-delay G4 cells), never tested.
+    reporting = []
+    for g in sorted(set(df.group) - {"N", "D", "M", "X"}):
+        if (df[df.group == g].config == "R").any():
+            c = contrast(df, f"R-C on {g}", "R", "C", group=g, resamples=resamples, seed=seed)
+            reporting.append({"group": g, "estimate": c.estimate, "lower": c.lower,
+                              "upper": c.upper, "descriptive_only": True})  # fmt: skip
+    return {"primary": steps, "steps_passed": passed, "claim": claim, "reporting": reporting,
             "claim_draft_wording": claim_draft,
             "secondary": secondary, "safety": harmed_rescued(df)}  # fmt: skip
 

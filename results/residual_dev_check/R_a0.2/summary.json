@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "steps": 200000,
+  "rollbacks": 0,
+  "seconds": 522.1884736251086,
+  "c_nominal_success": 0.98,
+  "note": "smoke seeds only; software/stability check"
+}

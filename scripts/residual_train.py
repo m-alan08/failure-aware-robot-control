@@ -16,6 +16,7 @@ import json
 from dataclasses import replace
 
 import numpy as np
+import torch
 
 from farc.delaychange.heldout import _setup, load_g4
 from farc.delaychange.schedule import DelaySchedule, ScheduledDelaySession
@@ -48,6 +49,29 @@ def _spec(arm: str) -> ObservationSpec:
     return ObservationSpec()
 
 
+def preds_state(preds) -> dict:
+    """Every tensor reachable from the predictor closures (the F1 model's parameters)."""
+    out = {}
+    for name, fn in preds.items():
+        for i, cell in enumerate(getattr(fn, "__closure__", None) or ()):
+            obj = cell.cell_contents
+            if isinstance(obj, torch.nn.Module):
+                out.update({f"{name}.{i}.{k}": v for k, v in obj.state_dict().items()})
+            for field in getattr(obj, "__dataclass_fields__", {}):  # e.g. DynamicsModel
+                v = getattr(obj, field)
+                if isinstance(v, np.ndarray):
+                    out[f"{name}.{i}.{field}"] = torch.from_numpy(np.array(v, copy=True))
+                elif isinstance(v, torch.Tensor):
+                    out[f"{name}.{i}.{field}"] = v
+                elif isinstance(v, torch.nn.Module):  # the F1 network itself
+                    out.update({f"{name}.{i}.{field}.{k}": t for k, t in v.state_dict().items()})
+                elif isinstance(v, (list, tuple)):
+                    for j, x in enumerate(v):
+                        if isinstance(x, np.ndarray):
+                            out[f"{name}.{i}.{field}.{j}"] = torch.from_numpy(np.array(x))
+    return out
+
+
 def build(cfg: TrainConfig, plan: dict):
     g4 = load_g4(G4_CONFIG, "debugging")  # constants/estimator only; no G4 seed is used
     loaded, policy, normalizer, env, _, preds = _setup(g4, g4.checkpoints[cfg.policy_index])
@@ -76,6 +100,19 @@ def build(cfg: TrainConfig, plan: dict):
     controller = ResidualController(core(), alpha=cfg.alpha_start,
                                     builder=ResidualObservationBuilder(spec))  # fmt: skip
     renv = ResidualEnv(factory, controller)
+    frozen = {k: v.clone() for k, v in loaded.actor.state_dict().items()}
+    model_params = {k: v.clone() for k, v in preds_state(preds).items()}
+
+    def frozen_check() -> None:
+        """The frozen SAC actor and the F1 predictor must be bitwise unchanged."""
+        for k, v in loaded.actor.state_dict().items():
+            if not torch.equal(v, frozen[k]):
+                raise RuntimeError(f"the frozen SAC actor changed ({k})")
+        for k, v in preds_state(preds).items():
+            if not torch.equal(v, model_params[k]):
+                raise RuntimeError(f"the frozen F1 predictor changed ({k})")
+
+    renv.frozen_check = frozen_check  # type: ignore[attr-defined]
 
     def nominal_eval(agent, alpha: float) -> float:
         wins = []
@@ -106,6 +143,7 @@ def main() -> None:
     p.add_argument("--smoke", action="store_true")
     p.add_argument("--steps", type=int, default=300)
     p.add_argument("--out", required=True)
+    p.add_argument("--resume", action="store_true", help="continue from OUT/resume.pt")
     a = p.parse_args()
     plan = load_plan_config(CONFIG_PATH)
     if a.smoke:
@@ -125,10 +163,18 @@ def main() -> None:
     check_run(cfg, plan)  # refuses before any simulator work
     renv, nominal_eval, c_nominal, factory, cfg = build(cfg, plan)
     c = c_nominal()
-    result = train(cfg, renv, nominal_eval, c, a.out, plan)
+    result = train(cfg, renv, nominal_eval, c, a.out, plan, resume=a.resume)
+    renv.frozen_check()  # raises if the frozen SAC actor or F1 predictor changed
+    # Draws are pure functions of (seed, shares, generator seed): regenerate them so the log
+    # is complete for resumed runs too.
+    from farc.residual.training_env import draw_training
+
+    shares = cfg.shares or ARM_SHARES[cfg.arm]
     with open(f"{a.out}/episodes.jsonl", "w") as f:
-        for d in factory.draws:
+        for seed in cfg.episode_seeds[: result.episodes]:
+            d = draw_training(seed, shares, plan["generator_seed"])
             f.write(json.dumps(d.to_dict()) + "\n")
+    del factory
     print(json.dumps(result.__dict__, indent=2))
 
 

@@ -110,6 +110,10 @@ def check_approved(plan_config: dict[str, Any], root: str | Path = ".") -> None:
                          "are refused (smoke runs on SMOKE_SEEDS only)")  # fmt: skip
     if _sha256(Path(root) / plan_config["plan"]) != plan_config["plan_sha256"]:
         raise RunRefused("the residual RL plan changed since the config pinned it")
+    # The effective protocol = pre-registration + amendments; both are integrity-checked.
+    am = plan_config.get("amendments_file")
+    if am is None or _sha256(Path(root) / am) != plan_config.get("amendments_sha256"):
+        raise RunRefused("the residual RL amendments changed since the config pinned them")
 
 
 def check_smoke_seeds(seeds: Sequence[int]) -> None:
@@ -320,25 +324,71 @@ def _seeds(seeds: Sequence[int]) -> Iterator[int]:
     raise SeedsExhausted(f"all {len(seeds)} training episode seeds are used")
 
 
+RESUME_FILE = "resume.pt"
+
+
+def _buffer_state(b: ReplayBuffer) -> dict[str, Any]:
+    n = b.size
+    return {
+        "size": b.size,
+        "pos": b.pos,
+        "capacity": b.capacity,
+        **{k: getattr(b, k)[:n].copy() for k in ("obs", "next_obs", "act", "rew", "done")},
+    }
+
+
+def _load_buffer(b: ReplayBuffer, s: dict[str, Any]) -> None:
+    if s["capacity"] != b.capacity:
+        raise RunRefused("resume: replay capacity differs")
+    n = s["size"]
+    for k in ("obs", "next_obs", "act", "rew", "done"):
+        getattr(b, k)[:n] = s[k]
+    b.size, b.pos = n, s["pos"]
+
+
 def train(cfg: TrainConfig, env, nominal_eval: NominalEval, c_nominal_success: float,
           out_dir: str | Path, plan_config: dict[str, Any] | None = None,
-          root: str | Path = ".") -> TrainResult:  # fmt: skip
+          root: str | Path = ".", resume: bool = False) -> TrainResult:  # fmt: skip
     """Run one arm x network seed. ``env`` is a ``ResidualEnv`` (or the same interface);
     ``nominal_eval(agent, alpha)`` returns deterministic success on ``nominal_eval_seeds``;
-    ``c_nominal_success`` is C's success on those seeds, computed once before training."""
+    ``c_nominal_success`` is C's success on those seeds, computed once before training.
+
+    Resumability: after every nominal check (an episode boundary, since ``eval_interval`` is a
+    multiple of the 50-step horizon) the COMPLETE training state is written atomically to
+    ``resume.pt``: networks, optimisers, entropy coefficient, exploration-noise generator,
+    replay buffer contents, replay-sampling RNG, step counter, seed cursor, episode count,
+    rollback count, last good checkpoint, actor learning rate and the log length. With
+    ``resume=True`` the run continues from it; the environment is re-reset with the seed the
+    interrupted run had just reset to (sessions are pure functions of their seed), so a resumed
+    run matches an uninterrupted one."""
     check_run(cfg, plan_config if plan_config is not None else load_plan_config(
         Path(root) / CONFIG_PATH), root)  # fmt: skip
     torch.set_num_threads(1)
+    if cfg.eval_interval % 50 != 0 and cfg.eval_interval < cfg.env_steps:
+        raise RunRefused("eval_interval must be a multiple of the 50-step horizon")
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     log_path = out / "log.jsonl"
-    log = log_path.open("w")
+    resume_path = out / RESUME_FILE
+    state = None
+    if resume and resume_path.exists():
+        state = torch.load(resume_path, weights_only=False)
+        if state["config"] != cfg.to_dict() or state["c_nominal_success"] != c_nominal_success:
+            raise RunRefused("resume: configuration or C reference differs from the saved run")
+        lines = log_path.read_text().splitlines(keepends=True)[: state["log_lines"]]
+        log_path.write_text("".join(lines))
+        log = log_path.open("a")
+        log_lines = state["log_lines"]
+    else:
+        log = log_path.open("w")
+        log_lines = 0
 
     def emit(kind: str, **values) -> None:
+        nonlocal log_lines
         log.write(json.dumps({"kind": kind, **values}, sort_keys=True) + "\n")
         log.flush()
+        log_lines += 1
 
-    emit("config", **cfg.to_dict(), c_nominal_success=c_nominal_success)
     agent = ResidualSAC(cfg)
     buffer = ReplayBuffer(cfg.replay_size, cfg.observation_dim)
     rng = np.random.default_rng([cfg.network_seed, 20261900])
@@ -361,14 +411,42 @@ def train(cfg: TrainConfig, env, nominal_eval: NominalEval, c_nominal_success: f
         )
         return path
 
-    seeds_used = 0
-    good = save("checkpoint_0.pt", 0)  # = Candidate C exactly (zero-initialised output)
+    def save_resume(step: int) -> None:
+        tmp = out / (RESUME_FILE + ".tmp")
+        torch.save({"config": cfg.to_dict(), "c_nominal_success": c_nominal_success,
+                    "agent": agent.state_dict(), "buffer": _buffer_state(buffer),
+                    "replay_rng": rng.bit_generator.state, "step": step,
+                    "seeds_used": seeds_used, "episodes": episodes, "rollbacks": rollbacks,
+                    "good": good.name, "actor_lr": agent.actor_opt.param_groups[0]["lr"],
+                    "log_lines": log_lines}, tmp)  # fmt: skip
+        tmp.replace(resume_path)
+
     rollbacks, episodes, ep_return, status = 0, 0, 0.0, "completed"
-    env.controller.alpha = alpha_schedule(0, cfg)
-    obs, _ = env.reset(seed=next(seeds))
-    seeds_used = 1
-    step = 0
-    for step in range(1, cfg.env_steps + 1):
+    if state is None:
+        emit("config", **cfg.to_dict(), c_nominal_success=c_nominal_success)
+        seeds_used = 0
+        good = save("checkpoint_0.pt", 0)  # = Candidate C exactly (zero-initialised output)
+        env.controller.alpha = alpha_schedule(0, cfg)
+        obs, _ = env.reset(seed=next(seeds))
+        seeds_used = 1
+        start = 1
+    else:
+        agent.load_state_dict(state["agent"], restore_generator=True)
+        agent.set_actor_lr(state["actor_lr"])
+        _load_buffer(buffer, state["buffer"])
+        rng.bit_generator.state = state["replay_rng"]
+        seeds_used, episodes, rollbacks = state["seeds_used"], state["episodes"], state["rollbacks"]
+        good = out / state["good"]
+        for _ in range(seeds_used):
+            next(seeds)
+        start = state["step"] + 1
+        emit("resume", step=state["step"], seeds_used=seeds_used)
+        # the interrupted run had just reset to this seed (episode boundary)
+        env.controller.alpha = alpha_schedule(state["step"], cfg)
+        obs, _ = env.reset(seed=cfg.episode_seeds[seeds_used - 1])
+    step = start - 1
+    ep_diag = [0.0] * 5
+    for step in range(start, cfg.env_steps + 1):
         alpha = alpha_schedule(step - 1, cfg)
         env.controller.alpha = alpha
         delta = np.zeros(4) if step <= cfg.zero_data_steps else agent.act(obs, False)
@@ -379,11 +457,24 @@ def train(cfg: TrainConfig, env, nominal_eval: NominalEval, c_nominal_success: f
         # the end of the task (see docs/RESIDUAL_RL_PROTOCOL_REVIEW.md, SAC-1).
         buffer.add(obs, delta, r, obs2, terminated or truncated)
         ep_return += r
+        # residual diagnostics (logged per episode; never fed to the agent)
+        d = np.clip(np.asarray(delta, np.float64), -1.0, 1.0)
+        raw = np.asarray(info["a_c"]) + alpha * d
+        ep_diag[0] += float(np.abs(d).mean())
+        ep_diag[1] += float(np.mean(np.abs(d) >= 0.99))
+        ep_diag[2] += float(np.mean(np.abs(raw) > 1.0)) if alpha > 0 else 0.0
+        ep_diag[3] += float(np.abs(np.asarray(info["a_final"]) - info["a_c"]).mean())
+        ep_diag[4] += 1
         if terminated or truncated:
             episodes += 1
+            n = max(ep_diag[4], 1)
             emit("episode", step=step, episode=episodes, ret=ep_return,
-                 success=bool(info["success"]), alpha=alpha)  # fmt: skip
+                 success=bool(info["success"]), alpha=alpha, delta_abs=ep_diag[0] / n,
+                 delta_sat=ep_diag[1] / n, command_clip=ep_diag[2] / n,
+                 correction_abs=ep_diag[3] / n,
+                 seed=int(cfg.episode_seeds[seeds_used - 1]))  # fmt: skip
             ep_return = 0.0
+            ep_diag[:] = [0.0] * 5
             # No reset after the final step: it would consume one unused seed (and raise
             # SeedsExhausted when the budget fits the seed list exactly).
             if step < cfg.env_steps:
@@ -418,6 +509,8 @@ def train(cfg: TrainConfig, env, nominal_eval: NominalEval, c_nominal_success: f
                 if rollbacks >= cfg.max_rollbacks:
                     status = "failed_rollback"  # analysed as C (delta = 0), not excluded
                     break
+            if step < cfg.env_steps:
+                save_resume(step)
     final = save("final.pt", step, {"status": status, "rollbacks": rollbacks})
     emit("end", status=status, step=step, rollbacks=rollbacks, episodes=episodes,
          seeds_used=seeds_used)  # fmt: skip

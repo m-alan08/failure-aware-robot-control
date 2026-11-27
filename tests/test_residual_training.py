@@ -95,11 +95,26 @@ def test_registered_run_refused_while_unapproved():
         check_run(_registered_cfg(), PLAN)
 
 
-def _approved_copy(tmp_path, plan_text="draft plan"):
+def _approved_copy(tmp_path, plan_text="draft plan", amendments_text="amendments"):
     (tmp_path / "plan.md").write_text(plan_text)
+    (tmp_path / "amend.md").write_text(amendments_text)
     cfg = dict(PLAN, approved=True, plan="plan.md",
-               plan_sha256=hashlib.sha256(plan_text.encode()).hexdigest())  # fmt: skip
+               plan_sha256=hashlib.sha256(plan_text.encode()).hexdigest(),
+               amendments_file="amend.md",
+               amendments_sha256=hashlib.sha256(amendments_text.encode()).hexdigest())  # fmt: skip
     return cfg
+
+
+def test_changed_amendments_are_refused(tmp_path):
+    plan = _approved_copy(tmp_path)
+    check_run(_registered_cfg(), plan, tmp_path)
+    (tmp_path / "amend.md").write_text("edited after pinning")
+    with pytest.raises(RunRefused, match="amendments changed"):
+        check_run(_registered_cfg(), plan, tmp_path)
+    no_pin = {k: v for k, v in plan.items() if k != "amendments_sha256"}
+    (tmp_path / "amend.md").write_text("amendments")
+    with pytest.raises(RunRefused, match="amendments"):
+        check_run(_registered_cfg(), no_pin, tmp_path)
 
 
 def test_registered_validation_logic_on_a_hypothetical_approved_copy(tmp_path):
@@ -587,3 +602,57 @@ def test_evaluation_seed_count_rule():
         evaluation_seed_count(1.5)
     assert discordance(_table({("R", "nominal"): 0.0}, seeds=50)) == 0.0
     assert discordance(_table({("R", "nominal"): 0.3}, seeds=200)) > 0.0
+
+
+# --- resumable training (full state at nominal-check boundaries) ------------------------------
+
+
+class _Interrupt(Exception):
+    pass
+
+
+def _evals(values, interrupt_at=None):
+    calls = {"n": 0}
+
+    def ev(agent, alpha):
+        calls["n"] += 1
+        if interrupt_at is not None and calls["n"] == interrupt_at:
+            raise _Interrupt
+        return values[(calls["n"] - 1) % len(values)]
+
+    return ev
+
+
+@pytest.mark.parametrize("values", [[1.0], [1.0, 0.0, 1.0, 1.0]])  # second: one rollback
+def test_resumed_run_matches_uninterrupted_run(tmp_path, values):
+    cfg = smoke_config()
+    full = train(cfg, _stub_env(), _evals(values), 1.0, tmp_path / "full", PLAN)
+    # interrupted during the 3rd nominal check (step 300): resume.pt holds step 200
+    with pytest.raises(_Interrupt):
+        train(cfg, _stub_env(), _evals(values, interrupt_at=3), 1.0, tmp_path / "cut", PLAN)
+    assert torch.load(tmp_path / "cut" / "resume.pt", weights_only=False)["step"] == 200
+    rest = _evals(values[2:] + values[:2])  # the remaining checks see the same values
+    res = train(cfg, _stub_env(), rest, 1.0, tmp_path / "cut", PLAN, resume=True)
+    assert (res.status, res.steps, res.rollbacks, res.episodes) == (
+        full.status,
+        full.steps,
+        full.rollbacks,
+        full.episodes,
+    )
+    a = torch.load(full.final_checkpoint, weights_only=False)
+    b = torch.load(res.final_checkpoint, weights_only=False)
+    for k in ("actor", "critic", "critic_target"):
+        for x, y in zip(a["agent"][k].values(), b["agent"][k].values(), strict=True):
+            assert torch.equal(x, y)
+    assert a["replay_rng"] == b["replay_rng"] and a["seeds_used"] == b["seeds_used"]
+    la = Path(full.log).read_text().splitlines()
+    lb = [x for x in Path(res.log).read_text().splitlines() if '"kind": "resume"' not in x]
+    assert la == lb
+
+
+def test_resume_refuses_a_different_configuration(tmp_path):
+    with pytest.raises(_Interrupt):
+        train(smoke_config(), _stub_env(), _evals([1.0], 2), 1.0, tmp_path, PLAN)
+    with pytest.raises(RunRefused, match="resume"):
+        train(smoke_config(actor_lr=1e-4), _stub_env(), _evals([1.0]), 1.0, tmp_path, PLAN,
+              resume=True)  # fmt: skip

@@ -135,13 +135,19 @@ def main() -> None:
     ap.add_argument("--g4", default=G4)
     ap.add_argument("--sims", type=int, default=400)
     ap.add_argument("--boot", type=int, default=1000)
-    ap.add_argument("--out", default="results/residual_protocol_review")
+    ap.add_argument("--out", default="results/residual_amendment_r_a2")
+    # Amendment R-A2: D = 39 delay cells (GEN-2). 41 reproduces the original review run.
+    ap.add_argument("--d-cells", type=int, default=39)
     a = ap.parse_args()
     rng = np.random.default_rng(20261901)
     inputs = g4_inputs(a.g4)
     # N: 1 cell, C ~ 99.7% (G4 H_undisturbed); D: 41 G4 cells, C ~ 93%; M: 7 cells, C ~ 85%
     # (assumed; T-M/T-O/T-A success under C is unknown until evaluated).
-    groups = {"N": (1, 0.997), "D": (41, 0.93), "M": (7, 0.85)}
+    # D's C success excludes the two no-delay H cells under R-A2 (computed from G4 inputs).
+    fams = {k: v for k, v in inputs["families"].items() if k != "H"}
+    d_pc = (sum(v["C_success"] * v["pairs"] for v in fams.values())
+            / sum(v["pairs"] for v in fams.values())) if a.d_cells == 39 else 0.93  # fmt: skip
+    groups = {"N": (1, 0.997), "D": (a.d_cells, round(d_pc, 3)), "M": (7, 0.85)}
     # null scenarios: harm = rescue = discordance / 2. At N the ceiling caps rescue at 0.3%.
     null_disc = {"N": [0.0, 0.002, 0.006], "D": [0.02, 0.05, 0.10], "M": [0.02, 0.05, 0.10]}
     rows = []
@@ -160,11 +166,12 @@ def main() -> None:
                                  "reject_rate": t1, "coverage": cov})  # fmt: skip
     df = pd.DataFrame(rows)
     run_level = []
-    for net_sd in (0.0, 0.5, 1.0):
-        _, cov, _ = simulate(
-            rng, 300, 7, 0.85, 0.03, 0.03, 0.02, a.sims, a.boot, net_sd=net_sd, shared=0.0
-        )
-        run_level.append({"net_sd": net_sd, "coverage_of_mean_network_effect": cov})
+    for n_eval in (300, 600):
+        for net_sd in (0.0, 0.5, 1.0):
+            _, cov, _ = simulate(rng, n_eval, 7, 0.85, 0.03, 0.03, 0.02, a.sims, a.boot,
+                                 net_sd=net_sd, shared=0.0)  # fmt: skip
+            run_level.append({"n_seeds": n_eval, "net_sd": net_sd,
+                              "coverage_of_mean_network_effect": cov})  # fmt: skip
     filt = []
     for harm in (0.0, 0.005, 0.01, 0.02, 0.03):
         passes = 0
@@ -192,7 +199,12 @@ def main() -> None:
         "run_level_variance": run_level,
         "selection_nominal_filter": filt,
         "normal_approx_pairs_single_network_independent": sizes,
-        "settings": {"sims": a.sims, "boot": a.boot, "rng_seed": 20261901},
+        "settings": {
+            "sims": a.sims,
+            "boot": a.boot,
+            "rng_seed": 20261901,
+            "groups": {g: {"cells": c, "C_success": pc} for g, (c, pc) in groups.items()},
+        },
         "note": "synthetic simulation calibrated on existing G4 data; not a result",
     }
     p = Path(a.out)

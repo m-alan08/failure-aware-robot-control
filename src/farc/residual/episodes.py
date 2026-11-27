@@ -29,7 +29,7 @@ from farc.disturbances.config import ConditionSpec, DisturbanceSpec
 from farc.residual.disturbances import ObjectDynamics
 from farc.residual.training import RunRefused, check_approved, check_smoke_seeds
 from farc.residual.training_env import TRAINING_GENERATOR_SEED, disturb, draw_training
-from farc.supervision.seeds import check_r_seeds
+from farc.supervision.seeds import R_SEED_BLOCKS, check_r_seeds
 
 
 @dataclass(frozen=True)
@@ -101,18 +101,30 @@ def _g4_spec(c: G4Cell, seed: int) -> EpisodeSpec:
     return EpisodeSpec(c.name, "D", c.family, c.extra, c.schedule(seed), "replay_drop")
 
 
+def _g4_spec_group(c: G4Cell, group: str, seed: int) -> EpisodeSpec:
+    return EpisodeSpec(c.name, group, c.family, c.extra, c.schedule(seed), "replay_drop")
+
+
 def _xdh_spec(name: str, index: int, cell: RandomCell, seed: int) -> EpisodeSpec:
     # the G3 schedule of the same cell, with drain_hold semantics (never seen in training)
     return EpisodeSpec(name, "X", "X-DH", (), schedule_for(cell, index, seed), "drain_hold")
 
 
-def development_cells(include_h_in_d: bool = True) -> list[Cell]:
-    """§6 cells. ``include_h_in_d``: the draft says D = "G4 Arm R + Arm F cells", which
-    literally includes R's H_undisturbed and H_noise0.01 (INTERPRETATION flagged for review;
-    the default follows the text)."""
+# Amendment R-A2, GEN-2: the two G4 Arm R cells without any delay leave group D and are
+# reported descriptively in their own groups (never part of a primary or secondary contrast).
+H_REPORTING_GROUPS = {"H_undisturbed": "N_rep", "H_noise0.01": "O_rep"}
+
+
+def development_cells(include_h_in_d: bool = False) -> list[Cell]:
+    """§6 cells. D = G4 Arm R + Arm F delay cells (39). Under amendment R-A2 (GEN-2) the
+    no-delay cells H_undisturbed and H_noise0.01 are excluded from D and kept as the
+    reporting groups ``N_rep`` (nominal) and ``O_rep`` (observation noise).
+    ``include_h_in_d=True`` reproduces the draft's literal 41-cell D, for audits only."""
     cells = [_fixed("nominal", "N", "nominal")]
     for c in g4_cells():
         if c.family == "H" and not include_h_in_d:
+            cells.append(Cell(c.name, H_REPORTING_GROUPS[c.name], c.family,
+                              partial(_g4_spec_group, c, H_REPORTING_GROUPS[c.name])))  # fmt: skip
             continue
         cells.append(Cell(c.name, "D", c.family, partial(_g4_spec, c)))
     cells += [
@@ -142,7 +154,24 @@ def check_role_seeds(role: str, seeds: list[int], plan_config: dict | None) -> N
     if plan_config is None:
         raise RunRefused("registered episode generation needs the plan config")
     check_approved(plan_config)
+    if role == "evaluation":
+        # Amendment R-A2: fixed 600 evaluation seeds = evaluation + evaluation_extension
+        if list(seeds) != evaluation_seeds():
+            raise RunRefused("evaluation uses exactly the 600 registered evaluation seeds")
+        check_r_seeds(seeds[:300], "evaluation")
+        check_r_seeds(seeds[300:], "evaluation_extension")
+        return
+    a, b = R_SEED_BLOCKS["selection"]
+    if list(seeds) != list(range(a, b)):
+        raise RunRefused("selection uses exactly the 100 registered selection seeds")
     check_r_seeds(seeds, role)
+
+
+def evaluation_seeds() -> list[int]:
+    """Amendment R-A2 (fixed budget): 3,722,000-299 then 3,740,100-399, 600 seeds."""
+    a, b = R_SEED_BLOCKS["evaluation"]
+    c, d = R_SEED_BLOCKS["evaluation_extension"]
+    return [*range(a, b), *range(c, d)]
 
 
 # build(seed, condition, schedule, semantics, policy_id) -> base session
