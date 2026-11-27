@@ -1,4 +1,5 @@
-"""PROPOSED, NOT REGISTERED seed blocks for the residual-RL amendments.
+"""Seed blocks proposed for the residual-RL amendments; REGISTERED by amendment R-A1
+(2026-11-27, ``farc.supervision.seeds.R_AMENDMENT_1_SEED_BLOCKS``).
 
 Nothing in the repository reads these as usable seeds: ``check_r_seeds`` only knows
 ``farc.supervision.seeds.R_SEED_BLOCKS``. These blocks become usable only if the amendment
@@ -54,6 +55,8 @@ def proposal_conflicts() -> list[str]:
         if not (vlo <= a < b <= vhi):
             problems.append(f"{name} is not inside the validation range")
         for other, (c, d) in blocks.items():
+            if other.endswith(f".{name}") and (c, d) == (a, b):
+                continue  # this proposal itself, now registered by amendment R-A1
             if a < d and c < b:
                 problems.append(f"{name} overlaps {other}")
     for i, (n1, (a, b)) in enumerate(items):

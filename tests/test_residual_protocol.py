@@ -310,12 +310,18 @@ def test_proposed_blocks_are_disjoint_and_sufficient():
     assert b - a == 300
 
 
-def test_proposed_blocks_are_not_registered_or_usable():
-    from farc.supervision.seeds import R_SEED_BLOCKS, check_r_seeds
+def test_amendment_r_a1_registers_the_proposed_blocks_unchanged():
+    from farc.supervision.seeds import R_AMENDMENT_1_SEED_BLOCKS, R_SEED_BLOCKS, check_r_seeds
 
-    assert not set(P.PROPOSED_R_SEED_BLOCKS) & set(R_SEED_BLOCKS)
-    with pytest.raises(ValueError):
+    assert R_AMENDMENT_1_SEED_BLOCKS == P.PROPOSED_R_SEED_BLOCKS
+    for role, block in R_AMENDMENT_1_SEED_BLOCKS.items():
+        assert R_SEED_BLOCKS[role] == block
+    check_r_seeds([3_730_000, 3_739_999], "training_2")
+    check_r_seeds([3_740_000], "training_monitor")
+    with pytest.raises(ValueError):  # roles stay separate
         check_r_seeds([3_730_000], "training")
+    with pytest.raises(ValueError):
+        check_r_seeds([3_721_000], "training_monitor")  # selection seeds never monitor
     with pytest.raises(RunRefused):
         check_role_seeds("smoke", [3_740_000], PLAN)
 

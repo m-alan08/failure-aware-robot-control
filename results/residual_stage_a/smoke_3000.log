@@ -1,0 +1,14 @@
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+Traceback (most recent call last):
+  File "/Users/alanmozhoor/Documents/failure-aware-robot-control/.claude/worktrees/residual-rl-robot-control-f80b7e/scripts/residual_train.py", line 135, in <module>
+    main()
+  File "/Users/alanmozhoor/Documents/failure-aware-robot-control/.claude/worktrees/residual-rl-robot-control-f80b7e/scripts/residual_train.py", line 127, in main
+    result = train(cfg, renv, nominal_eval, c, a.out, plan)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanmozhoor/Documents/failure-aware-robot-control/.claude/worktrees/residual-rl-robot-control-f80b7e/src/farc/residual/training.py", line 378, in train
+    obs, _ = env.reset(seed=next(seeds))
+                            ^^^^^^^^^^^
+  File "/Users/alanmozhoor/Documents/failure-aware-robot-control/.claude/worktrees/residual-rl-robot-control-f80b7e/src/farc/residual/training.py", line 308, in _seeds
+    raise SeedsExhausted(f"all {len(seeds)} training episode seeds are used")
+farc.residual.training.SeedsExhausted: all 50 training episode seeds are used
+uv run python scripts/residual_train.py --smoke --steps 3000 --out   6.51s user 0.29s system 95% cpu 7.142 total

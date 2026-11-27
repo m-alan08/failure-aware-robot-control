@@ -280,6 +280,15 @@ R_SEED_BLOCKS = {
     "selection": (3_721_000, 3_721_100),
     "evaluation": (3_722_000, 3_722_300),
 }
+# Amendment R-A1 (docs/RESIDUAL_RL_AMENDMENTS.md, SEED-1, SEED-2, STAT-4), registered
+# 2026-11-27 before any of these seeds was used. Copied unchanged from
+# farc.residual.proposals.PROPOSED_R_SEED_BLOCKS.
+R_AMENDMENT_1_SEED_BLOCKS = {
+    "training_2": (3_730_000, 3_740_000),
+    "training_monitor": (3_740_000, 3_740_100),
+    "evaluation_extension": (3_740_100, 3_740_400),
+}
+R_SEED_BLOCKS.update(R_AMENDMENT_1_SEED_BLOCKS)
 
 
 def check_r_seeds(seeds: list[int], role: str) -> None:

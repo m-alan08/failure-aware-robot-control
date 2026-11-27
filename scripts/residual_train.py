@@ -113,14 +113,15 @@ def main() -> None:
                            policy_index=a.network_seed % 3, env_steps=a.steps,
                            eval_interval=max(1, a.steps // 2))  # fmt: skip
     else:
-        lo, hi = R_SEED_BLOCKS["training"]
-        slo, _ = R_SEED_BLOCKS["selection"]
+        from farc.residual.training import registered_training_seeds
+
+        mlo, mhi = R_SEED_BLOCKS["training_monitor"]  # amendment R-A1, SEED-2
         cfg = TrainConfig(arm=a.arm, alpha_target=a.alpha, network_seed=a.network_seed,
                           policy_index=a.network_seed % 3, env_steps=plan["env_steps"],
                           target_entropy=plan["target_entropy"],
                           rollback_drop=plan["rollback_drop"],
-                          episode_seeds=tuple(range(lo, hi)),
-                          nominal_eval_seeds=tuple(range(slo, slo + 100)))  # fmt: skip
+                          episode_seeds=tuple(registered_training_seeds()),
+                          nominal_eval_seeds=tuple(range(mlo, mhi)))  # fmt: skip
     check_run(cfg, plan)  # refuses before any simulator work
     renv, nominal_eval, c_nominal, factory, cfg = build(cfg, plan)
     c = c_nominal()

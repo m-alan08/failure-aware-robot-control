@@ -1,0 +1,9 @@
+{
+  "arm": "R",
+  "env_steps": 5000,
+  "seconds": 13.553604666143656,
+  "steps_per_second": 368.9055511918385,
+  "hours_per_1M_step_run": 0.7529780370079808,
+  "status": "completed",
+  "note": "includes 20 nominal-eval episodes and shortened warm-up; smoke seeds only"
+}

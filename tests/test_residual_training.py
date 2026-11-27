@@ -81,11 +81,12 @@ def test_plan_config_still_unapproved_and_pinned():
 
 
 def _registered_cfg(**kw):
-    lo, _ = seeds_mod.R_SEED_BLOCKS["training"]
-    slo, _ = seeds_mod.R_SEED_BLOCKS["selection"]
+    from farc.residual.training import registered_training_seeds
+
+    mlo, mhi = seeds_mod.R_SEED_BLOCKS["training_monitor"]  # amendment R-A1, SEED-2
     base = TrainConfig(arm="R", alpha_target=0.1, network_seed=0, policy_index=0,
-                       episode_seeds=tuple(range(lo, lo + 20_000 // 2)),
-                       nominal_eval_seeds=tuple(range(slo, slo + 100)))  # fmt: skip
+                       episode_seeds=tuple(registered_training_seeds()),
+                       nominal_eval_seeds=tuple(range(mlo, mhi)))  # fmt: skip
     return replace(base, **kw)
 
 
@@ -119,6 +120,8 @@ def test_registered_validation_logic_on_a_hypothetical_approved_copy(tmp_path):
         _registered_cfg(episode_seeds=(3_721_000,)),  # selection seed used for training
         _registered_cfg(nominal_eval_seeds=(3_722_000,)),  # evaluation seed at selection
         _registered_cfg(nominal_eval_seeds=(4_000_600,)),  # held-out
+        _registered_cfg(nominal_eval_seeds=(3_721_000,)),  # R-A1 SEED-2: no selection seeds
+        _registered_cfg(episode_seeds=(3_730_000,)),  # R-A1 SEED-1: training_2 only after training
     ]
     for cfg in bad:
         with pytest.raises((RunRefused, ValueError)):
@@ -547,3 +550,40 @@ def test_failed_runs_enter_as_c():
     for ns in range(3):
         r = sub[(sub.config == "R") & (sub.network_seed == ns)].set_index(A.KEYS).success
         assert (r == c.reindex(r.index)).all()
+
+
+# --- amendment R-A1: STAT-2 sign consistency, STAT-4 evaluation size ---------------------------
+
+
+def test_efficacy_needs_every_network_to_agree_in_sign():
+    from farc.residual.analysis import development_analysis, per_network_estimates
+
+    fams = ("T-M", "T-O", "T-A")
+    df = _table({("R", f): 0.15 for f in fams}, seeds=300)
+    # network 2 alone is made harmful on M: pooled effect stays clearly positive
+    m = (df.config == "R") & (df.network_seed == 2) & (df.group == "M")
+    c = df[df.config == "C"].set_index(["policy", "episode_seed", "cell"])["success"]
+    idx = pd.MultiIndex.from_frame(df.loc[m, ["policy", "episode_seed", "cell"]])
+    base = c.reindex(idx).to_numpy().astype(bool)
+    flip = np.random.default_rng(1).random(len(base)) < 0.1
+    df.loc[m, "success"] = base & ~flip  # network 2: C's outcomes, ~10% of successes lost
+    per = per_network_estimates(df, "R", "C", "M")
+    assert per[0] > 0 and per[1] > 0 and per[2] < 0
+    strict = development_analysis(df, resamples=500)
+    loose = development_analysis(df, resamples=500, require_sign_consistency=False)
+    step3 = strict["primary"][2]
+    assert step3["per_network"] == per
+    assert loose["primary"][2]["passed"] is True
+    assert step3["passed"] is False and strict["steps_passed"] == 2
+
+
+def test_evaluation_seed_count_rule():
+    from farc.residual.analysis import discordance, evaluation_seed_count
+
+    assert evaluation_seed_count(0.0) == 300
+    assert evaluation_seed_count(0.08) == 300
+    assert evaluation_seed_count(0.0801) == 600
+    with pytest.raises(ValueError):
+        evaluation_seed_count(1.5)
+    assert discordance(_table({("R", "nominal"): 0.0}, seeds=50)) == 0.0
+    assert discordance(_table({("R", "nominal"): 0.3}, seeds=200)) > 0.0

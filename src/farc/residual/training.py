@@ -157,11 +157,23 @@ def check_run(cfg: TrainConfig, plan_config: dict[str, Any], root: str | Path = 
         raise RunRefused("network seed not pre-registered")
     if cfg.policy_index != cfg.network_seed % 3:
         raise RunRefused("each run's frozen policy cycles with its network seed (§4)")
-    check_r_seeds(list(cfg.episode_seeds), "training")
-    check_r_seeds(list(cfg.nominal_eval_seeds), "selection")
-    lo, hi = R_SEED_BLOCKS["training"]
-    if list(cfg.episode_seeds) != list(range(lo, lo + len(cfg.episode_seeds))):
-        raise RunRefused("training episodes use the training block in order (§4)")
+    # Amendment R-A1: SEED-1 (training, then training_2, in order) and SEED-2 (the rollback
+    # rule uses training_monitor, never the §5 selection block).
+    order = registered_training_seeds()
+    if list(cfg.episode_seeds) != order[: len(cfg.episode_seeds)]:
+        raise RunRefused("training episodes use the training then training_2 blocks in order")
+    n1 = R_SEED_BLOCKS["training"][1] - R_SEED_BLOCKS["training"][0]
+    check_r_seeds(list(cfg.episode_seeds[:n1]), "training")
+    if len(cfg.episode_seeds) > n1:
+        check_r_seeds(list(cfg.episode_seeds[n1:]), "training_2")
+    check_r_seeds(list(cfg.nominal_eval_seeds), "training_monitor")
+
+
+def registered_training_seeds() -> list[int]:
+    """The in-order training seed list under amendment R-A1 (20,000 episodes)."""
+    a, b = R_SEED_BLOCKS["training"]
+    c, d = R_SEED_BLOCKS["training_2"]
+    return [*range(a, b), *range(c, d)]
 
 
 def alpha_schedule(step: int, cfg: TrainConfig) -> float:
