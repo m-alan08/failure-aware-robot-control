@@ -146,11 +146,18 @@ def main(root: Path) -> None:
                    "correction_last2k": eps.correction_abs.mean()})  # fmt: skip
     md += ["## Training runs", "", mdt(pd.DataFrame(tr).round(4), index=False), ""]
     analysis = json.loads((ev / "analysis.json").read_text())
-    md += ["## Pre-written analysis (confirmatory)", "", f"Claim: **{analysis['claim']}**", "",
-           mdt(pd.DataFrame(analysis["primary"]).drop(columns=["per_network"]), index=False),
-           "", "Per-network efficacy estimates: "
-           f"{analysis['primary'][2].get('per_network')}", "",
-           mdt(pd.DataFrame(analysis["secondary"]), index=False), ""]  # fmt: skip
+    pts = ["estimate", "lower", "upper", "margin", "practical"]
+    prim = pd.DataFrame(analysis["primary"]).drop(columns=["per_network"])
+    sec = pd.DataFrame(analysis["secondary"])
+    for t_ in (prim, sec):  # fractions -> points for display only
+        for col in [c for c in pts if c in t_]:
+            t_[col] = pd.to_numeric(t_[col], errors="coerce") * 100
+    per_net = {k: round(100 * v, 2) for k, v in
+               (analysis["primary"][2].get("per_network") or {}).items()}  # fmt: skip
+    md += ["## Pre-written analysis (confirmatory; points)", "",
+           f"Claim: **{analysis['claim']}**", "", mdt(prim, index=False), "",
+           f"Per-network efficacy estimates (points): {per_net}", "",
+           mdt(sec, index=False), ""]  # fmt: skip
     (out / "report.md").write_text("\n".join(md))
     print("\n".join(md))
 

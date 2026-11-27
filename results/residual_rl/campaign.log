@@ -1,0 +1,279 @@
+[2026-11-27 00:35:52] start results/residual_rl/R_a0.05_n2
+[2026-11-27 00:35:52] start results/residual_rl/R_a0.05_n0
+[2026-11-27 00:35:52] start results/residual_rl/R_a0.05_n1
+[2026-11-27 01:29:53] done results/residual_rl/R_a0.05_n0: "status": "completed"
+[2026-11-27 01:29:55] done results/residual_rl/R_a0.05_n1: "status": "completed"
+[2026-11-27 01:29:56] done results/residual_rl/R_a0.05_n2: "status": "completed"
+[2026-11-27 01:29:56] start results/residual_rl/R_a0.1_n2
+[2026-11-27 01:29:56] start results/residual_rl/R_a0.1_n0
+[2026-11-27 01:29:56] start results/residual_rl/R_a0.1_n1
+[2026-11-27 02:21:39] done results/residual_rl/R_a0.1_n0: "status": "completed"
+[2026-11-27 02:21:39] done results/residual_rl/R_a0.1_n1: "status": "completed"
+[2026-11-27 02:21:56] done results/residual_rl/R_a0.1_n2: "status": "completed"
+[2026-11-27 02:21:56] start results/residual_rl/R_a0.2_n2
+[2026-11-27 02:21:56] start results/residual_rl/R_a0.2_n0
+[2026-11-27 02:21:56] start results/residual_rl/R_a0.2_n1
+[2026-11-27 03:24:06] done results/residual_rl/R_a0.2_n0: "status": "completed"
+[2026-11-27 03:24:18] done results/residual_rl/R_a0.2_n1: "status": "completed"
+[2026-11-27 03:24:33] done results/residual_rl/R_a0.2_n2: "status": "completed"
+[2026-11-27 03:24:33] selection rollouts
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+[      4s] task 7 done (1/24)
+[      4s] task 6 done (2/24)
+[     70s] task 0 done (3/24)
+[     71s] task 2 done (4/24)
+[     71s] task 1 done (5/24)
+[     71s] task 3 done (6/24)
+[     72s] task 4 done (7/24)
+[     72s] task 14 done (8/24)
+[     72s] task 15 done (9/24)
+[     72s] task 8 done (10/24)
+[     72s] task 9 done (11/24)
+[     79s] task 5 done (12/24)
+[    140s] task 10 done (13/24)
+[    141s] task 11 done (14/24)
+[    142s] task 16 done (15/24)
+[    142s] task 22 done (16/24)
+[    142s] task 23 done (17/24)
+[    142s] task 12 done (18/24)
+[    143s] task 17 done (19/24)
+[    143s] task 18 done (20/24)
+[    148s] task 13 done (21/24)
+[    149s] task 19 done (22/24)
+[    198s] task 20 done (23/24)
+[    203s] task 21 done (24/24)
+{
+  "role": "selection",
+  "seeds": [
+    3721000,
+    3721099,
+    100
+  ],
+  "episodes": 18000,
+  "privileged_episodes": 0,
+  "seconds": 203.67077579069883,
+  "alpha_star": null
+}
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+ alpha  nominal_diff  efficacy_diff  passes_nominal
+  0.05      0.012222      -0.003704            True
+  0.10      0.007778      -0.004815            True
+  0.20      0.011111      -0.001481            True 
+alpha* = 0.05
+[2026-11-27 03:28:04] alpha* = 0.05
+[2026-11-27 03:28:04] start results/residual_rl/A1_n2
+[2026-11-27 03:28:04] start results/residual_rl/A1_n1
+[2026-11-27 03:28:04] start results/residual_rl/A1_n0
+[2026-11-27 04:54:15] done results/residual_rl/A1_n0: "status": "completed"
+[2026-11-27 04:54:55] done results/residual_rl/A1_n1: "status": "completed"
+[2026-11-27 04:55:09] done results/residual_rl/A1_n2: "status": "completed"
+[2026-11-27 04:55:09] start results/residual_rl/A2_n2
+[2026-11-27 04:55:09] start results/residual_rl/A2_n1
+[2026-11-27 04:55:09] start results/residual_rl/A2_n0
+[2026-11-27 06:23:46] done results/residual_rl/A2_n0: "status": "completed"
+[2026-11-27 06:24:16] done results/residual_rl/A2_n1: "status": "completed"
+[2026-11-27 06:24:35] done results/residual_rl/A2_n2: "status": "completed"
+[2026-11-27 06:24:35] start results/residual_rl/A3_n1
+[2026-11-27 06:24:35] start results/residual_rl/A3_n2
+[2026-11-27 06:24:35] start results/residual_rl/A3_n0
+[2026-11-27 07:53:58] done results/residual_rl/A3_n0: "status": "completed"
+[2026-11-27 07:54:40] done results/residual_rl/A3_n1: "status": "completed"
+[2026-11-27 07:54:41] done results/residual_rl/A3_n2: "status": "completed"
+[2026-11-27 07:54:41] start results/residual_rl/B2_n2
+[2026-11-27 07:54:41] start results/residual_rl/B2_n0
+[2026-11-27 07:54:41] start results/residual_rl/B2_n1
+[2026-11-27 09:18:39] done results/residual_rl/B2_n0: "status": "completed"
+[2026-11-27 09:19:29] done results/residual_rl/B2_n1: "status": "completed"
+[2026-11-27 09:19:43] done results/residual_rl/B2_n2: "status": "completed"
+[2026-11-27 09:19:43] evaluation rollouts
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+[   4039s] task 6 done (1/24)
+[   4072s] task 7 done (2/24)
+[   4077s] task 5 done (3/24)
+[   4329s] task 0 done (4/24)
+[   4429s] task 1 done (5/24)
+[   4461s] task 2 done (6/24)
+[   4486s] task 4 done (7/24)
+[   4560s] task 3 done (8/24)
+[   8022s] task 8 done (9/24)
+[   8110s] task 9 done (10/24)
+[   8163s] task 14 done (11/24)
+[   8174s] task 13 done (12/24)
+[   8183s] task 10 done (13/24)
+[   8261s] task 15 done (14/24)
+[   8540s] task 11 done (15/24)
+[   8571s] task 12 done (16/24)
+[  11961s] task 21 done (17/24)
+[  12005s] task 16 done (18/24)
+[  12148s] task 17 done (19/24)
+[  12173s] task 22 done (20/24)
+[  12234s] task 18 done (21/24)
+[  12237s] task 23 done (22/24)
+[  12258s] task 20 done (23/24)
+[  12295s] task 19 done (24/24)
+{
+  "role": "evaluation",
+  "seeds": [
+    3722000,
+    3740399,
+    600
+  ],
+  "episodes": 1621800,
+  "privileged_episodes": 70200,
+  "seconds": 12306.026005250402,
+  "alpha_star": 0.05
+}
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+{
+  "primary": [
+    {
+      "step": 1,
+      "claim": "nominal protection",
+      "group": "N",
+      "estimate": 0.004629629629629629,
+      "lower": -5.551115123125783e-19,
+      "upper": 0.009444444444444443,
+      "margin": -0.01,
+      "practical": null,
+      "tested": true,
+      "passed": true,
+      "degradation_shown": false,
+      "degradation_beyond_margin": false,
+      "per_network": null
+    },
+    {
+      "step": 2,
+      "claim": "delay protection",
+      "group": "D",
+      "estimate": 0.0028632478632478584,
+      "lower": 0.0001328347578347528,
+      "upper": 0.005702754036087365,
+      "margin": -0.01,
+      "practical": null,
+      "tested": true,
+      "passed": true,
+      "degradation_shown": false,
+      "degradation_beyond_margin": false,
+      "per_network": null
+    },
+    {
+      "step": 3,
+      "claim": "efficacy (Q1)",
+      "group": "M",
+      "estimate": 0.0030158730158730118,
+      "lower": -0.0009259259259259301,
+      "upper": 0.007037037037037033,
+      "margin": 0.0,
+      "practical": 0.02,
+      "tested": true,
+      "passed": false,
+      "degradation_shown": false,
+      "degradation_beyond_margin": null,
+      "per_network": {
+        "0": -0.0003968253968253968,
+        "1": 0.005952380952380952,
+        "2": 0.0034920634920634916
+      }
+    },
+    {
+      "step": 4,
+      "claim": "generalisation (Q2)",
+      "group": "X",
+      "estimate": 0.0021759259259259214,
+      "lower": -0.0031018518518518565,
+      "upper": 0.007638888888888884,
+      "margin": 0.0,
+      "practical": null,
+      "tested": false,
+      "passed": null,
+      "degradation_shown": null,
+      "degradation_beyond_margin": null,
+      "per_network": null
+    }
+  ],
+  "steps_passed": 2,
+  "claim": "null for Q1",
+  "reporting": [
+    {
+      "group": "N_rep",
+      "estimate": 0.004629629629629629,
+      "lower": -5.551115123125783e-19,
+      "upper": 0.009444444444444443,
+      "descriptive_only": true
+    },
+    {
+      "group": "O_rep",
+      "estimate": 0.0038888888888888853,
+      "lower": -0.006481481481481486,
+      "upper": 0.01444444444444444,
+      "descriptive_only": true
+    }
+  ],
+  "claim_draft_wording": "null for Q1",
+  "secondary": [
+    {
+      "name": "S1 R-A1 on M",
+      "estimate": 0.00047619047619047635,
+      "lower": -0.00235515873015873,
+      "upper": 0.003253968253968254,
+      "p": 0.37376262373762625,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    },
+    {
+      "name": "S2 R-B2 on M",
+      "estimate": 0.00013227513227513237,
+      "lower": -0.0025661375661375657,
+      "upper": 0.0028042328042328047,
+      "p": 0.4627537246275372,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    },
+    {
+      "name": "S3 R-A2 on D",
+      "estimate": -0.00040360873694207026,
+      "lower": -0.002117758784425451,
+      "upper": 0.0013770180436847106,
+      "p": 0.670932906709329,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    },
+    {
+      "name": "S4 A3-C on D",
+      "estimate": 0.0012345679012345627,
+      "lower": -0.0014198717948718002,
+      "upper": 0.0038746438746438696,
+      "p": 0.18698130186981302,
+      "p_holm": 0.934906509349065,
+      "descriptive_only": true
+    },
+    {
+      "name": "S5 R-C on D (RI)",
+      "estimate": -0.006388888888888901,
+      "lower": -0.018425925925925936,
+      "upper": 0.005925925925925915,
+      "p": 0.8519148085191481,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    }
+  ],
+  "safety": "harmed_rescued.csv",
+  "inference_note": "conditional on the 3 trained networks per arm (amendment R-A1, STAT-2)"
+}
+[2026-11-27 13:29:53] campaign complete; held-out evaluation needs separate approval

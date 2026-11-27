@@ -48,3 +48,12 @@ stopped or changed.
   are deterministic functions of their seeds, so the pause cannot change any outcome; it only
   delays the evaluation. Training had already finished before the hibernation.
 - First evaluation task finished after 4,039 s of awake time (24 tasks in 3 waves of 8).
+
+## 2026-11-27 13:30: campaign complete
+
+- Evaluation finished at 13:29 (12,306 s of awake time). 1,621,800 episodes and 70,200 P
+  episodes; `failed.json` is empty.
+- Pre-written analysis: N passed, D passed, M (efficacy) failed, X not tested. Claim: "null for Q1".
+- Descriptive report and 33 trajectory re-simulations: every re-simulated outcome matched the
+  evaluation table. Results and recommendation: `docs/RESIDUAL_RL_RESULTS.md`.
+- Stopped before held-out evaluation, as pre-registration §7 requires: steps 1–3 did not all pass.

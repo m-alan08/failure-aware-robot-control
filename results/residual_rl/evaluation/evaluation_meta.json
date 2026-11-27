@@ -1,0 +1,12 @@
+{
+  "role": "evaluation",
+  "seeds": [
+    3722000,
+    3740399,
+    600
+  ],
+  "episodes": 1621800,
+  "privileged_episodes": 70200,
+  "seconds": 12306.026005250402,
+  "alpha_star": 0.05
+}
