@@ -504,13 +504,16 @@ def test_residual_seed_blocks_disjoint_from_every_registered_block():
     assert {k: tuple(v) for k, v in cfg["seed_blocks"].items()} == S.R_SEED_BLOCKS
 
 
-def test_preregistration_config_pins_plan_and_is_not_approved():
+def test_preregistration_config_pins_plan_and_amendments():
     import hashlib
     import json
     from pathlib import Path
 
     cfg = json.loads(Path("configs/residual/residual_rl.json").read_text())
-    assert cfg["approved"] is False
+    # conditionally approved by amendment R-A2 (2026-11-27); held-out is out of scope
+    assert cfg["approved"] is True and "not held-out" in cfg["approval"]["scope"]
     assert hashlib.sha256(Path(cfg["plan"]).read_bytes()).hexdigest() == cfg["plan_sha256"]
+    am = hashlib.sha256(Path(cfg["amendments_file"]).read_bytes()).hexdigest()
+    assert am == cfg["amendments_sha256"]
     g4 = json.loads(Path("configs/delaychange/g4_heldout.json").read_text())
     assert cfg["model_sha256"] == g4["model_sha256"]

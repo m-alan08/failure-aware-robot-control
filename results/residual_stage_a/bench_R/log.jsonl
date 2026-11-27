@@ -1,0 +1,112 @@
+{"actor_lr": 0.0003, "alpha_ramp_steps": 2500, "alpha_start": 0.05, "alpha_target": 0.1, "arm": "R", "batch_size": 256, "c_nominal_success": 0.95, "critic_lr": 0.001, "critic_only_updates": 500, "entropy_lr": 0.001, "env_steps": 5000, "episode_seeds": [1000, 1101, 102], "eval_interval": 5000, "extra": {}, "gamma": 0.98, "hidden": [256, 256], "initial_entropy_coef": 1.0, "kind": "config", "log_interval": 500, "max_rollbacks": 2, "mode": "smoke", "network_seed": 0, "nominal_eval_seeds": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119], "observation_dim": 65, "policy_index": 0, "replay_size": 100000, "rollback_drop": 0.02, "shares": null, "target_entropy": -8.0, "tau": 0.005, "zero_data_steps": 1000}
+{"alpha": 0.050980000000000004, "episode": 1, "kind": "episode", "ret": -7.0, "step": 50, "success": true}
+{"alpha": 0.051980000000000005, "episode": 2, "kind": "episode", "ret": -12.0, "step": 100, "success": true}
+{"alpha": 0.05298, "episode": 3, "kind": "episode", "ret": -8.0, "step": 150, "success": true}
+{"alpha": 0.05398, "episode": 4, "kind": "episode", "ret": -8.0, "step": 200, "success": true}
+{"alpha": 0.05498, "episode": 5, "kind": "episode", "ret": -48.0, "step": 250, "success": false}
+{"alpha": 0.05598, "episode": 6, "kind": "episode", "ret": -10.0, "step": 300, "success": true}
+{"alpha": 0.05698, "episode": 7, "kind": "episode", "ret": -9.0, "step": 350, "success": true}
+{"alpha": 0.057980000000000004, "episode": 8, "kind": "episode", "ret": -34.0, "step": 400, "success": true}
+{"alpha": 0.058980000000000005, "episode": 9, "kind": "episode", "ret": -2.0, "step": 450, "success": true}
+{"alpha": 0.059980000000000006, "episode": 10, "kind": "episode", "ret": 0.0, "step": 500, "success": true}
+{"alpha": 0.060980000000000006, "episode": 11, "kind": "episode", "ret": -31.0, "step": 550, "success": true}
+{"alpha": 0.06198000000000001, "episode": 12, "kind": "episode", "ret": -19.0, "step": 600, "success": true}
+{"alpha": 0.06298000000000001, "episode": 13, "kind": "episode", "ret": 0.0, "step": 650, "success": true}
+{"alpha": 0.06398000000000001, "episode": 14, "kind": "episode", "ret": -8.0, "step": 700, "success": true}
+{"alpha": 0.06498000000000001, "episode": 15, "kind": "episode", "ret": -14.0, "step": 750, "success": true}
+{"alpha": 0.06598000000000001, "episode": 16, "kind": "episode", "ret": -9.0, "step": 800, "success": true}
+{"alpha": 0.06698000000000001, "episode": 17, "kind": "episode", "ret": -6.0, "step": 850, "success": true}
+{"alpha": 0.06798, "episode": 18, "kind": "episode", "ret": -11.0, "step": 900, "success": true}
+{"alpha": 0.06898, "episode": 19, "kind": "episode", "ret": -20.0, "step": 950, "success": true}
+{"alpha": 0.06998, "episode": 20, "kind": "episode", "ret": -7.0, "step": 1000, "success": true}
+{"kind": "critic_warmup_done", "step": 1000, "updates": 500}
+{"alpha": 0.07098, "episode": 21, "kind": "episode", "ret": -11.797146792536573, "step": 1050, "success": true}
+{"alpha": 0.07198, "episode": 22, "kind": "episode", "ret": -14.145190631426338, "step": 1100, "success": true}
+{"alpha": 0.07298, "episode": 23, "kind": "episode", "ret": -16.572964779232986, "step": 1150, "success": true}
+{"alpha": 0.07398, "episode": 24, "kind": "episode", "ret": -14.817639254310208, "step": 1200, "success": true}
+{"alpha": 0.07498, "episode": 25, "kind": "episode", "ret": -20.566433500801125, "step": 1250, "success": true}
+{"alpha": 0.07598, "episode": 26, "kind": "episode", "ret": -35.0222269117524, "step": 1300, "success": true}
+{"alpha": 0.07698, "episode": 27, "kind": "episode", "ret": -13.577622663588564, "step": 1350, "success": true}
+{"alpha": 0.07798000000000001, "episode": 28, "kind": "episode", "ret": -17.47115426370594, "step": 1400, "success": true}
+{"alpha": 0.07898000000000001, "episode": 29, "kind": "episode", "ret": -11.88832502766645, "step": 1450, "success": true}
+{"alpha": 0.07998000000000001, "episode": 30, "kind": "episode", "ret": -23.923641570577225, "step": 1500, "success": true}
+{"actor_loss": -9.86846923828125, "alpha": 0.07998000000000001, "critic_loss": 1.1094143390655518, "entropy": 2.5555834770202637, "entropy_coef": 0.60740727186203, "kind": "update", "q_mean": 8.50147819519043, "step": 1500}
+{"alpha": 0.08098000000000001, "episode": 31, "kind": "episode", "ret": -19.02936483488567, "step": 1550, "success": true}
+{"alpha": 0.08198, "episode": 32, "kind": "episode", "ret": -23.329723166140663, "step": 1600, "success": true}
+{"alpha": 0.08298, "episode": 33, "kind": "episode", "ret": -55.43432366970244, "step": 1650, "success": false}
+{"alpha": 0.08398, "episode": 34, "kind": "episode", "ret": -11.649706359083462, "step": 1700, "success": true}
+{"alpha": 0.08498, "episode": 35, "kind": "episode", "ret": -47.28842234047517, "step": 1750, "success": true}
+{"alpha": 0.08598, "episode": 36, "kind": "episode", "ret": -21.06130135825135, "step": 1800, "success": true}
+{"alpha": 0.08698, "episode": 37, "kind": "episode", "ret": -14.937991306075212, "step": 1850, "success": true}
+{"alpha": 0.08798, "episode": 38, "kind": "episode", "ret": -19.24808197513601, "step": 1900, "success": true}
+{"alpha": 0.08898, "episode": 39, "kind": "episode", "ret": -9.98552393762168, "step": 1950, "success": true}
+{"alpha": 0.08998, "episode": 40, "kind": "episode", "ret": -14.25888459541954, "step": 2000, "success": true}
+{"actor_loss": -9.740682601928711, "alpha": 0.08998, "critic_loss": 1.58976149559021, "entropy": 2.202526330947876, "entropy_coef": 0.37252771854400635, "kind": "update", "q_mean": 9.094977378845215, "step": 2000}
+{"alpha": 0.09098, "episode": 41, "kind": "episode", "ret": -5.243031926045328, "step": 2050, "success": true}
+{"alpha": 0.09198, "episode": 42, "kind": "episode", "ret": -5.206925495570832, "step": 2100, "success": true}
+{"alpha": 0.09298000000000001, "episode": 43, "kind": "episode", "ret": -18.143801576099545, "step": 2150, "success": true}
+{"alpha": 0.09398000000000001, "episode": 44, "kind": "episode", "ret": -13.978583114491233, "step": 2200, "success": true}
+{"alpha": 0.09498000000000001, "episode": 45, "kind": "episode", "ret": -4.420565466113842, "step": 2250, "success": true}
+{"alpha": 0.09598000000000001, "episode": 46, "kind": "episode", "ret": -10.155253209072042, "step": 2300, "success": true}
+{"alpha": 0.09698000000000001, "episode": 47, "kind": "episode", "ret": -15.584177454028465, "step": 2350, "success": true}
+{"alpha": 0.09798000000000001, "episode": 48, "kind": "episode", "ret": -15.069644962538021, "step": 2400, "success": true}
+{"alpha": 0.09898000000000001, "episode": 49, "kind": "episode", "ret": -8.69599130934163, "step": 2450, "success": true}
+{"alpha": 0.09998000000000001, "episode": 50, "kind": "episode", "ret": -20.580144725656975, "step": 2500, "success": true}
+{"actor_loss": -9.351985931396484, "alpha": 0.09998000000000001, "critic_loss": 1.80417799949646, "entropy": 1.3029433488845825, "entropy_coef": 0.23189833760261536, "kind": "update", "q_mean": 9.000895500183105, "step": 2500}
+{"alpha": 0.1, "episode": 51, "kind": "episode", "ret": -16.69983749021064, "step": 2550, "success": true}
+{"alpha": 0.1, "episode": 52, "kind": "episode", "ret": -15.812974238820592, "step": 2600, "success": true}
+{"alpha": 0.1, "episode": 53, "kind": "episode", "ret": -21.154633054243625, "step": 2650, "success": true}
+{"alpha": 0.1, "episode": 54, "kind": "episode", "ret": -6.1916778638253795, "step": 2700, "success": true}
+{"alpha": 0.1, "episode": 55, "kind": "episode", "ret": -14.276102067093309, "step": 2750, "success": true}
+{"alpha": 0.1, "episode": 56, "kind": "episode", "ret": -11.14666381655319, "step": 2800, "success": true}
+{"alpha": 0.1, "episode": 57, "kind": "episode", "ret": -15.555245952432516, "step": 2850, "success": true}
+{"alpha": 0.1, "episode": 58, "kind": "episode", "ret": -17.198409180199377, "step": 2900, "success": true}
+{"alpha": 0.1, "episode": 59, "kind": "episode", "ret": -14.155296025803633, "step": 2950, "success": true}
+{"alpha": 0.1, "episode": 60, "kind": "episode", "ret": -15.184624774810775, "step": 3000, "success": true}
+{"actor_loss": -8.202693939208984, "alpha": 0.1, "critic_loss": 1.193612813949585, "entropy": 0.606583297252655, "entropy_coef": 0.14646905660629272, "kind": "update", "q_mean": 8.149420738220215, "step": 3000}
+{"alpha": 0.1, "episode": 61, "kind": "episode", "ret": -16.328427068264936, "step": 3050, "success": true}
+{"alpha": 0.1, "episode": 62, "kind": "episode", "ret": -34.89641171829867, "step": 3100, "success": true}
+{"alpha": 0.1, "episode": 63, "kind": "episode", "ret": -8.069306251188856, "step": 3150, "success": true}
+{"alpha": 0.1, "episode": 64, "kind": "episode", "ret": -14.711217893904745, "step": 3200, "success": true}
+{"alpha": 0.1, "episode": 65, "kind": "episode", "ret": -11.967950342016257, "step": 3250, "success": true}
+{"alpha": 0.1, "episode": 66, "kind": "episode", "ret": -11.10763590313995, "step": 3300, "success": true}
+{"alpha": 0.1, "episode": 67, "kind": "episode", "ret": -16.150997911764023, "step": 3350, "success": true}
+{"alpha": 0.1, "episode": 68, "kind": "episode", "ret": -20.225988487163846, "step": 3400, "success": true}
+{"alpha": 0.1, "episode": 69, "kind": "episode", "ret": -14.911371549152125, "step": 3450, "success": true}
+{"alpha": 0.1, "episode": 70, "kind": "episode", "ret": -18.97462092660604, "step": 3500, "success": true}
+{"actor_loss": -7.795047760009766, "alpha": 0.1, "critic_loss": 0.857689619064331, "entropy": -0.12902413308620453, "entropy_coef": 0.09396430850028992, "kind": "update", "q_mean": 7.530435085296631, "step": 3500}
+{"alpha": 0.1, "episode": 71, "kind": "episode", "ret": -13.350024085483042, "step": 3550, "success": true}
+{"alpha": 0.1, "episode": 72, "kind": "episode", "ret": -2.7061948446814, "step": 3600, "success": true}
+{"alpha": 0.1, "episode": 73, "kind": "episode", "ret": -11.84105120507199, "step": 3650, "success": true}
+{"alpha": 0.1, "episode": 74, "kind": "episode", "ret": -12.244521589920518, "step": 3700, "success": true}
+{"alpha": 0.1, "episode": 75, "kind": "episode", "ret": -9.530093784809052, "step": 3750, "success": true}
+{"alpha": 0.1, "episode": 76, "kind": "episode", "ret": -19.163655643556435, "step": 3800, "success": true}
+{"alpha": 0.1, "episode": 77, "kind": "episode", "ret": -8.265313834980018, "step": 3850, "success": true}
+{"alpha": 0.1, "episode": 78, "kind": "episode", "ret": -28.77834629631264, "step": 3900, "success": true}
+{"alpha": 0.1, "episode": 79, "kind": "episode", "ret": -25.414989285965934, "step": 3950, "success": true}
+{"alpha": 0.1, "episode": 80, "kind": "episode", "ret": -18.452157543160315, "step": 4000, "success": true}
+{"actor_loss": -7.135948657989502, "alpha": 0.1, "critic_loss": 0.973182201385498, "entropy": -0.8644950985908508, "entropy_coef": 0.06106383353471756, "kind": "update", "q_mean": 6.9718217849731445, "step": 4000}
+{"alpha": 0.1, "episode": 81, "kind": "episode", "ret": -15.791845184918298, "step": 4050, "success": true}
+{"alpha": 0.1, "episode": 82, "kind": "episode", "ret": -19.293308478073975, "step": 4100, "success": true}
+{"alpha": 0.1, "episode": 83, "kind": "episode", "ret": -19.252523947625203, "step": 4150, "success": true}
+{"alpha": 0.1, "episode": 84, "kind": "episode", "ret": -14.242414669112353, "step": 4200, "success": true}
+{"alpha": 0.1, "episode": 85, "kind": "episode", "ret": -2.7696678262175007, "step": 4250, "success": true}
+{"alpha": 0.1, "episode": 86, "kind": "episode", "ret": -3.840285233917809, "step": 4300, "success": true}
+{"alpha": 0.1, "episode": 87, "kind": "episode", "ret": -13.819938666537437, "step": 4350, "success": true}
+{"alpha": 0.1, "episode": 88, "kind": "episode", "ret": -2.9837127049755323, "step": 4400, "success": true}
+{"alpha": 0.1, "episode": 89, "kind": "episode", "ret": -14.151741004853307, "step": 4450, "success": true}
+{"alpha": 0.1, "episode": 90, "kind": "episode", "ret": -15.44589219173028, "step": 4500, "success": true}
+{"actor_loss": -6.69142484664917, "alpha": 0.1, "critic_loss": 1.030740737915039, "entropy": -1.9727394580841064, "entropy_coef": 0.04050981253385544, "kind": "update", "q_mean": 6.574912071228027, "step": 4500}
+{"alpha": 0.1, "episode": 91, "kind": "episode", "ret": -13.052992985474177, "step": 4550, "success": true}
+{"alpha": 0.1, "episode": 92, "kind": "episode", "ret": -9.642385500553965, "step": 4600, "success": true}
+{"alpha": 0.1, "episode": 93, "kind": "episode", "ret": -19.521903567080376, "step": 4650, "success": true}
+{"alpha": 0.1, "episode": 94, "kind": "episode", "ret": -13.894593966797455, "step": 4700, "success": true}
+{"alpha": 0.1, "episode": 95, "kind": "episode", "ret": -23.227755777269056, "step": 4750, "success": true}
+{"alpha": 0.1, "episode": 96, "kind": "episode", "ret": -19.857473257505287, "step": 4800, "success": true}
+{"alpha": 0.1, "episode": 97, "kind": "episode", "ret": -15.977524084210469, "step": 4850, "success": true}
+{"alpha": 0.1, "episode": 98, "kind": "episode", "ret": -12.510299352263393, "step": 4900, "success": true}
+{"alpha": 0.1, "episode": 99, "kind": "episode", "ret": -21.509235700541744, "step": 4950, "success": true}
+{"alpha": 0.1, "episode": 100, "kind": "episode", "ret": -11.9184085643372, "step": 5000, "success": true}
+{"actor_loss": -6.32932710647583, "alpha": 0.1, "critic_loss": 1.3195956945419312, "entropy": -3.031818389892578, "entropy_coef": 0.027516711503267288, "kind": "update", "q_mean": 5.940030574798584, "step": 5000}
+{"c_success": 0.95, "kind": "nominal_eval", "passed": true, "step": 5000, "success": 0.95}
+{"episodes": 100, "kind": "end", "rollbacks": 0, "seeds_used": 100, "status": "completed", "step": 5000}

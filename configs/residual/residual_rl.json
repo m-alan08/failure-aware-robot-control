@@ -1,20 +1,71 @@
 {
-  "description": "Residual RL on frozen Candidate C (docs/RESIDUAL_RL_PREREGISTRATION.md). DRAFT: not approved; no runner accepts this config until approved is true.",
-  "approved": false,
+  "description": "Residual RL on frozen Candidate C (docs/RESIDUAL_RL_PREREGISTRATION.md) as amended by docs/RESIDUAL_RL_AMENDMENTS.md (R-A1, R-A2). Conditionally approved for registered training 2026-11-27 (R-A2); held-out evaluation NOT approved.",
+  "approved": true,
   "plan": "docs/RESIDUAL_RL_PREREGISTRATION.md",
   "plan_sha256": "32330bd5bac0f191c5c91391cb57df62f6db3fa780079ad294b27441a289604a",
   "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
-  "seed_blocks": {"training": [3710000, 3720000], "debugging": [3720000, 3720010],
-                  "selection": [3721000, 3721100], "evaluation": [3722000, 3722300]},
+  "seed_blocks": {
+    "training": [
+      3710000,
+      3720000
+    ],
+    "debugging": [
+      3720000,
+      3720010
+    ],
+    "selection": [
+      3721000,
+      3721100
+    ],
+    "evaluation": [
+      3722000,
+      3722300
+    ],
+    "training_2": [
+      3730000,
+      3740000
+    ],
+    "training_monitor": [
+      3740000,
+      3740100
+    ],
+    "evaluation_extension": [
+      3740100,
+      3740400
+    ]
+  },
   "generator_seed": 20261900,
   "bootstrap_seed": 20261900,
   "bootstrap_resamples": 10000,
-  "alphas": [0.05, 0.1, 0.2],
-  "network_seeds": [0, 1, 2],
+  "alphas": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "network_seeds": [
+    0,
+    1,
+    2
+  ],
   "env_steps": 1000000,
   "target_entropy": -8.0,
   "nominal_noninferiority": 0.01,
   "delay_noninferiority": 0.01,
   "practical_threshold": 0.02,
-  "rollback_drop": 0.02
+  "rollback_drop": 0.02,
+  "amendments": [
+    "R-A1",
+    "R-A2"
+  ],
+  "tm_friction_mode": "object_table",
+  "per_network_sign_consistency": true,
+  "approval": {
+    "date": "2026-11-27",
+    "record": "docs/RESIDUAL_RL_AMENDMENTS.md#approval",
+    "scope": "registered training, selection and development evaluation; not held-out"
+  },
+  "amendments_file": "docs/RESIDUAL_RL_AMENDMENTS.md",
+  "evaluation_seeds": 600,
+  "d_group": "39 G4 delay cells; H_undisturbed -> N_rep, H_noise0.01 -> O_rep (reporting only)",
+  "amendments_sha256": "68462908b74205bd5d25ae711186732e579c0c2128c082c79ea8b623a99f0234"
 }

@@ -1,0 +1,104 @@
+{"actor_lr": 0.0003, "alpha_ramp_steps": 100, "alpha_start": 0.05, "alpha_target": 0.1, "arm": "R", "batch_size": 16, "c_nominal_success": 1.0, "critic_lr": 0.001, "critic_only_updates": 10, "entropy_lr": 0.001, "env_steps": 2500, "episode_seeds": [0, 49, 50], "eval_interval": 1250, "extra": {}, "gamma": 0.98, "hidden": [16, 16], "initial_entropy_coef": 1.0, "kind": "config", "log_interval": 50, "max_rollbacks": 2, "mode": "smoke", "network_seed": 0, "nominal_eval_seeds": [100, 101, 102, 103, 104], "observation_dim": 65, "policy_index": 0, "replay_size": 1000, "rollback_drop": 0.02, "shares": null, "target_entropy": -8.0, "tau": 0.005, "zero_data_steps": 60}
+{"alpha": 0.07450000000000001, "episode": 1, "kind": "episode", "ret": -36.0, "step": 50, "success": true}
+{"kind": "critic_warmup_done", "step": 60, "updates": 10}
+{"alpha": 0.0995, "episode": 2, "kind": "episode", "ret": -13.184008938273951, "step": 100, "success": true}
+{"actor_loss": -2.770750045776367, "alpha": 0.0995, "critic_loss": 5.319323539733887, "entropy": 2.508549690246582, "entropy_coef": 0.9607980251312256, "kind": "update", "q_mean": 0.554722785949707, "step": 100}
+{"alpha": 0.1, "episode": 3, "kind": "episode", "ret": -19.407776058150976, "step": 150, "success": true}
+{"actor_loss": -3.8975930213928223, "alpha": 0.1, "critic_loss": 0.8220263719558716, "entropy": 2.6751837730407715, "entropy_coef": 0.9139078259468079, "kind": "update", "q_mean": 1.5833038091659546, "step": 150}
+{"alpha": 0.1, "episode": 4, "kind": "episode", "ret": -23.400963303195294, "step": 200, "success": true}
+{"actor_loss": -4.262661457061768, "alpha": 0.1, "critic_loss": 1.2970550060272217, "entropy": 2.7704849243164062, "entropy_coef": 0.8692340850830078, "kind": "update", "q_mean": 1.9064905643463135, "step": 200}
+{"alpha": 0.1, "episode": 5, "kind": "episode", "ret": -26.57652193578964, "step": 250, "success": false}
+{"actor_loss": -4.171186447143555, "alpha": 0.1, "critic_loss": 0.42591989040374756, "entropy": 2.741497278213501, "entropy_coef": 0.826796293258667, "kind": "update", "q_mean": 2.0165188312530518, "step": 250}
+{"alpha": 0.1, "episode": 6, "kind": "episode", "ret": -16.387032795829768, "step": 300, "success": true}
+{"actor_loss": -4.258077144622803, "alpha": 0.1, "critic_loss": 0.43567538261413574, "entropy": 2.786834478378296, "entropy_coef": 0.7864375114440918, "kind": "update", "q_mean": 2.1486196517944336, "step": 300}
+{"alpha": 0.1, "episode": 7, "kind": "episode", "ret": -17.568967374207233, "step": 350, "success": true}
+{"actor_loss": -4.2950215339660645, "alpha": 0.1, "critic_loss": 0.71375572681427, "entropy": 2.724750518798828, "entropy_coef": 0.7479983568191528, "kind": "update", "q_mean": 2.2517614364624023, "step": 350}
+{"alpha": 0.1, "episode": 8, "kind": "episode", "ret": -23.399672140174506, "step": 400, "success": true}
+{"actor_loss": -4.5018720626831055, "alpha": 0.1, "critic_loss": 0.16394701600074768, "entropy": 2.7767319679260254, "entropy_coef": 0.7114777565002441, "kind": "update", "q_mean": 2.581475257873535, "step": 400}
+{"alpha": 0.1, "episode": 9, "kind": "episode", "ret": -13.064776721289661, "step": 450, "success": true}
+{"actor_loss": -4.405562877655029, "alpha": 0.1, "critic_loss": 0.23478227853775024, "entropy": 2.6623783111572266, "entropy_coef": 0.6767499446868896, "kind": "update", "q_mean": 2.6368918418884277, "step": 450}
+{"alpha": 0.1, "episode": 10, "kind": "episode", "ret": -16.091561020434558, "step": 500, "success": true}
+{"actor_loss": -4.427389621734619, "alpha": 0.1, "critic_loss": 0.27047690749168396, "entropy": 2.773838996887207, "entropy_coef": 0.6437358856201172, "kind": "update", "q_mean": 2.6927061080932617, "step": 500}
+{"alpha": 0.1, "episode": 11, "kind": "episode", "ret": -6.3769801524157605, "step": 550, "success": true}
+{"actor_loss": -4.610935211181641, "alpha": 0.1, "critic_loss": 0.24979619681835175, "entropy": 2.6864895820617676, "entropy_coef": 0.6123221516609192, "kind": "update", "q_mean": 2.9698777198791504, "step": 550}
+{"alpha": 0.1, "episode": 12, "kind": "episode", "ret": -19.820825983347845, "step": 600, "success": true}
+{"actor_loss": -4.679083824157715, "alpha": 0.1, "critic_loss": 2.0153040885925293, "entropy": 2.828181743621826, "entropy_coef": 0.5824559330940247, "kind": "update", "q_mean": 3.153104543685913, "step": 600}
+{"alpha": 0.1, "episode": 13, "kind": "episode", "ret": -18.463593234330634, "step": 650, "success": true}
+{"actor_loss": -4.660880088806152, "alpha": 0.1, "critic_loss": 0.47627925872802734, "entropy": 2.613065242767334, "entropy_coef": 0.5540493130683899, "kind": "update", "q_mean": 3.238905906677246, "step": 650}
+{"alpha": 0.1, "episode": 14, "kind": "episode", "ret": -14.534517999215424, "step": 700, "success": true}
+{"actor_loss": -4.702533721923828, "alpha": 0.1, "critic_loss": 0.5963044166564941, "entropy": 2.7432894706726074, "entropy_coef": 0.5270240306854248, "kind": "update", "q_mean": 3.2171216011047363, "step": 700}
+{"alpha": 0.1, "episode": 15, "kind": "episode", "ret": -21.566096996694938, "step": 750, "success": true}
+{"actor_loss": -4.873493194580078, "alpha": 0.1, "critic_loss": 0.28434494137763977, "entropy": 2.7738265991210938, "entropy_coef": 0.5012944340705872, "kind": "update", "q_mean": 3.6188440322875977, "step": 750}
+{"alpha": 0.1, "episode": 16, "kind": "episode", "ret": -17.62712428888021, "step": 800, "success": true}
+{"actor_loss": -4.63576602935791, "alpha": 0.1, "critic_loss": 0.2539913058280945, "entropy": 2.6898651123046875, "entropy_coef": 0.476842999458313, "kind": "update", "q_mean": 3.4094977378845215, "step": 800}
+{"alpha": 0.1, "episode": 17, "kind": "episode", "ret": -37.06121985489279, "step": 850, "success": true}
+{"actor_loss": -4.695858478546143, "alpha": 0.1, "critic_loss": 1.8905168771743774, "entropy": 2.8242077827453613, "entropy_coef": 0.45358964800834656, "kind": "update", "q_mean": 3.460341691970825, "step": 850}
+{"alpha": 0.1, "episode": 18, "kind": "episode", "ret": -15.47265600104121, "step": 900, "success": true}
+{"actor_loss": -5.095702171325684, "alpha": 0.1, "critic_loss": 0.2789480686187744, "entropy": 2.6108744144439697, "entropy_coef": 0.4314790964126587, "kind": "update", "q_mean": 4.018866539001465, "step": 900}
+{"alpha": 0.1, "episode": 19, "kind": "episode", "ret": -16.90748319502394, "step": 950, "success": true}
+{"actor_loss": -5.2095465660095215, "alpha": 0.1, "critic_loss": 0.25507405400276184, "entropy": 2.896313428878784, "entropy_coef": 0.41046783328056335, "kind": "update", "q_mean": 4.020107269287109, "step": 950}
+{"alpha": 0.1, "episode": 20, "kind": "episode", "ret": -24.096809374845808, "step": 1000, "success": true}
+{"actor_loss": -4.249966621398926, "alpha": 0.1, "critic_loss": 0.6289175748825073, "entropy": 2.7297375202178955, "entropy_coef": 0.39046597480773926, "kind": "update", "q_mean": 3.271097421646118, "step": 1000}
+{"alpha": 0.1, "episode": 21, "kind": "episode", "ret": -31.569959109426456, "step": 1050, "success": true}
+{"actor_loss": -5.054846286773682, "alpha": 0.1, "critic_loss": 0.779945433139801, "entropy": 2.709371328353882, "entropy_coef": 0.37142229080200195, "kind": "update", "q_mean": 4.072649955749512, "step": 1050}
+{"alpha": 0.1, "episode": 22, "kind": "episode", "ret": -20.20830375535965, "step": 1100, "success": true}
+{"actor_loss": -4.249206066131592, "alpha": 0.1, "critic_loss": 0.26303523778915405, "entropy": 2.7925939559936523, "entropy_coef": 0.35331934690475464, "kind": "update", "q_mean": 3.420656681060791, "step": 1100}
+{"alpha": 0.1, "episode": 23, "kind": "episode", "ret": -14.330152887516354, "step": 1150, "success": true}
+{"actor_loss": -4.624513626098633, "alpha": 0.1, "critic_loss": 0.4477630853652954, "entropy": 2.671712875366211, "entropy_coef": 0.3361049294471741, "kind": "update", "q_mean": 3.822333812713623, "step": 1150}
+{"alpha": 0.1, "episode": 24, "kind": "episode", "ret": -18.54923075585651, "step": 1200, "success": true}
+{"actor_loss": -4.807825088500977, "alpha": 0.1, "critic_loss": 1.91730797290802, "entropy": 2.679342269897461, "entropy_coef": 0.319704532623291, "kind": "update", "q_mean": 4.03896427154541, "step": 1200}
+{"alpha": 0.1, "episode": 25, "kind": "episode", "ret": -24.619873624621913, "step": 1250, "success": true}
+{"actor_loss": -5.082040786743164, "alpha": 0.1, "critic_loss": 0.24881428480148315, "entropy": 2.704141616821289, "entropy_coef": 0.3040998876094818, "kind": "update", "q_mean": 4.277268409729004, "step": 1250}
+{"c_success": 1.0, "kind": "nominal_eval", "passed": true, "step": 1250, "success": 1.0}
+{"alpha": 0.1, "episode": 26, "kind": "episode", "ret": -15.542914912131971, "step": 1300, "success": true}
+{"actor_loss": -4.830710411071777, "alpha": 0.1, "critic_loss": 0.384585976600647, "entropy": 2.6763505935668945, "entropy_coef": 0.28926512598991394, "kind": "update", "q_mean": 4.203507423400879, "step": 1300}
+{"alpha": 0.1, "episode": 27, "kind": "episode", "ret": -17.431005653655337, "step": 1350, "success": true}
+{"actor_loss": -5.189812183380127, "alpha": 0.1, "critic_loss": 2.0883593559265137, "entropy": 2.782151222229004, "entropy_coef": 0.2751712501049042, "kind": "update", "q_mean": 4.50166654586792, "step": 1350}
+{"alpha": 0.1, "episode": 28, "kind": "episode", "ret": -17.272470018631545, "step": 1400, "success": true}
+{"actor_loss": -4.887496471405029, "alpha": 0.1, "critic_loss": 0.20506452023983002, "entropy": 2.7690320014953613, "entropy_coef": 0.26175907254219055, "kind": "update", "q_mean": 4.206493854522705, "step": 1400}
+{"alpha": 0.1, "episode": 29, "kind": "episode", "ret": -18.140559611872494, "step": 1450, "success": true}
+{"actor_loss": -4.941568374633789, "alpha": 0.1, "critic_loss": 3.5976176261901855, "entropy": 2.7500436305999756, "entropy_coef": 0.249013289809227, "kind": "update", "q_mean": 4.369222640991211, "step": 1450}
+{"alpha": 0.1, "episode": 30, "kind": "episode", "ret": -17.64786164511744, "step": 1500, "success": true}
+{"actor_loss": -3.926084280014038, "alpha": 0.1, "critic_loss": 1.1729073524475098, "entropy": 2.56803560256958, "entropy_coef": 0.23687191307544708, "kind": "update", "q_mean": 3.4430344104766846, "step": 1500}
+{"alpha": 0.1, "episode": 31, "kind": "episode", "ret": -18.349537076030362, "step": 1550, "success": true}
+{"actor_loss": -4.038177013397217, "alpha": 0.1, "critic_loss": 0.3591649830341339, "entropy": 2.6342155933380127, "entropy_coef": 0.22534194588661194, "kind": "update", "q_mean": 3.4612796306610107, "step": 1550}
+{"alpha": 0.1, "episode": 32, "kind": "episode", "ret": -17.5719621254367, "step": 1600, "success": true}
+{"actor_loss": -3.959998846054077, "alpha": 0.1, "critic_loss": 0.5152174234390259, "entropy": 2.7570207118988037, "entropy_coef": 0.214351087808609, "kind": "update", "q_mean": 3.480846405029297, "step": 1600}
+{"alpha": 0.1, "episode": 33, "kind": "episode", "ret": -14.322554072319813, "step": 1650, "success": true}
+{"actor_loss": -4.272388458251953, "alpha": 0.1, "critic_loss": 0.4922991394996643, "entropy": 2.765646457672119, "entropy_coef": 0.20388160645961761, "kind": "update", "q_mean": 3.8644161224365234, "step": 1650}
+{"alpha": 0.1, "episode": 34, "kind": "episode", "ret": -15.750866364872264, "step": 1700, "success": true}
+{"actor_loss": -4.349759101867676, "alpha": 0.1, "critic_loss": 0.5374019742012024, "entropy": 2.6530253887176514, "entropy_coef": 0.19393384456634521, "kind": "update", "q_mean": 4.001263618469238, "step": 1700}
+{"alpha": 0.1, "episode": 35, "kind": "episode", "ret": -14.58511730615248, "step": 1750, "success": true}
+{"actor_loss": -4.4540791511535645, "alpha": 0.1, "critic_loss": 0.21473941206932068, "entropy": 2.757028579711914, "entropy_coef": 0.18446680903434753, "kind": "update", "q_mean": 4.133294105529785, "step": 1750}
+{"alpha": 0.1, "episode": 36, "kind": "episode", "ret": -37.888799163726596, "step": 1800, "success": true}
+{"actor_loss": -3.562270164489746, "alpha": 0.1, "critic_loss": 3.849843978881836, "entropy": 2.7835323810577393, "entropy_coef": 0.17547406256198883, "kind": "update", "q_mean": 3.1944284439086914, "step": 1800}
+{"alpha": 0.1, "episode": 37, "kind": "episode", "ret": -20.401908791876266, "step": 1850, "success": true}
+{"actor_loss": -3.9245805740356445, "alpha": 0.1, "critic_loss": 0.4046277403831482, "entropy": 2.6902360916137695, "entropy_coef": 0.16691960394382477, "kind": "update", "q_mean": 3.67049241065979, "step": 1850}
+{"alpha": 0.1, "episode": 38, "kind": "episode", "ret": -16.605656523513655, "step": 1900, "success": true}
+{"actor_loss": -4.617880821228027, "alpha": 0.1, "critic_loss": 0.536587119102478, "entropy": 2.743600845336914, "entropy_coef": 0.158799409866333, "kind": "update", "q_mean": 4.236949920654297, "step": 1900}
+{"alpha": 0.1, "episode": 39, "kind": "episode", "ret": -16.905077699473605, "step": 1950, "success": true}
+{"actor_loss": -4.086855888366699, "alpha": 0.1, "critic_loss": 0.1756829023361206, "entropy": 2.6299798488616943, "entropy_coef": 0.15112601220607758, "kind": "update", "q_mean": 3.8156251907348633, "step": 1950}
+{"alpha": 0.1, "episode": 40, "kind": "episode", "ret": -25.917411288902205, "step": 2000, "success": true}
+{"actor_loss": -4.26950216293335, "alpha": 0.1, "critic_loss": 3.741537094116211, "entropy": 2.7485227584838867, "entropy_coef": 0.14380910992622375, "kind": "update", "q_mean": 4.100582599639893, "step": 2000}
+{"alpha": 0.1, "episode": 41, "kind": "episode", "ret": -21.090104058059588, "step": 2050, "success": true}
+{"actor_loss": -3.2716071605682373, "alpha": 0.1, "critic_loss": 0.3639425039291382, "entropy": 2.754152774810791, "entropy_coef": 0.13686983287334442, "kind": "update", "q_mean": 2.9156556129455566, "step": 2050}
+{"alpha": 0.1, "episode": 42, "kind": "episode", "ret": -17.99356965989612, "step": 2100, "success": true}
+{"actor_loss": -3.234846353530884, "alpha": 0.1, "critic_loss": 0.9398683309555054, "entropy": 2.496013879776001, "entropy_coef": 0.13026510179042816, "kind": "update", "q_mean": 3.117048501968384, "step": 2100}
+{"alpha": 0.1, "episode": 43, "kind": "episode", "ret": -18.9978525301311, "step": 2150, "success": true}
+{"actor_loss": -4.38265323638916, "alpha": 0.1, "critic_loss": 1.7561392784118652, "entropy": 2.5032477378845215, "entropy_coef": 0.12395153194665909, "kind": "update", "q_mean": 4.27008056640625, "step": 2150}
+{"alpha": 0.1, "episode": 44, "kind": "episode", "ret": -24.02555794095139, "step": 2200, "success": true}
+{"actor_loss": -4.020380020141602, "alpha": 0.1, "critic_loss": 0.6727544665336609, "entropy": 2.617560625076294, "entropy_coef": 0.11794090270996094, "kind": "update", "q_mean": 3.821146011352539, "step": 2200}
+{"alpha": 0.1, "episode": 45, "kind": "episode", "ret": -21.560164318550832, "step": 2250, "success": true}
+{"actor_loss": -4.096765995025635, "alpha": 0.1, "critic_loss": 0.42267298698425293, "entropy": 2.4938786029815674, "entropy_coef": 0.11221157759428024, "kind": "update", "q_mean": 3.9020256996154785, "step": 2250}
+{"alpha": 0.1, "episode": 46, "kind": "episode", "ret": -11.157959548036665, "step": 2300, "success": true}
+{"actor_loss": -3.4558825492858887, "alpha": 0.1, "critic_loss": 1.007508635520935, "entropy": 2.714001178741455, "entropy_coef": 0.10676074773073196, "kind": "update", "q_mean": 3.2181239128112793, "step": 2300}
+{"alpha": 0.1, "episode": 47, "kind": "episode", "ret": -17.592064853122206, "step": 2350, "success": true}
+{"actor_loss": -3.1189894676208496, "alpha": 0.1, "critic_loss": 1.1348766088485718, "entropy": 2.665266752243042, "entropy_coef": 0.1015588790178299, "kind": "update", "q_mean": 3.0472493171691895, "step": 2350}
+{"alpha": 0.1, "episode": 48, "kind": "episode", "ret": -15.32753346640951, "step": 2400, "success": true}
+{"actor_loss": -3.3858189582824707, "alpha": 0.1, "critic_loss": 0.2649240493774414, "entropy": 2.577646493911743, "entropy_coef": 0.0966125950217247, "kind": "update", "q_mean": 3.4330029487609863, "step": 2400}
+{"alpha": 0.1, "episode": 49, "kind": "episode", "ret": -11.854525338461249, "step": 2450, "success": true}
+{"actor_loss": -3.3840575218200684, "alpha": 0.1, "critic_loss": 1.4573118686676025, "entropy": 2.4532418251037598, "entropy_coef": 0.09191352128982544, "kind": "update", "q_mean": 3.2643957138061523, "step": 2450}
+{"alpha": 0.1, "episode": 50, "kind": "episode", "ret": -33.93777191540721, "step": 2500, "success": true}
+{"actor_loss": -3.254310369491577, "alpha": 0.1, "critic_loss": 0.36923104524612427, "entropy": 2.63797926902771, "entropy_coef": 0.08745303750038147, "kind": "update", "q_mean": 3.094883441925049, "step": 2500}
+{"c_success": 1.0, "kind": "nominal_eval", "passed": true, "step": 2500, "success": 1.0}
+{"episodes": 50, "kind": "end", "rollbacks": 0, "seeds_used": 50, "status": "completed", "step": 2500}

@@ -171,8 +171,44 @@ def holm(pvalues: Sequence[float]) -> list[float]:
     return adj.tolist()
 
 
+def per_network_estimates(df: pd.DataFrame, treat: str, control: str,
+                          group: str) -> dict[int, float]:  # fmt: skip
+    """Point estimate of treat - control on ``group`` for each treat network seed alone."""
+    m = df.group == group
+    out = {}
+    for ns in sorted(df.loc[m & (df.config == treat), "network_seed"].unique()):
+        t = m & (df.config == treat) & (df.network_seed == ns)
+        out[int(ns)] = float(_cluster_means(_paired(df, t, m & (df.config == control))).mean())
+    if not out:
+        raise AnalysisInputError(f"no {treat} rows on group {group}")
+    return out
+
+
+def evaluation_seed_count(
+    selection_discordance: float, threshold: float = 0.08, small: int = 300, large: int = 600
+) -> int:
+    """Amendment R-A1, STAT-4: the evaluation size, fixed from the §5 selection block's
+    R-alpha* vs C discordance (fraction of paired episodes whose outcomes differ) BEFORE any
+    evaluation seed is used. <= 8% -> 300 seeds; otherwise 600 (evaluation + extension)."""
+    if not 0 <= selection_discordance <= 1:
+        raise AnalysisInputError("discordance must be a fraction in [0, 1]")
+    return small if selection_discordance <= threshold else large
+
+
+def discordance(df: pd.DataFrame, treat: str = "R", control: str = "C") -> float:
+    """Fraction of (network seed, policy, episode seed, cell) pairs where treat and control
+    differ in success."""
+    c = df[df.config == control].set_index(KEYS)["success"].astype(bool)
+    r = df[df.config == treat]
+    if r.empty or c.empty:
+        raise AnalysisInputError("discordance needs both configs")
+    cs = c.reindex(pd.MultiIndex.from_frame(r[KEYS])).to_numpy()
+    return float(np.mean(r.success.astype(bool).to_numpy() != cs))
+
+
 def development_analysis(df: pd.DataFrame, resamples: int = 10_000, seed: int = 20261900,
-                         ni_margin: float = 0.01, practical: float = 0.02) -> dict:  # fmt: skip
+                         ni_margin: float = 0.01, practical: float = 0.02,
+                         require_sign_consistency: bool = True) -> dict:  # fmt: skip
     """Fixed-sequence gatekeeping (one-sided alpha 0.025), claim wording, Holm secondaries,
     and the always-reported safety counts. Every bootstrap uses the same seed, so all
     contrasts share resampling indices when they share clusters."""
@@ -186,6 +222,12 @@ def development_analysis(df: pd.DataFrame, resamples: int = 10_000, seed: int = 
     for i, (name, group, margin, prac) in enumerate(primary, start=1):
         c = contrast(df, name, "R", "C", group=group, resamples=resamples, seed=seed)
         ok = c.lower > margin and (prac is None or c.estimate >= prac - 1e-12)
+        per_net: dict[int, float] | None = None
+        if require_sign_consistency and group == "M":
+            # Amendment R-A1, STAT-2: inference is conditional on the trained networks, and
+            # efficacy also needs every network's own estimate to have the claimed sign (> 0).
+            per_net = per_network_estimates(df, "R", "C", group)
+            ok = ok and all(v > 0 for v in per_net.values())
         tested = gate_open
         # Degradation needs its own evidence: the upper one-sided 97.5% bound below 0.
         # Failing to show non-inferiority (lower bound <= -margin) is NOT that evidence.
@@ -196,13 +238,13 @@ def development_analysis(df: pd.DataFrame, resamples: int = 10_000, seed: int = 
                       "passed": bool(ok) if tested else None,
                       "degradation_shown": degraded if tested else None,
                       "degradation_beyond_margin": bool(c.upper < margin) if tested and i <= 2
-                      else None})  # fmt: skip
+                      else None, "per_network": per_net})  # fmt: skip
         if tested and ok:
             passed = i
         gate_open = gate_open and ok
-    # The draft's wording, reproduced literally (it reports any failure of step 1 or 2 as
-    # degradation), and the proposed corrected wording (docs/RESIDUAL_RL_PROTOCOL_REVIEW.md,
-    # S-4). Both are always returned; neither is chosen silently.
+    # ``claim`` is the wording adopted by amendment R-A1 (STAT-1). The draft's literal wording
+    # (any failure of step 1 or 2 reported as degradation) is still returned, labelled
+    # superseded, so the change stays visible.
     claim_draft = CLAIMS[min(passed, 4)] if passed >= 2 else CLAIMS[0]
     if passed >= 2:
         claim = claim_draft
@@ -228,7 +270,14 @@ def development_analysis(df: pd.DataFrame, resamples: int = 10_000, seed: int = 
     for s, adj in zip(with_p, holm([s["p"] for s in with_p]), strict=True):
         s["p_holm"] = adj
         s["descriptive_only"] = passed < 3
-    return {"primary": steps, "steps_passed": passed, "claim": claim,
+    # Amendment R-A2 (GEN-2): reporting-only groups (no-delay G4 cells), never tested.
+    reporting = []
+    for g in sorted(set(df.group) - {"N", "D", "M", "X"}):
+        if (df[df.group == g].config == "R").any():
+            c = contrast(df, f"R-C on {g}", "R", "C", group=g, resamples=resamples, seed=seed)
+            reporting.append({"group": g, "estimate": c.estimate, "lower": c.lower,
+                              "upper": c.upper, "descriptive_only": True})  # fmt: skip
+    return {"primary": steps, "steps_passed": passed, "claim": claim, "reporting": reporting,
             "claim_draft_wording": claim_draft,
             "secondary": secondary, "safety": harmed_rescued(df)}  # fmt: skip
 

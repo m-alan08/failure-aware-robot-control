@@ -1,0 +1,12 @@
+{
+  "role": "selection",
+  "seeds": [
+    3721000,
+    3721099,
+    100
+  ],
+  "episodes": 18000,
+  "privileged_episodes": 0,
+  "seconds": 203.67077579069883,
+  "alpha_star": null
+}

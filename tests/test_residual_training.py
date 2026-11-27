@@ -34,6 +34,7 @@ from farc.residual.training import (
     SeedsExhausted,
     TrainConfig,
     alpha_schedule,
+    check_approved,
     check_run,
     load_plan_config,
     smoke_config,
@@ -74,31 +75,49 @@ def test_smoke_seeds_disjoint_from_every_registered_block():
         assert hi <= a or b <= lo, f"smoke seeds overlap {name}"
 
 
-def test_plan_config_still_unapproved_and_pinned():
-    assert PLAN["approved"] is False
+def test_plan_config_approved_and_pinned():
+    assert PLAN["approved"] is True  # R-A2, 2026-11-27
     digest = hashlib.sha256(Path(PLAN["plan"]).read_bytes()).hexdigest()
-    assert digest == PLAN["plan_sha256"], "the draft pre-registration must not change"
+    assert digest == PLAN["plan_sha256"], "the original pre-registration must not change"
+    check_approved(PLAN)  # plan and amendments both intact
 
 
 def _registered_cfg(**kw):
-    lo, _ = seeds_mod.R_SEED_BLOCKS["training"]
-    slo, _ = seeds_mod.R_SEED_BLOCKS["selection"]
+    from farc.residual.training import registered_training_seeds
+
+    mlo, mhi = seeds_mod.R_SEED_BLOCKS["training_monitor"]  # amendment R-A1, SEED-2
     base = TrainConfig(arm="R", alpha_target=0.1, network_seed=0, policy_index=0,
-                       episode_seeds=tuple(range(lo, lo + 20_000 // 2)),
-                       nominal_eval_seeds=tuple(range(slo, slo + 100)))  # fmt: skip
+                       episode_seeds=tuple(registered_training_seeds()),
+                       nominal_eval_seeds=tuple(range(mlo, mhi)))  # fmt: skip
     return replace(base, **kw)
 
 
 def test_registered_run_refused_while_unapproved():
     with pytest.raises(RunRefused, match="not approved"):
-        check_run(_registered_cfg(), PLAN)
+        check_run(_registered_cfg(), dict(PLAN, approved=False))
+    check_run(_registered_cfg(), PLAN)  # the approved, pinned config accepts it
 
 
-def _approved_copy(tmp_path, plan_text="draft plan"):
+def _approved_copy(tmp_path, plan_text="draft plan", amendments_text="amendments"):
     (tmp_path / "plan.md").write_text(plan_text)
+    (tmp_path / "amend.md").write_text(amendments_text)
     cfg = dict(PLAN, approved=True, plan="plan.md",
-               plan_sha256=hashlib.sha256(plan_text.encode()).hexdigest())  # fmt: skip
+               plan_sha256=hashlib.sha256(plan_text.encode()).hexdigest(),
+               amendments_file="amend.md",
+               amendments_sha256=hashlib.sha256(amendments_text.encode()).hexdigest())  # fmt: skip
     return cfg
+
+
+def test_changed_amendments_are_refused(tmp_path):
+    plan = _approved_copy(tmp_path)
+    check_run(_registered_cfg(), plan, tmp_path)
+    (tmp_path / "amend.md").write_text("edited after pinning")
+    with pytest.raises(RunRefused, match="amendments changed"):
+        check_run(_registered_cfg(), plan, tmp_path)
+    no_pin = {k: v for k, v in plan.items() if k != "amendments_sha256"}
+    (tmp_path / "amend.md").write_text("amendments")
+    with pytest.raises(RunRefused, match="amendments"):
+        check_run(_registered_cfg(), no_pin, tmp_path)
 
 
 def test_registered_validation_logic_on_a_hypothetical_approved_copy(tmp_path):
@@ -119,6 +138,8 @@ def test_registered_validation_logic_on_a_hypothetical_approved_copy(tmp_path):
         _registered_cfg(episode_seeds=(3_721_000,)),  # selection seed used for training
         _registered_cfg(nominal_eval_seeds=(3_722_000,)),  # evaluation seed at selection
         _registered_cfg(nominal_eval_seeds=(4_000_600,)),  # held-out
+        _registered_cfg(nominal_eval_seeds=(3_721_000,)),  # R-A1 SEED-2: no selection seeds
+        _registered_cfg(episode_seeds=(3_730_000,)),  # R-A1 SEED-1: training_2 only after training
     ]
     for cfg in bad:
         with pytest.raises((RunRefused, ValueError)):
@@ -547,3 +568,94 @@ def test_failed_runs_enter_as_c():
     for ns in range(3):
         r = sub[(sub.config == "R") & (sub.network_seed == ns)].set_index(A.KEYS).success
         assert (r == c.reindex(r.index)).all()
+
+
+# --- amendment R-A1: STAT-2 sign consistency, STAT-4 evaluation size ---------------------------
+
+
+def test_efficacy_needs_every_network_to_agree_in_sign():
+    from farc.residual.analysis import development_analysis, per_network_estimates
+
+    fams = ("T-M", "T-O", "T-A")
+    df = _table({("R", f): 0.15 for f in fams}, seeds=300)
+    # network 2 alone is made harmful on M: pooled effect stays clearly positive
+    m = (df.config == "R") & (df.network_seed == 2) & (df.group == "M")
+    c = df[df.config == "C"].set_index(["policy", "episode_seed", "cell"])["success"]
+    idx = pd.MultiIndex.from_frame(df.loc[m, ["policy", "episode_seed", "cell"]])
+    base = c.reindex(idx).to_numpy().astype(bool)
+    flip = np.random.default_rng(1).random(len(base)) < 0.1
+    df.loc[m, "success"] = base & ~flip  # network 2: C's outcomes, ~10% of successes lost
+    per = per_network_estimates(df, "R", "C", "M")
+    assert per[0] > 0 and per[1] > 0 and per[2] < 0
+    strict = development_analysis(df, resamples=500)
+    loose = development_analysis(df, resamples=500, require_sign_consistency=False)
+    step3 = strict["primary"][2]
+    assert step3["per_network"] == per
+    assert loose["primary"][2]["passed"] is True
+    assert step3["passed"] is False and strict["steps_passed"] == 2
+
+
+def test_evaluation_seed_count_rule():
+    from farc.residual.analysis import discordance, evaluation_seed_count
+
+    assert evaluation_seed_count(0.0) == 300
+    assert evaluation_seed_count(0.08) == 300
+    assert evaluation_seed_count(0.0801) == 600
+    with pytest.raises(ValueError):
+        evaluation_seed_count(1.5)
+    assert discordance(_table({("R", "nominal"): 0.0}, seeds=50)) == 0.0
+    assert discordance(_table({("R", "nominal"): 0.3}, seeds=200)) > 0.0
+
+
+# --- resumable training (full state at nominal-check boundaries) ------------------------------
+
+
+class _Interrupt(Exception):
+    pass
+
+
+def _evals(values, interrupt_at=None):
+    calls = {"n": 0}
+
+    def ev(agent, alpha):
+        calls["n"] += 1
+        if interrupt_at is not None and calls["n"] == interrupt_at:
+            raise _Interrupt
+        return values[(calls["n"] - 1) % len(values)]
+
+    return ev
+
+
+@pytest.mark.parametrize("values", [[1.0], [1.0, 0.0, 1.0, 1.0]])  # second: one rollback
+def test_resumed_run_matches_uninterrupted_run(tmp_path, values):
+    cfg = smoke_config()
+    full = train(cfg, _stub_env(), _evals(values), 1.0, tmp_path / "full", PLAN)
+    # interrupted during the 3rd nominal check (step 300): resume.pt holds step 200
+    with pytest.raises(_Interrupt):
+        train(cfg, _stub_env(), _evals(values, interrupt_at=3), 1.0, tmp_path / "cut", PLAN)
+    assert torch.load(tmp_path / "cut" / "resume.pt", weights_only=False)["step"] == 200
+    rest = _evals(values[2:] + values[:2])  # the remaining checks see the same values
+    res = train(cfg, _stub_env(), rest, 1.0, tmp_path / "cut", PLAN, resume=True)
+    assert (res.status, res.steps, res.rollbacks, res.episodes) == (
+        full.status,
+        full.steps,
+        full.rollbacks,
+        full.episodes,
+    )
+    a = torch.load(full.final_checkpoint, weights_only=False)
+    b = torch.load(res.final_checkpoint, weights_only=False)
+    for k in ("actor", "critic", "critic_target"):
+        for x, y in zip(a["agent"][k].values(), b["agent"][k].values(), strict=True):
+            assert torch.equal(x, y)
+    assert a["replay_rng"] == b["replay_rng"] and a["seeds_used"] == b["seeds_used"]
+    la = Path(full.log).read_text().splitlines()
+    lb = [x for x in Path(res.log).read_text().splitlines() if '"kind": "resume"' not in x]
+    assert la == lb
+
+
+def test_resume_refuses_a_different_configuration(tmp_path):
+    with pytest.raises(_Interrupt):
+        train(smoke_config(), _stub_env(), _evals([1.0], 2), 1.0, tmp_path, PLAN)
+    with pytest.raises(RunRefused, match="resume"):
+        train(smoke_config(actor_lr=1e-4), _stub_env(), _evals([1.0]), 1.0, tmp_path, PLAN,
+              resume=True)  # fmt: skip

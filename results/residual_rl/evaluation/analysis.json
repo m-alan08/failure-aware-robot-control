@@ -1,0 +1,136 @@
+{
+  "primary": [
+    {
+      "step": 1,
+      "claim": "nominal protection",
+      "group": "N",
+      "estimate": 0.004629629629629629,
+      "lower": -5.551115123125783e-19,
+      "upper": 0.009444444444444443,
+      "margin": -0.01,
+      "practical": null,
+      "tested": true,
+      "passed": true,
+      "degradation_shown": false,
+      "degradation_beyond_margin": false,
+      "per_network": null
+    },
+    {
+      "step": 2,
+      "claim": "delay protection",
+      "group": "D",
+      "estimate": 0.0028632478632478584,
+      "lower": 0.0001328347578347528,
+      "upper": 0.005702754036087365,
+      "margin": -0.01,
+      "practical": null,
+      "tested": true,
+      "passed": true,
+      "degradation_shown": false,
+      "degradation_beyond_margin": false,
+      "per_network": null
+    },
+    {
+      "step": 3,
+      "claim": "efficacy (Q1)",
+      "group": "M",
+      "estimate": 0.0030158730158730118,
+      "lower": -0.0009259259259259301,
+      "upper": 0.007037037037037033,
+      "margin": 0.0,
+      "practical": 0.02,
+      "tested": true,
+      "passed": false,
+      "degradation_shown": false,
+      "degradation_beyond_margin": null,
+      "per_network": {
+        "0": -0.0003968253968253968,
+        "1": 0.005952380952380952,
+        "2": 0.0034920634920634916
+      }
+    },
+    {
+      "step": 4,
+      "claim": "generalisation (Q2)",
+      "group": "X",
+      "estimate": 0.0021759259259259214,
+      "lower": -0.0031018518518518565,
+      "upper": 0.007638888888888884,
+      "margin": 0.0,
+      "practical": null,
+      "tested": false,
+      "passed": null,
+      "degradation_shown": null,
+      "degradation_beyond_margin": null,
+      "per_network": null
+    }
+  ],
+  "steps_passed": 2,
+  "claim": "null for Q1",
+  "reporting": [
+    {
+      "group": "N_rep",
+      "estimate": 0.004629629629629629,
+      "lower": -5.551115123125783e-19,
+      "upper": 0.009444444444444443,
+      "descriptive_only": true
+    },
+    {
+      "group": "O_rep",
+      "estimate": 0.0038888888888888853,
+      "lower": -0.006481481481481486,
+      "upper": 0.01444444444444444,
+      "descriptive_only": true
+    }
+  ],
+  "claim_draft_wording": "null for Q1",
+  "secondary": [
+    {
+      "name": "S1 R-A1 on M",
+      "estimate": 0.00047619047619047635,
+      "lower": -0.00235515873015873,
+      "upper": 0.003253968253968254,
+      "p": 0.37376262373762625,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    },
+    {
+      "name": "S2 R-B2 on M",
+      "estimate": 0.00013227513227513237,
+      "lower": -0.0025661375661375657,
+      "upper": 0.0028042328042328047,
+      "p": 0.4627537246275372,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    },
+    {
+      "name": "S3 R-A2 on D",
+      "estimate": -0.00040360873694207026,
+      "lower": -0.002117758784425451,
+      "upper": 0.0013770180436847106,
+      "p": 0.670932906709329,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    },
+    {
+      "name": "S4 A3-C on D",
+      "estimate": 0.0012345679012345627,
+      "lower": -0.0014198717948718002,
+      "upper": 0.0038746438746438696,
+      "p": 0.18698130186981302,
+      "p_holm": 0.934906509349065,
+      "descriptive_only": true
+    },
+    {
+      "name": "S5 R-C on D (RI)",
+      "estimate": -0.006388888888888901,
+      "lower": -0.018425925925925936,
+      "upper": 0.005925925925925915,
+      "p": 0.8519148085191481,
+      "p_holm": 1.0,
+      "descriptive_only": true
+    }
+  ],
+  "safety": "harmed_rescued.csv",
+  "inference_note": "conditional on the 3 trained networks per arm (amendment R-A1, STAT-2)"
+}

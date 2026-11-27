@@ -29,7 +29,15 @@ def main() -> None:
     df = pd.read_csv(a.episodes)
     failed = json.loads(Path(a.failed).read_text()) if a.failed else []
     df = substitute_failed(df, [tuple(f) for f in failed])
-    res = development_analysis(df, plan["bootstrap_resamples"], plan["bootstrap_seed"])
+    res = development_analysis(
+        df,
+        plan["bootstrap_resamples"],
+        plan["bootstrap_seed"],
+        ni_margin=plan["nominal_noninferiority"],
+        practical=plan["practical_threshold"],
+        require_sign_consistency=plan["per_network_sign_consistency"],
+    )
+    res["inference_note"] = "conditional on the 3 trained networks per arm (amendment R-A1, STAT-2)"
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     res["safety"].to_csv(out / "harmed_rescued.csv", index=False)

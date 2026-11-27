@@ -77,9 +77,23 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--processes", type=int, default=max(1, (os.cpu_count() or 2) - 1))
     parser.add_argument("--out", default="results/residual_zero_equivalence")
+    parser.add_argument(
+        "--r-debugging",
+        action="store_true",
+        help="use the residual-RL debugging block 3,720,000-009 (prereg §11.4)",
+    )
     args = parser.parse_args()
     config = load_g4(CONFIG, "debugging")
     assert config.seeds == list(range(3_690_000, 3_690_010))
+    if args.r_debugging:
+        from dataclasses import replace
+
+        from farc.supervision.seeds import R_SEED_BLOCKS, check_r_seeds
+
+        a, b = R_SEED_BLOCKS["debugging"]
+        check_r_seeds(list(range(a, b)), "debugging")
+        config = replace(config, debug_seed_offset=a, debug_episodes=b - a)
+        assert config.seeds == list(range(a, b))
     jobs = [(config, c, cell) for c in config.checkpoints for cell in g4_cells()]
     with Pool(args.processes) as pool:
         df = pd.DataFrame([r for p in pool.map(check, jobs) for r in p])
@@ -87,7 +101,8 @@ def main() -> None:
     df.to_csv(os.path.join(args.out, "equivalence.csv"), index=False)
     flags = [c for c in df.columns if c.endswith("_identical")]
     summary = {
-        "role": "debugging", "seeds": [3_690_000, 3_690_009],
+        "role": "r_debugging" if args.r_debugging else "debugging",
+        "seeds": [config.seeds[0], config.seeds[-1]],
         "git_commit": subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True,
                                      text=True).stdout.strip(),
         "checkpoints": list(config.checkpoints),

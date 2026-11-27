@@ -214,7 +214,15 @@ def test_cell_grids_match_the_draft():
     dev = development_cells()
     groups = {g: [c for c in dev if c.group == g] for g in "NDMX"}
     assert len(groups["N"]) == 1 and len(groups["M"]) == 7 and len(groups["X"]) == 4
-    assert len(groups["D"]) == 41 and len(development_cells(include_h_in_d=False)) == 51
+    # Amendment R-A2 (GEN-2): D holds the 39 delay cells; the two no-delay G4 cells are
+    # reporting-only groups. The draft's literal 41-cell D stays reachable for audits.
+    assert len(groups["D"]) == 39 and len(dev) == 53
+    assert not any(c.family == "H" for c in groups["D"])
+    rep = {c.name: c.group for c in dev if c.group.endswith("_rep")}
+    assert rep == {"H_undisturbed": "N_rep", "H_noise0.01": "O_rep"}
+    assert all(c.make(0).group == c.group for c in dev)
+    literal = development_cells(include_h_in_d=True)
+    assert sum(c.group == "D" for c in literal) == 41 and len(literal) == 53
     xdh = [c for c in groups["X"] if c.family == "X-DH"]
     assert all(c.make(5).semantics == "drain_hold" for c in xdh)
     assert all(c.make(5).semantics == "replay_drop" for c in groups["D"])
@@ -310,12 +318,18 @@ def test_proposed_blocks_are_disjoint_and_sufficient():
     assert b - a == 300
 
 
-def test_proposed_blocks_are_not_registered_or_usable():
-    from farc.supervision.seeds import R_SEED_BLOCKS, check_r_seeds
+def test_amendment_r_a1_registers_the_proposed_blocks_unchanged():
+    from farc.supervision.seeds import R_AMENDMENT_1_SEED_BLOCKS, R_SEED_BLOCKS, check_r_seeds
 
-    assert not set(P.PROPOSED_R_SEED_BLOCKS) & set(R_SEED_BLOCKS)
-    with pytest.raises(ValueError):
+    assert R_AMENDMENT_1_SEED_BLOCKS == P.PROPOSED_R_SEED_BLOCKS
+    for role, block in R_AMENDMENT_1_SEED_BLOCKS.items():
+        assert R_SEED_BLOCKS[role] == block
+    check_r_seeds([3_730_000, 3_739_999], "training_2")
+    check_r_seeds([3_740_000], "training_monitor")
+    with pytest.raises(ValueError):  # roles stay separate
         check_r_seeds([3_730_000], "training")
+    with pytest.raises(ValueError):
+        check_r_seeds([3_721_000], "training_monitor")  # selection seeds never monitor
     with pytest.raises(RunRefused):
         check_role_seeds("smoke", [3_740_000], PLAN)
 

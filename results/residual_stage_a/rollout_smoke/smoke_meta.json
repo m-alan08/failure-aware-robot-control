@@ -1,0 +1,12 @@
+{
+  "role": "smoke",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "episodes": 636,
+  "privileged_episodes": 234,
+  "seconds": 12.764369167387486,
+  "alpha_star": null
+}

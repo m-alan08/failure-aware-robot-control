@@ -1,0 +1,10 @@
+AdroitHandRelocateDense-v1, AdroitHandHammerDense-v1, AdroitHandDoorDense-v1 environment's reward functions were updated in v1.2.1 without an environment version update. Therefore, use gymnasium-robotics==1.2.0 for v1 reproducibility or use v2 in gymnasium-robotics>=1.4.3. See https://github.com/Farama-Foundation/Gymnasium-Robotics/pull/220 for more details
+{
+  "status": "completed",
+  "steps": 2500,
+  "rollbacks": 0,
+  "episodes": 50,
+  "final_checkpoint": "results/residual_stage_a/smoke_2500/final.pt",
+  "log": "results/residual_stage_a/smoke_2500/log.jsonl"
+}
+uv run python scripts/residual_train.py --smoke --steps 2500 --out   6.78s user 0.43s system 90% cpu 7.924 total
