@@ -1,6 +1,6 @@
 {
-  "description": "Residual RL on frozen Candidate C (docs/RESIDUAL_RL_PREREGISTRATION.md). DRAFT: not approved; no runner accepts this config until approved is true.",
-  "approved": false,
+  "description": "Residual RL on frozen Candidate C (docs/RESIDUAL_RL_PREREGISTRATION.md) as amended by docs/RESIDUAL_RL_AMENDMENTS.md (R-A1, R-A2). Conditionally approved for registered training 2026-11-27 (R-A2); held-out evaluation NOT approved.",
+  "approved": true,
   "plan": "docs/RESIDUAL_RL_PREREGISTRATION.md",
   "plan_sha256": "32330bd5bac0f191c5c91391cb57df62f6db3fa780079ad294b27441a289604a",
   "model_sha256": "8a960329371c7b31d81ae2e2dc16998fde75d4b4feeeb59b624900127befe363",
@@ -54,13 +54,18 @@
   "practical_threshold": 0.02,
   "rollback_drop": 0.02,
   "amendments": [
-    "docs/RESIDUAL_RL_AMENDMENTS.md#r-a1"
+    "R-A1",
+    "R-A2"
   ],
   "tm_friction_mode": "object_table",
-  "evaluation_rule": {
-    "discordance_threshold": 0.08,
-    "seeds_if_at_or_below": 300,
-    "seeds_if_above": 600
+  "per_network_sign_consistency": true,
+  "approval": {
+    "date": "2026-11-27",
+    "record": "docs/RESIDUAL_RL_AMENDMENTS.md#approval",
+    "scope": "registered training, selection and development evaluation; not held-out"
   },
-  "per_network_sign_consistency": true
+  "amendments_file": "docs/RESIDUAL_RL_AMENDMENTS.md",
+  "evaluation_seeds": 600,
+  "d_group": "39 G4 delay cells; H_undisturbed -> N_rep, H_noise0.01 -> O_rep (reporting only)",
+  "amendments_sha256": "68462908b74205bd5d25ae711186732e579c0c2128c082c79ea8b623a99f0234"
 }

@@ -1,0 +1,24 @@
+{
+  "role": "r_debugging",
+  "seeds": [
+    3720000,
+    3720009
+  ],
+  "git_commit": "9e7810376bd3d43318c167c753d35d9deb6fc5e9",
+  "checkpoints": [
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed0/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed1/checkpoint.pt",
+    "$FARC_DATA_DIR/checkpoints/fetch_push_fp32_seed2/checkpoint.pt"
+  ],
+  "cells": 41,
+  "episodes_compared": 1230,
+  "episodes_with_c_active": 940,
+  "episodes_with_c_alarm": 951,
+  "zero_commands_identical": 1230,
+  "zero_decisions_identical": 1230,
+  "actor_commands_identical": 1230,
+  "actor_decisions_identical": 1230,
+  "max_residual_norm": 0.0,
+  "all_identical": true,
+  "note": "code check on debugging seeds; success outcomes not analysed"
+}

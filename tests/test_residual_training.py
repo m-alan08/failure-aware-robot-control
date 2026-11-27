@@ -34,6 +34,7 @@ from farc.residual.training import (
     SeedsExhausted,
     TrainConfig,
     alpha_schedule,
+    check_approved,
     check_run,
     load_plan_config,
     smoke_config,
@@ -74,10 +75,11 @@ def test_smoke_seeds_disjoint_from_every_registered_block():
         assert hi <= a or b <= lo, f"smoke seeds overlap {name}"
 
 
-def test_plan_config_still_unapproved_and_pinned():
-    assert PLAN["approved"] is False
+def test_plan_config_approved_and_pinned():
+    assert PLAN["approved"] is True  # R-A2, 2026-11-27
     digest = hashlib.sha256(Path(PLAN["plan"]).read_bytes()).hexdigest()
-    assert digest == PLAN["plan_sha256"], "the draft pre-registration must not change"
+    assert digest == PLAN["plan_sha256"], "the original pre-registration must not change"
+    check_approved(PLAN)  # plan and amendments both intact
 
 
 def _registered_cfg(**kw):
@@ -92,7 +94,8 @@ def _registered_cfg(**kw):
 
 def test_registered_run_refused_while_unapproved():
     with pytest.raises(RunRefused, match="not approved"):
-        check_run(_registered_cfg(), PLAN)
+        check_run(_registered_cfg(), dict(PLAN, approved=False))
+    check_run(_registered_cfg(), PLAN)  # the approved, pinned config accepts it
 
 
 def _approved_copy(tmp_path, plan_text="draft plan", amendments_text="amendments"):
